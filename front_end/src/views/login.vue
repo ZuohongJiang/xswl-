@@ -247,7 +247,7 @@
                     'Fifth',
                 ],
                 valid_login: false,
-                valid_register:false,
+                valid_register: false,
                 password: '',
                 username: '',
                 registerEmail: '',
@@ -391,7 +391,7 @@
                     email: this.username,
                     password: this.password
                 }
-                this.login(data).then((res)=>{
+                this.login(data).then((res) => {
                     this.loginLoading = false
                 })
             },

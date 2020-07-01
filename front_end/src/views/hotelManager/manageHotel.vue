@@ -1,44 +1,50 @@
 <template>
     <div class="manageHotel-wrapper">
-        <a-tabs>
-            <a-tab-pane tab="酒店管理" key="1">
-<!--                <div style="width: 100%; text-align: right; margin:20px 0">-->
-<!--                    <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>-->
-<!--                </div>-->
-                 <a-table
-                    :columns="columns1"
-                    :dataSource="manageHotelList"
-                    bordered
-                >
+        <v-hover>
+            <template v-slot="{ hover }">
+
+                <v-sheet
+                        :elevation="hover?10:6"
+                        rounded>
+                    <a-tabs style="padding: 30px 30px;">
+                        <a-tab-pane tab="酒店管理" key="1">
+                            <!--                <div style="width: 100%; text-align: right; margin:20px 0">-->
+                            <!--                    <a-button type="primary" @click="addHotel"><a-icon type="plus" />添加酒店</a-button>-->
+                            <!--                </div>-->
+                            <a-table
+                                    :columns="columns1"
+                                    :dataSource="manageHotelList"
+                                    bordered
+                            >
                     <span slot="action" slot-scope="record">
                         <v-btn color="primary" small @click="addRoom(record)">录入房间</v-btn>
                         <a-divider type="vertical"></a-divider>
                         <v-btn small @click="showRoom(record)">房间管理</v-btn>
                         <a-divider type="vertical"></a-divider>
-                        <v-btn  small @click="showCoupon(record)">优惠策略</v-btn>
+                        <v-btn small @click="showCoupon(record)">优惠策略</v-btn>
                         <a-divider type="vertical"></a-divider>
-                        <v-btn  small @click="showHotelInfo(record)">酒店信息</v-btn>
-<!--                        <a-popconfirm-->
-<!--                            title="确定想删除该酒店吗？"-->
-<!--                            @confirm="deleteHotel(record)"-->
-<!--                            okText="确定"-->
-<!--                            cancelText="取消"-->
-<!--                        >-->
-<!--                            <a-button type="danger" size="small">删除酒店</a-button>-->
-<!--                        </a-popconfirm>-->
+                        <v-btn small @click="showHotelInfo(record)">酒店信息</v-btn>
+                        <!--                        <a-popconfirm-->
+                        <!--                            title="确定想删除该酒店吗？"-->
+                        <!--                            @confirm="deleteHotel(record)"-->
+                        <!--                            okText="确定"-->
+                        <!--                            cancelText="取消"-->
+                        <!--                        >-->
+                        <!--                            <a-button type="danger" size="small">删除酒店</a-button>-->
+                        <!--                        </a-popconfirm>-->
                     </span>
-                </a-table>
-            </a-tab-pane>
-            <a-tab-pane tab="订单管理" key="2">
-                <a-table
-                    :columns="columns2"
-                    :dataSource="orderList"
-                    bordered
-                >
+                            </a-table>
+                        </a-tab-pane>
+                        <a-tab-pane tab="订单管理" key="2">
+                            <a-table
+                                    :columns="columns2"
+                                    :dataSource="orderList"
+                                    bordered
+                            >
                     <span slot="price" slot-scope="text">
                         <span>￥{{ text }}</span>
                     </span>
-                    <span slot="roomType" slot-scope="text">
+                                <span slot="roomType" slot-scope="text">
                         <span v-if="text == 'BigBed'">大床房</span>
                         <span v-if="text == 'DoubleBed'">双床房</span>
                         <span v-if="text == 'Family'">家庭房</span>
@@ -49,16 +55,16 @@
                         <a-tag color="green" v-if="text=='已执行'">{{ text }}</a-tag>
                     </span>
                     <span slot="action" slot-scope="record">
-                        <a-button type="primary" size="small" @click="showDetail(record)">订单详情</a-button>
+                        <v-btn small @click="showDetail(record)">订单详情</v-btn>
                         <a-divider type="vertical"></a-divider>
-                        <a-popconfirm
-                            title="确定想删除该订单吗？"
-                            @confirm="deleteOrder(record)"
-                            okText="确定"
-                            cancelText="取消"
-                        >
-                            <a-button type="danger" size="small">删除订单</a-button>
-                        </a-popconfirm>
+<!--                        <a-popconfirm-->
+<!--                            title="确定想删除该订单吗？"-->
+<!--                            @confirm="deleteOrder(record)"-->
+<!--                            okText="确定"-->
+<!--                            cancelText="取消"-->
+<!--                        >-->
+<!--                            <v-btn color="error" small @click="deleteOrder(record)">删除订单</v-btn>-->
+<!--                        </a-popconfirm>-->
                         <a-popconfirm
                             title="确认执行订单吗？"
                             @confirm="execute(record)"
@@ -68,11 +74,15 @@
                             <v-btn small>执行订单</v-btn>
                         </a-popconfirm>
                     </span>
-                </a-table>
-            </a-tab-pane>
+                            </a-table>
+                        </a-tab-pane>
 
-            
-        </a-tabs>
+
+                    </a-tabs>
+
+                </v-sheet>
+            </template>
+        </v-hover>
         <AddRoomModal></AddRoomModal>
         <UpdateHotelInfoModal></UpdateHotelInfoModal>
         <Coupon></Coupon>
@@ -241,70 +251,73 @@ export default {
              this.set_activeHotelId(record.id);
              this.getHotelById(record.id);
              this.set_updateHotelInfoModalVisible(true)
+                // console.log("????")
+                //  this.set_updateHotelInfoModalVisible(true)
+                // this.set_updateHotelInfo(record.id).then(this.set_updateHotelInfoModalVisible(true))
+            },
+            // set_updateHotelInfo(id){
+            //     return new Promise(async (res,rej)=>{
+            //         await this.getHotelById(id)
+            //         console.log("async");
+            //         res("getHotel!");
+            //     })
+            // },
+            addRoom(record) {
+                this.set_activeHotelId(record.id)
+                this.set_addRoomModalVisible(true)
+            },
+            showCoupon(record) {
+                this.set_activeHotelId(record.id)
+                this.set_couponVisible(true)
+                this.getHotelCoupon()
+            },
+            showRoom(record) {
+                this.set_activeHotelId(record.id)
+                this.set_roomVisible(true)
+                this.getRoomList()
+            },
+            showDetail(record) {
+                this.set_orderDetail(record)
+                this.set_orderDetailVisible(true)
+            },
+            deleteHotel(record) {
+                this.delHotel(record.id)
+            },
+            deleteOrder(record) {
+                this.deleteOrderRecord(record.id)
+            },
+            initHotelIdList() {
+                let tempArray = [];
+                for (let i = 0; i < this.manageHotelList.length; i++) {
+                    tempArray.push(this.manageHotelList[i].id);
+                }
+                this.set_hotelIdList(tempArray);
+            },
 
-            // console.log("????")
-            //  this.set_updateHotelInfoModalVisible(true)
-            // this.set_updateHotelInfo(record.id).then(this.set_updateHotelInfoModalVisible(true))
-        },
-        // set_updateHotelInfo(id){
-        //     return new Promise(async (res,rej)=>{
-        //         await this.getHotelById(id)
-        //         console.log("async");
-        //         res("getHotel!");
-        //     })
-        // },
-        addRoom(record) {
-            this.set_activeHotelId(record.id)
-            this.set_addRoomModalVisible(true)
-        },
-        showCoupon(record) {
-            this.set_activeHotelId(record.id)
-            this.set_couponVisible(true)
-            this.getHotelCoupon()
-        },
-        showRoom(record){
-            this.set_activeHotelId(record.id)
-            this.set_roomVisible(true)
-            this.getRoomList()
-        },
-        showDetail(record){
-            this.set_orderDetail(record)
-            this.set_orderDetailVisible(true)
-        },
-        deleteHotel(record){
-           this.delHotel(record.id)
-        },
-        deleteOrder(record){
-            this.deleteOrderRecord(record.id)
-        },
-        initHotelIdList(){
-            let tempArray=[];
-            for(let i=0;i<this.manageHotelList.length;i++){
-                tempArray.push(this.manageHotelList[i].id);
-            }
-            this.set_hotelIdList(tempArray);
-        },
-        execute(record){
-            if(record.orderState==="已撤销"){
-                alert("订单已撤销！");
-                return;
-            }
-            else if(record.orderState==="已执行"){
-                alert("订单已执行");
-                return;
-            }
-            else{
-                console.log("else success?");
-                this.executeOrder(record.id);
-                record.orderState="已执行";
-            }
+
+            execute(record){
+                if(record.orderState==="已撤销"){
+                    alert("订单已撤销！");
+                    return;
+                }
+                else if(record.orderState==="已执行"){
+                    alert("订单已执行");
+                    return;
+                }
+                else{
+                    console.log("else success?");
+                    this.executeOrder(record.id);
+                    record.orderState="已执行";
+                }
+
+            },
         }
-    }
 }
 </script>
 <style scoped lang="less">
     .manageHotel-wrapper {
         padding: 50px;
+
         .chart {
             display: flex;
             align-items: center;
@@ -321,5 +334,5 @@ export default {
     }
 </style>
 <style lang="less">
-    
+
 </style>
