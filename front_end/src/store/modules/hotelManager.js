@@ -23,6 +23,7 @@ import {hotelOrderedCouponsAPI} from "../../api/coupon";
 import {getHotelByIdAPI, getHotelsAPI} from "../../api/hotel";
 //import {deleteCouponByIdAPI, disableCouponByIdAPI} from "../../api/coupon";
 // import {deleteOrderAPI} from "../../api/order";
+import {executeOrderAPI} from "../../api/order";
 import editRoomModal from "../../views/hotelManager/components/editRoomModal";
 
 const hotelManager = {
@@ -330,6 +331,15 @@ const hotelManager = {
                 dispatch('getAllOrders')
             } else {
                 message.error('删除失败')
+            }
+        },
+        executeOrder: async({commit}, data) =>{
+            const res =await executeOrderAPI(data)
+            if(res) {
+                message.success('执行成功')
+            }
+            else{
+                message.error('执行失败')
             }
         },
         deleteRoom: async ({dispatch}, data) => {

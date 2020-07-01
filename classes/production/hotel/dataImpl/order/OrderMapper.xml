@@ -6,23 +6,26 @@
         select * from OrderList
     </select>
     <select id="getUserOrders" resultMap="Order">
-        select * from OrderList where userId=#{userid}
+        select * from OrderList where userId=#{userId}
     </select>
     <insert id="addOrder" parameterType="com.example.hotel.po.Order" useGeneratedKeys="true" keyProperty="id">
         insert into OrderList(userId,hotelId,hotelName,checkInDate,checkOutDate,roomType,roomId,roomNum,peopleNum,haveChild,createDate,price,clientName,phoneNumber,orderState)
         values(#{userId},#{hotelId},#{hotelName},#{checkInDate},#{checkOutDate},#{roomType},#{roomId},#{roomNum},#{peopleNum},#{haveChild},#{createDate},#{price},#{clientName},#{phoneNumber},#{orderState})
     </insert>
     <select id="getOrderById" resultMap="Order">
-        select * from OrderList where id=#{orderid}
+        select * from OrderList where id=#{orderId}
     </select>
     <update id="annulOrder">
-        update OrderList set orderState="已撤销" where id=#{orderid}
+        update OrderList set orderState="已撤销" where id=#{orderId}
     </update>
    <!--取消订单的数据库操作-->
     <delete id="deleteOrder">
         delete from OrderList where id=#{orderId}
     </delete>
 
+    <update id="executeOrder">
+        update OrderList set orderState="已执行" where id=#{orderId}
+    </update>
 
     <resultMap id="Order" type="com.example.hotel.po.Order">
     </resultMap>

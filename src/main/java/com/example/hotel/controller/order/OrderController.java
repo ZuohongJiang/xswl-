@@ -19,23 +19,23 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/addOrder")
-    public ResponseVO reserveHotel(@RequestBody OrderVO orderVO){
+    public ResponseVO reserveHotel(@RequestBody OrderVO orderVO) {
         return orderService.addOrder(orderVO);
     }
 
     @GetMapping("/getAllOrders")
-    public ResponseVO retrieveAllOrders(){
+    public ResponseVO retrieveAllOrders() {
         return ResponseVO.buildSuccess(orderService.getAllOrders());
     }
 
 
     @GetMapping("/{userid}/getUserOrders")
-    public  ResponseVO retrieveUserOrders(@PathVariable int userid){
+    public ResponseVO retrieveUserOrders(@PathVariable int userid) {
         return ResponseVO.buildSuccess(orderService.getUserOrders(userid));
     }
 
     @GetMapping("/{orderid}/annulOrder")
-    public ResponseVO annulOrder(@PathVariable int orderid){
+    public ResponseVO annulOrder(@PathVariable int orderid) {
         return orderService.annulOrder(orderid);
     }
 
@@ -43,6 +43,15 @@ public class OrderController {
     public ResponseVO retrieveHotelOrders(@PathVariable Integer hotelId) {
         return ResponseVO.buildSuccess(orderService.getHotelOrders(hotelId));
     }
+
     @GetMapping("/{orderId}/deleteOrder")
-    public ResponseVO deleteOrder(@PathVariable int orderId){return orderService.deleteOrder(orderId);}
+    public ResponseVO deleteOrder(@PathVariable int orderId) {
+        return orderService.deleteOrder(orderId);
+    }
+
+    @GetMapping("/{orderId}/executeOrder")
+    public ResponseVO executeOrder(@PathVariable int orderId) {
+        return orderService.executeOrder(orderId);
+    }
+
 }

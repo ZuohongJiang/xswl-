@@ -49,10 +49,30 @@
                         <span v-if="text == 'DoubleBed'">双床房</span>
                         <span v-if="text == 'Family'">家庭房</span>
                     </span>
-                                <span slot="action" slot-scope="record">
-                        <v-btn color="primary" small @click="showDetail(record)">订单详情</v-btn>
+                    <span slot="orderState" slot-scope="text">
+                        <a-tag color="red" v-if="text=='已撤销'">{{ text }}</a-tag>
+                        <a-tag color="blue" v-if="text=='已预订'">{{ text }}</a-tag>
+                        <a-tag color="green" v-if="text=='已执行'">{{ text }}</a-tag>
+                    </span>
+                    <span slot="action" slot-scope="record">
+                        <v-btn small @click="showDetail(record)">订单详情</v-btn>
                         <a-divider type="vertical"></a-divider>
-                        <v-btn color="error" small @click="deleteOrder(record)">删除订单</v-btn>
+<!--                        <a-popconfirm-->
+<!--                            title="确定想删除该订单吗？"-->
+<!--                            @confirm="deleteOrder(record)"-->
+<!--                            okText="确定"-->
+<!--                            cancelText="取消"-->
+<!--                        >-->
+<!--                            <v-btn color="error" small @click="deleteOrder(record)">删除订单</v-btn>-->
+<!--                        </a-popconfirm>-->
+                        <a-popconfirm
+                            title="确认执行订单吗？"
+                            @confirm="execute(record)"
+                            okText="确定"
+                            cancelText="取消"
+                        >
+                            <v-btn small>执行订单</v-btn>
+                        </a-popconfirm>
                     </span>
                             </a-table>
                         </a-tab-pane>
@@ -71,163 +91,166 @@
     </div>
 </template>
 <script>
-    import {mapGetters, mapMutations, mapActions} from 'vuex'
-    // import AddHotelModal from './components/addHotelModal'
-    import AddRoomModal from './components/addRoomModal'
-    import UpdateHotelInfoModal from './components/updateHotelInfoModal'
-    import Coupon from './components/coupon'
-    import Room from './components/room'
-    import OrderDetail from '../user/components/orderDetailModal'
-
-    const moment = require('moment')
-    const columns1 = [
-        {
-            title: '酒店名',
-            dataIndex: 'name',
-        },
-        {
-            title: '商圈',
-            dataIndex: 'bizRegion',
-        },
-        {
-            title: '地址',
-            dataIndex: 'address',
-        },
-        {
-            title: '酒店星级',
-            dataIndex: 'hotelStar'
-        },
-        {
-            title: '评分',
-            dataIndex: 'rate',
-        },
-        {
-            title: '简介',
-            dataIndex: 'description',
-        },
-        {
-            title: '操作',
-            key: 'action',
-            scopedSlots: {customRender: 'action'},
-        },
-    ];
-    const columns2 = [
-        {
-            title: '订单号',
-            dataIndex: 'id',
-        },
-        {
-            title: '酒店名',
-            dataIndex: 'hotelName',
-        },
-        {
-            title: '房型',
-            dataIndex: 'roomType',
-            scopedSlots: {customRender: 'roomType'}
-        },
-        {
-            title: '入住时间',
-            dataIndex: 'checkInDate',
-            scopedSlots: {customRender: 'checkInDate'}
-        },
-        {
-            title: '离店时间',
-            dataIndex: 'checkOutDate',
-            scopedSlots: {customRender: 'checkOutDate'}
-        },
-        {
-            title: '入住人数',
-            dataIndex: 'peopleNum',
-        },
-        {
-            title: '房价',
-            dataIndex: 'price',
-        },
-        {
-            title: '操作',
-            key: 'action',
-            scopedSlots: {customRender: 'action'},
-        },
-    ];
-    export default {
-        name: 'manageHotel',
-        data() {
-            return {
-                formLayout: 'horizontal',
-                pagination: {},
-                columns1,
-                columns2,
-                form: this.$form.createForm(this, {name: 'manageHotel'}),
-            }
-        },
-        components: {
-            OrderDetail,
-            // AddHotelModal,
-            AddRoomModal,
-            UpdateHotelInfoModal,
-            Coupon,
-            Room,
-        },
-        computed: {
-            ...mapGetters([
-                'orderList',
-                'manageHotelList',
-                'hotelIdList',
-                'userId',
-                'managerId',
-                // 'addHotelModalVisible',
-                'addRoomModalVisible',
-                'updateHotelInfoModalVisible',
-                'updateHotelInfoParams',
-                'activeHotelInfo',
-                'activeHotelId',
-                'couponVisible',
-                'roomVisible'
-            ]),
-        },
-        async mounted() {
-            await this.set_managerId(this.userId);
-            await this.getHotelListByManagerId();
-            await this.initHotelIdList();
-            for (let i = 0; i < this.hotelIdList.length; i++) {
-                await this.set_activeHotelId(this.hotelIdList[i]);
-                await this.getHotelOrders();
-            }
-        },
-        methods: {
-            ...mapMutations([
-                'set_hotelIdList',
-                'set_addHotelModalVisible',
-                'set_addRoomModalVisible',
-                'set_updateHotelInfoModalVisible',
-                'set_couponVisible',
-                'set_activeHotelId',
-                'set_activeHotelInfo',
-                'set_roomVisible',
-                'set_orderDetail',
-                'set_orderDetailVisible',
-                'set_managerId',
-            ]),
-            ...mapActions([
-                'getHotelListByManagerId',
-                // 'getAllOrders',
-                'getHotelOrders',
-                'getHotelCoupon',
-                'annulCoupon',
-                'getHotelById',
-                'updateHotelInfo',
-                'getRoomList',
-                'deleteOrderRecord',
-                'delHotel'
-            ]),
-            // addHotel() {
-            //     this.set_addHotelModalVisible(true)
-            // },
-            showHotelInfo(record) {
-                this.set_activeHotelId(record.id);
-                this.getHotelById(record.id);
-                this.set_updateHotelInfoModalVisible(true)
-
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+// import AddHotelModal from './components/addHotelModal'
+import AddRoomModal from './components/addRoomModal'
+import UpdateHotelInfoModal from './components/updateHotelInfoModal'
+import Coupon from './components/coupon'
+import Room from './components/room'
+import OrderDetail from '../user/components/orderDetailModal'
+const moment = require('moment')
+const columns1 = [
+    {  
+        title: '酒店名',
+        dataIndex: 'name',
+    },
+    {
+        title: '商圈',
+        dataIndex: 'bizRegion',
+    },
+    {
+        title: '地址',
+        dataIndex: 'address',
+    },
+    {
+        title: '酒店星级',
+        dataIndex: 'hotelStar'
+    },
+    {
+        title: '评分',
+        dataIndex: 'rate',
+    },
+    {
+        title: '简介',
+        dataIndex: 'description',
+    },
+    {
+      title: '操作',
+      key: 'action',
+      scopedSlots: { customRender: 'action' },
+    },
+  ];
+const columns2 = [
+    {  
+        title: '订单号',
+        dataIndex: 'id',
+    },
+    {  
+        title: '酒店名',
+        dataIndex: 'hotelName',
+    },
+    {
+        title: '房型',
+        dataIndex: 'roomType',
+        scopedSlots: { customRender: 'roomType' }
+    },
+    {
+        title: '入住时间',
+        dataIndex: 'checkInDate',
+        scopedSlots: { customRender: 'checkInDate' }
+    },
+    {
+        title: '离店时间',
+        dataIndex: 'checkOutDate',
+        scopedSlots: { customRender: 'checkOutDate' }
+    },
+    {
+        title: '入住人数',
+        dataIndex: 'peopleNum',
+    },
+    {
+        title: '房价',
+        dataIndex: 'price',
+    },
+    {
+        title: '订单状态',
+        dataIndex: 'orderState',
+    },
+    {
+      title: '操作',
+      key: 'action',
+      scopedSlots: { customRender: 'action' },
+    },
+  ];
+export default {
+    name: 'manageHotel',
+    data(){
+        return {
+            formLayout: 'horizontal',
+            pagination: {},
+            columns1,
+            columns2,
+            form: this.$form.createForm(this, { name: 'manageHotel' }),
+        }
+    },
+    components: {
+        OrderDetail,
+        // AddHotelModal,
+        AddRoomModal,
+        UpdateHotelInfoModal,
+        Coupon,
+        Room,
+    },
+    computed: {
+        ...mapGetters([
+            'orderList',
+            'manageHotelList',
+            'hotelIdList',
+            'userId',
+            'managerId',
+            // 'addHotelModalVisible',
+            'addRoomModalVisible',
+            'updateHotelInfoModalVisible',
+            'updateHotelInfoParams',
+            'activeHotelInfo',
+            'activeHotelId',
+            'couponVisible',
+            'roomVisible'
+        ]),
+    },
+    async mounted() {
+        await this.set_managerId(this.userId);
+        await this.getHotelListByManagerId();
+        await this.initHotelIdList();
+        for(let i=0;i<this.hotelIdList.length;i++){
+            await this.set_activeHotelId(this.hotelIdList[i]);
+            await this.getHotelOrders();
+        }
+    },
+    methods: {
+        ...mapMutations([
+            'set_hotelIdList',
+            'set_addHotelModalVisible',
+            'set_addRoomModalVisible',
+            'set_updateHotelInfoModalVisible',
+            'set_couponVisible',
+            'set_activeHotelId',
+            'set_activeHotelInfo',
+            'set_roomVisible',
+            'set_orderDetail',
+            'set_orderDetailVisible',
+            'set_managerId',
+        ]),
+        ...mapActions([
+            'getHotelListByManagerId',
+            // 'getAllOrders',
+            'getHotelOrders',
+            'getHotelCoupon',
+            'annulCoupon',
+            'getHotelById',
+            'updateHotelInfo',
+            'getRoomList',
+            'deleteOrderRecord',
+            'executeOrder',
+            'delHotel'
+        ]),
+        // addHotel() {
+        //     this.set_addHotelModalVisible(true)
+        // },
+         showHotelInfo(record){
+             this.set_activeHotelId(record.id);
+             this.getHotelById(record.id);
+             this.set_updateHotelInfoModalVisible(true)
                 // console.log("????")
                 //  this.set_updateHotelInfoModalVisible(true)
                 // this.set_updateHotelInfo(record.id).then(this.set_updateHotelInfoModalVisible(true))
@@ -269,9 +292,27 @@
                     tempArray.push(this.manageHotelList[i].id);
                 }
                 this.set_hotelIdList(tempArray);
-            }
+            },
+
+
+            execute(record){
+                if(record.orderState==="已撤销"){
+                    alert("订单已撤销！");
+                    return;
+                }
+                else if(record.orderState==="已执行"){
+                    alert("订单已执行");
+                    return;
+                }
+                else{
+                    console.log("else success?");
+                    this.executeOrder(record.id);
+                    record.orderState="已执行";
+                }
+
+            },
         }
-    }
+}
 </script>
 <style scoped lang="less">
     .manageHotel-wrapper {

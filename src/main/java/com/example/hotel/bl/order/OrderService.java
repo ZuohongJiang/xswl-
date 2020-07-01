@@ -60,9 +60,14 @@ public interface OrderService {
     ResponseVO deleteOrder(int orderid);
 
     /**
-     * 根据hotelIdList获取订单
-     * @param hotelIdList
+     *
+     * @param orderid
+     * 将订单状态设为已执行
      * @return
      */
 
+    ResponseVO executeOrder(int orderid);
+
+
 }
+
