@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.hotel.data.hotel.RoomMapper">
+
+    <insert id="insertRoom" parameterType="com.example.hotel.po.HotelRoom"
+    useGeneratedKeys="true" keyProperty="id">
+        insert into Room(roomType,price,curNum,total,hotel_id,detail)
+        values (#{roomType},#{price},#{curNum},#{total},#{hotelId},#{detail})
+    </insert>
+
+    <select id="selectRoomsByHotelId" resultMap="room">
+        select * from Room where hotel_id=#{hotelId}
+    </select>
+
+    <update id="updateRoomInfo">
+        update Room set curNum=curNum-#{curNum} where id=#{roomId}
+    </update>
+
+    <select id="getRoomCurNum" resultType="int">
+        select curNum from Room where id=#{roomId}
+    </select>
+
+    <update id="editRoomInfo" parameterType="com.example.hotel.po.HotelRoom">
+        update Room set roomType=#{roomType},price=#{price},curNum=curNum+#{total}-total,
+                        total=#{total},detail=#{detail}     where id=#{id}
+    </update>
+
+    <delete id="deleteRoom">
+        delete from Room where id=#{roomId}
+    </delete>
+
+    <resultMap id="room" type="com.example.hotel.po.HotelRoom">
+        <id column="id" property="id"></id>
+        <result column="roomType" property="roomType"></result>
+        <result column="price" property="price"></result>
+        <result column="curNum" property="curNum"></result>
+        <result column="total" property="total"></result>
+        <result column="hotel_id" property="hotelId"></result>
+        <result column="detail" property="detail"></result>
+    </resultMap>
+
+
+</mapper>
