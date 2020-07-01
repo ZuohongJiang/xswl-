@@ -187,7 +187,10 @@
             },
             showHotelManagerInfo(record) {
                 this.set_hotelManagerInfoModalVisible(true)
-                if (this.managerList.indexOf(record.managerId) != -1) {
+                let managerIdList = this.managerList.map(e => {
+                    return e.id
+                })
+                if (managerIdList.indexOf(record.managerId) != -1) {
                     this.set_activeUserId(record.managerId);
                     this.get_activeUserInfo();
                 }

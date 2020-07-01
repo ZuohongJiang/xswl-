@@ -11,6 +11,8 @@ import {
 import {
     orderMatchCouponsAPI,
 } from '@/api/coupon'
+import {getUserOrdersAPI} from "../../api/order";
+import user from "./user";
 
 const hotel = {
     state: {
@@ -31,12 +33,16 @@ const hotel = {
         currentHotelInfo: {},
         orderModalVisible: false,
         currentOrderRoom: {},
-        orderMatchCouponList: []
+        orderMatchCouponList: [],
+        myOrderedHotelList: []
     },
     mutations: {
+        set_myOrderedHotelList: function (state, data) {
+            state.myOrderedHotelList = data
+        },
         set_managerId: function (state, data) {
-            console.log("in set_manager ?")
-            console.log(data);
+            /*            console.log("in set_manager ?")
+                        console.log(data);*/
             state.managerId = data
         },
         set_manageHotelList: function (state, data) {
@@ -90,8 +96,8 @@ const hotel = {
         getHotelList: async ({commit, state}) => {
             const res = await getHotelsAPI()
             if (res) {
-                res.forEach(v=>{
-                    v.hotelStar=v.hotelStar=='Three'?3:(v.hotelStar=='Four'?4:5)
+                res.forEach(v => {
+                    v.hotelStar = v.hotelStar == 'Three' ? 3 : (v.hotelStar == 'Four' ? 4 : 5)
                 })
                 commit('set_hotelList', res)
                 commit('set_hotelListLoading', false)
@@ -111,7 +117,7 @@ const hotel = {
                 hotelId: state.currentHotelId
             })
             if (res) {
-                res.hotelStar=res.hotelStar=='Three'?3:(res.hotelStar=='Four'?4:5)
+                res.hotelStar = res.hotelStar == 'Three' ? 3 : (res.hotelStar == 'Four' ? 4 : 5)
                 commit('set_currentHotelInfo', res)
             }
         },
@@ -126,6 +132,15 @@ const hotel = {
             const res = await orderMatchCouponsAPI(data)
             if (res) {
                 commit('set_orderMatchCouponList', res)
+            }
+        },
+        getMyOrderedHotelList:async ({commit})=>{
+            const res=await getUserOrdersAPI({userId:user.state.userId})
+            if(res){
+                let data=res.map(e=>{
+                    return e.hotelId
+                })
+                commit('set_myOrderedHotelList',Array.from(new Set(data)))
             }
         }
     }

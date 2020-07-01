@@ -11,9 +11,12 @@
                         >
                             <v-list>
                                 <v-list-item>
-                                    <v-list-item-title>筛选功能</v-list-item-title>
+                                    <v-list-item-title>
+                                        <v-icon>mdi-filter</v-icon>
+                                        筛选功能
+                                    </v-list-item-title>
                                 </v-list-item>
-
+                                <v-divider></v-divider>
                                 <v-list-group
                                         prepend-icon="local_mall"
                                 >
@@ -35,6 +38,24 @@
                                         prepend-icon="star"
                                 >
                                     <template v-slot:activator>
+                                        <v-list-item-title>筛选星级</v-list-item-title>
+                                    </template>
+                                    <v-list-item>
+                                        <v-rating
+                                                v-model="f_star"
+                                                background-color="gray darken-1"
+                                                color="yellow accent-4"
+                                                dense
+                                                class="mx-auto"
+                                                clearable
+                                                @input="changeStar($event,f_star)">
+                                        </v-rating>
+                                    </v-list-item>
+                                </v-list-group>
+                                <v-list-group
+                                        prepend-icon="mdi-message-draw"
+                                >
+                                    <template v-slot:activator>
                                         <v-list-item-title>筛选评分</v-list-item-title>
                                     </template>
                                     <v-list-item>
@@ -49,6 +70,19 @@
                                                               @change="changeUpperStar">
                                                 </v-text-field>
                                             </v-col>
+                                        </v-row>
+                                    </v-list-item>
+                                </v-list-group>
+                                <v-list-group
+                                        prepend-icon="mdi-check-decagram"
+                                >
+                                    <template v-slot:activator>
+                                        <v-list-item-title>筛选订单</v-list-item-title>
+                                    </template>
+                                    <v-list-item>
+                                        <v-row class="mx-auto">
+                                            <v-checkbox v-model="checkOrdered" label="仅查看预定过的"
+                                                        @change="changeCheckOrdered"></v-checkbox>
                                         </v-row>
                                     </v-list-item>
                                 </v-list-group>
@@ -73,46 +107,61 @@
                                                 cols="3">
                                             <v-hover>
                                                 <template v-slot="{ hover }">
-                                                    <v-card
-                                                            :elevation="hover?12:6"
-                                                            class="mx-auto"
-                                                            max-width="210"
-                                                    >
-                                                        <v-img
-                                                                v-bind:src="require('../../assets/house.jpg')"
-                                                                height="300px"
-                                                        ></v-img>
-                                                        <v-card-title>
-                                                            {{hotel.name}}
-                                                        </v-card-title>
-                                                        <v-card-subtitle class="mb-n3">
-                                                            {{hotel.description}}
-                                                        </v-card-subtitle>
-                                                        <v-row class="ml-6">
-                                                            <v-rating
-                                                                    v-model="hotel.hotelStar"
-                                                                    background-color="gray darken-1"
-                                                                    color="yellow accent-4"
-                                                                    dense
-                                                                    half-increments
-                                                                    readonly
-                                                                    size="20"
-                                                            ></v-rating>
-                                                            <span class="text--lighten-2 caption">({{ hotel.rate }}分)</span>
-                                                        </v-row>
-                                                        <v-divider></v-divider>
-                                                        <v-card-actions>
-                                                            <v-btn
-                                                                    color="blue"
-                                                                    text
+                                                    <v-badge
+                                                            :value="hover&&myOrderedHotelList.indexOf(hotel.id)!=-1"
+                                                            color="orange"
+                                                            content="我预定过">
+                                                        <v-badge
+                                                                :value="myOrderedHotelList.indexOf(hotel.id)!=-1"
+                                                                bordered
+                                                                top
+                                                                color="orange"
+                                                                dot
+                                                                offset-x="13"
+                                                                offset-y="13"
+                                                        >
+                                                            <v-card
+                                                                    :elevation="hover?12:6"
                                                                     class="mx-auto"
-                                                                    @click="jumpToDetails(hotel.id)"
+                                                                    max-width="210"
                                                             >
-                                                                查看更多
-                                                            </v-btn>
+                                                                <v-img
+                                                                        v-bind:src="require('../../assets/house.jpg')"
+                                                                        height="300px"
+                                                                ></v-img>
+                                                                <v-card-title>
+                                                                    {{hotel.name}}
+                                                                </v-card-title>
+                                                                <v-card-subtitle class="mb-n3">
+                                                                    {{hotel.address?hotel.address:'暂无地址'}}
+                                                                </v-card-subtitle>
+                                                                <v-row class="ml-6">
+                                                                    <v-rating
+                                                                            v-model="hotel.hotelStar"
+                                                                            background-color="gray darken-1"
+                                                                            color="yellow accent-4"
+                                                                            dense
+                                                                            half-increments
+                                                                            readonly
+                                                                            size="20"
+                                                                    ></v-rating>
+                                                                    <span class="text--lighten-2 caption">({{ hotel.rate }}分)</span>
+                                                                </v-row>
+                                                                <v-divider></v-divider>
+                                                                <v-card-actions>
+                                                                    <v-btn
+                                                                            color="blue"
+                                                                            text
+                                                                            class="mx-auto"
+                                                                            @click="jumpToDetails(hotel.id)"
+                                                                    >
+                                                                        查看更多
+                                                                    </v-btn>
 
-                                                        </v-card-actions>
-                                                    </v-card>
+                                                                </v-card-actions>
+                                                            </v-card>
+                                                        </v-badge>
+                                                    </v-badge>
                                                 </template>
                                             </v-hover>
                                         </v-col>
@@ -130,6 +179,17 @@
                                         label="搜索酒店"
                                         @change="changeList"
                                 ></v-combobox>
+                                <v-select
+                                        v-model="selectVal"
+                                        :items="selectOpts"
+                                        item-text="text"
+                                        item-value="val"
+                                        chips
+                                        label="排序"
+                                        multiple
+                                        outlined
+                                        @change="changeList"
+                                ></v-select>
                             </v-col>
                         </v-row>
                     </a-spin>
@@ -140,32 +200,39 @@
 </template>
 <script>
     import {mapGetters, mapActions, mapMutations} from 'vuex'
+
     export default {
         name: 'home',
-        components: {
-        },
+        components: {},
         data() {
             return {
                 emptyBox: [{name: 'box1'}, {name: 'box2'}, {name: 'box3'}],
                 dataSource: [],
                 oriList: [],
                 saveList: [],
+                nosortList: [],
                 filterOp: {},
                 show: false,
                 bizRegion: undefined,
                 lowerStar: 0,
                 upperStar: 5,
                 searchVal: undefined,
+                checkOrdered: false,
+                f_star: 0,
+                selectOpts: [{'text': '按星级', 'val': 'hotelStar'}, {'text': '按评分', 'val': 'rate'}],
+                selectVal: []
             }
         },
         async mounted() {
+            await this.getMyOrderedHotelList()
             await this.getHotelList()
             this.saveList = this.hotelList
         },
         computed: {
             ...mapGetters([
                 'hotelList',
-                'hotelListLoading'
+                'hotelListLoading',
+                'myOrderedHotelList'
             ])
         },
         methods: {
@@ -175,16 +242,19 @@
                 'set_hotelList',
             ]),
             ...mapActions([
-                'getHotelList'
+                'getHotelList',
+                'getMyOrderedHotelList'
             ]),
-
-
             changeBizRegion() {
                 const reg = {
                     "无": "Noth", "西单": "XiDan", "新街口": "XinJieKou",
                     "夫子庙": "FuZiMiao", "奥体中心": "AoTiZhongXin", "江宁万达": "JiangNingWanDa", "学则路": "XueZeLu"
                 }
                 this.filterOp["bizRegion"] = reg[this.bizRegion]
+                this.changeList()
+            },
+            changeStar(test) {
+                this.filterOp["f_star"] = test
                 this.changeList()
             },
             changeLowerStar() {
@@ -201,13 +271,42 @@
                     this.filterOp["upperStar"] = value;
                 this.changeList()
             },
-            solveFilter(data){
+            changeCheckOrdered() {
+                this.filterOp["checkOrdered"] = this.checkOrdered
+                this.changeList()
+            },
+            solveSort(data) {
+                let test = data.concat([])
+                test.sort((a, b) => {
+                    if (this.selectVal.length === 1)
+                        return b[this.selectVal[0]] - a[this.selectVal[0]]
+                    else {
+                        if (b[this.selectVal[0]] === a[this.selectVal[0]])
+                            return b[this.selectVal[1]] - a[this.selectVal[1]]
+                        else return b[this.selectVal[0]] - a[this.selectVal[0]]
+                    }
+                })
+                return test
+            },
+            solveFilter(data) {
                 if (this.filterOp) {
                     if ("bizRegion" in this.filterOp) {
                         if (this.filterOp["bizRegion"] != "Noth") {
                             data = data.filter(item => {
                                 return item.bizRegion.indexOf(this.filterOp["bizRegion"]) != -1
                             })
+                        }
+                    }
+                    if ("f_star" in this.filterOp) {
+                        let star = this.filterOp["f_star"]
+                        if (star !== 0) {
+                            if (star < 3)
+                                data = []
+                            else {
+                                data = data.filter(item => {
+                                    return item.hotelStar === star
+                                })
+                            }
                         }
                     }
                     if ("lowerStar" in this.filterOp)
@@ -219,13 +318,19 @@
                             return item.rate <= this.filterOp["upperStar"]
                         })
                     }
+                    if ("checkOrdered" in this.filterOp) {
+                        if (this.checkOrdered)
+                            data = data.filter(item => {
+                                return this.myOrderedHotelList.indexOf(item.id) != -1
+                            })
+                    }
                 }
                 return data
             },
-            solveSearchVal(){
+            solveSearchVal() {
                 var value
                 var data
-                if(this.searchVal){
+                if (this.searchVal) {
                     if ((typeof this.searchVal) !== "string")
                         value = this.searchVal.name
                     else value = this.searchVal
@@ -234,14 +339,17 @@
                         var s = item.name.toLowerCase()
                         return s.indexOf(value) != -1
                     })
-                }else{
-                    data=this.saveList
+                } else {
+                    data = this.saveList
                 }
                 return data
             },
             changeList() {
-                var pureSearch= this.solveSearchVal()
-                this.set_hotelList(this.solveFilter(pureSearch))
+                let pureSearch = this.solveSearchVal()
+                let filterResult = this.solveFilter(pureSearch)
+                if (this.selectVal.length !== 0)
+                    this.set_hotelList(this.solveSort(filterResult))
+                else this.set_hotelList(filterResult)
             },
 
             jumpToDetails(id) {

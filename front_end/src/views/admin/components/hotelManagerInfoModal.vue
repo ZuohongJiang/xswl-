@@ -116,6 +116,7 @@
                         this.set_hotelManagerInfoModalVisible(false);
                     }
                 });
+                this.modify=false;
             },
         }
     }

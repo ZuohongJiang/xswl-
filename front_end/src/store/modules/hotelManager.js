@@ -211,6 +211,8 @@ const hotelManager = {
             }
         },
         updateHotelInfo: async ({state, dispatch, commit}) => {
+            let star=state.updateHotelInfoParams.hotelStar
+            state.updateHotelInfoParams.hotelStar=star===3?'Three':(star===4?'Four':'Five')
             const res = await updateHotelInfoAPI(state.updateHotelInfoParams)
             if (res) {
                 dispatch('getHotelList')
