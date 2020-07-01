@@ -156,7 +156,6 @@
                 lowerStar: 0,
                 upperStar: 5,
                 searchVal: undefined,
-                searchIsEmpty: true,
             }
         },
         async mounted() {
@@ -186,28 +185,23 @@
                     "夫子庙": "FuZiMiao", "奥体中心": "AoTiZhongXin", "江宁万达": "JiangNingWanDa", "学则路": "XueZeLu"
                 }
                 this.filterOp["bizRegion"] = reg[this.bizRegion]
-                this.changeFilter()
+                this.changeList()
             },
             changeLowerStar() {
                 var value = this.lowerStar
                 value = value.replace(/\s+/g, "")
                 if (value)
                     this.filterOp["lowerStar"] = value
-                this.changeFilter()
+                this.changeList()
             },
             changeUpperStar() {
                 var value = this.upperStar
                 value = value.replace(/\s+/g, "")
                 if (value)
                     this.filterOp["upperStar"] = value;
-                this.changeFilter()
+                this.changeList()
             },
-            changeFilter() {
-                var data
-                if (this.searchIsEmpty) {
-                    data = this.saveList
-                    /*this.oriList=this.saveList*/ //这句注释先留着
-                } else data = this.oriList
+            solveFilter(data){
                 if (this.filterOp) {
                     if ("bizRegion" in this.filterOp) {
                         if (this.filterOp["bizRegion"] != "Noth") {
@@ -225,37 +219,29 @@
                             return item.rate <= this.filterOp["upperStar"]
                         })
                     }
-                    this.set_hotelList(data)
                 }
+                return data
             },
-            searchResult(query) {
-                return this.hotelList.filter((item) => {
-                    query = query.replace(/\s+/g, "").toLowerCase()
-                    var s = item.name.toLowerCase()
-                    return s.indexOf(query) != -1
-                })
-            },
-            changeList() {
+            solveSearchVal(){
                 var value
-                if (this.searchVal) {
-                    this.searchIsEmpty = false
+                var data
+                if(this.searchVal){
                     if ((typeof this.searchVal) !== "string")
                         value = this.searchVal.name
                     else value = this.searchVal
-                    const data = this.hotelList.filter(item => {
+                    data = this.saveList.filter(item => {
                         value = value.replace(/\s+/g, "").toLowerCase()
                         var s = item.name.toLowerCase()
                         return s.indexOf(value) != -1
                     })
-                    this.set_hotelList(data)
-                } else {
-                    this.searchIsEmpty = true
-                    if (this.filterOp) {
-
-                        this.changeFilter()
-                    } else this.getHotelList()
+                }else{
+                    data=this.saveList
                 }
-                this.oriList = this.hotelList
+                return data
+            },
+            changeList() {
+                var pureSearch= this.solveSearchVal()
+                this.set_hotelList(this.solveFilter(pureSearch))
             },
 
             jumpToDetails(id) {
