@@ -13,9 +13,9 @@
                     <span>￥{{ text }}</span>
                 </span>
                 <span slot="action" slot-scope="record">
-                    <a-button type="primary" @click="showDetail(record)">查看详情</a-button>
+                    <v-btn color="primary" @click="showDetail(record)">查看详情</v-btn>
                     <a-divider type="vertical"></a-divider>
-                    <a-button @click="order(record)">预定</a-button>
+                    <v-btn @click="order(record)">预定</v-btn>
                 </span>
             </a-table>
         </div>

@@ -106,7 +106,7 @@
                                                 max-width="210"
                                         >
                                             <v-img
-                                                    src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
+                                                    v-bind:src="require('../../assets/house.jpg')"
                                                     height="300px"
                                             ></v-img>
                                             <v-card-title>
@@ -336,7 +336,7 @@
             },
             jumpToDetails(id) {
                 this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
-            }
+            },
         }
     }
 </script>

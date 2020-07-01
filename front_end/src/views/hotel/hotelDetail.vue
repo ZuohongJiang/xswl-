@@ -14,13 +14,13 @@
                             referrerPolicy="no-referrer"
                             />
                     </a-card>-->
-                    <v-card max-width="800">
+                    <v-card elevation="6">
                         <v-row>
                             <v-col cols="8">
                                 <v-img
                                         class="white--text align-end ml-3"
                                         height="400px"
-                                        src="https://cdn.vuetifyjs.com/images/cards/house.jpg"
+                                        v-bind:src="require('../../assets/house.jpg')"
                                 >
                                     <v-card-title>{{currentHotelInfo.name}}</v-card-title>
                                 </v-img>
@@ -30,8 +30,8 @@
                                     <div>地址：{{currentHotelInfo.address?currentHotelInfo.address:'暂无'}}</div>
                                     <div>评分：{{currentHotelInfo.rate}}分</div>
                                     <v-row class="my-n3">
-                                        <v-col cols="4">星级：</v-col>
-                                        <v-col cols="8">
+                                        <v-col cols="3" class="mr-0 pr-0">星级：</v-col>
+                                        <v-col cols="9" class="ml-n5 pl-0">
                                             <v-rating
                                                     v-model="currentHotelInfo.hotelStar"
                                                     color="yellow accent-4"
@@ -39,9 +39,7 @@
                                                     dense
                                                     half-increments
                                                     readonly
-                                                    size="20"
-                                                    class="ml-n7"
-                                            ></v-rating>
+                                                    size="20"></v-rating>
                                         </v-col>
                                     </v-row>
                                     <div>酒店联系方式：{{currentHotelInfo.phoneNum}}</div>

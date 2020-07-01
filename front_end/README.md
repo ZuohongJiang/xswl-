@@ -1,4 +1,4 @@
-n# njuse-front
+# njuse-front
 
 ## Project setup
 ```
