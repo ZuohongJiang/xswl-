@@ -73,7 +73,7 @@
                     <span slot="orderState" slot-scope="text">
                         <a-tag color="red" v-if="text=='已撤销'">{{ text }}</a-tag>
                         <a-tag color="blue" v-if="text=='已预订'">{{ text }}</a-tag>
-                        <a-tag color="green" v-if="text=='已入住'">{{ text }}</a-tag>
+                        <a-tag color="green" v-if="text=='已执行'">{{ text }}</a-tag>
                     </span>
                     <span slot="action" slot-scope="record">
                         <v-btn color="primary" small @click="showDetail(record)">查看</v-btn>
@@ -84,6 +84,8 @@
                                 @click="confirmCancelOrder(record.id)"
                                 v-if="record.orderState == '已预订'"
                         >删除</v-btn>
+                        <a-divider type="vertical"></a-divider>
+                        <v-btn color="primary" small>评价</v-btn>
 
                         <!--<a-popconfirm
                                 title="你确定撤销该笔订单吗？"
@@ -128,7 +130,7 @@
         },
         {
             title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已入住', value: '已入住'}],
+            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已执行', value: '已执行'}],
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState',
             scopedSlots: {customRender: 'orderState'}

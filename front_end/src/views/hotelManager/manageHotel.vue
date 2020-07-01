@@ -43,6 +43,11 @@
                         <span v-if="text == 'DoubleBed'">双床房</span>
                         <span v-if="text == 'Family'">家庭房</span>
                     </span>
+                    <span slot="orderState" slot-scope="text">
+                        <a-tag color="red" v-if="text=='已撤销'">{{ text }}</a-tag>
+                        <a-tag color="blue" v-if="text=='已预订'">{{ text }}</a-tag>
+                        <a-tag color="green" v-if="text=='已执行'">{{ text }}</a-tag>
+                    </span>
                     <span slot="action" slot-scope="record">
                         <a-button type="primary" size="small" @click="showDetail(record)">订单详情</a-button>
                         <a-divider type="vertical"></a-divider>
@@ -53,6 +58,14 @@
                             cancelText="取消"
                         >
                             <a-button type="danger" size="small">删除订单</a-button>
+                        </a-popconfirm>
+                        <a-popconfirm
+                            title="确认执行订单吗？"
+                            @confirm="execute(record)"
+                            okText="确定"
+                            cancelText="取消"
+                        >
+                            <v-btn small>执行订单</v-btn>
                         </a-popconfirm>
                     </span>
                 </a-table>
@@ -140,6 +153,10 @@ const columns2 = [
         dataIndex: 'price',
     },
     {
+        title: '订单状态',
+        dataIndex: 'orderState',
+    },
+    {
       title: '操作',
       key: 'action',
       scopedSlots: { customRender: 'action' },
@@ -214,6 +231,7 @@ export default {
             'updateHotelInfo',
             'getRoomList',
             'deleteOrderRecord',
+            'executeOrder',
             'delHotel'
         ]),
         // addHotel() {
@@ -265,6 +283,21 @@ export default {
                 tempArray.push(this.manageHotelList[i].id);
             }
             this.set_hotelIdList(tempArray);
+        },
+        execute(record){
+            if(record.orderState==="已撤销"){
+                alert("订单已撤销！");
+                return;
+            }
+            else if(record.orderState==="已执行"){
+                alert("订单已执行");
+                return;
+            }
+            else{
+                console.log("else success?");
+                this.executeOrder(record.id);
+                record.orderState="已执行";
+            }
         }
     }
 }

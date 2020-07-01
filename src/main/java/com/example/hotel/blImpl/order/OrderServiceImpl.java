@@ -101,4 +101,9 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.deleteOrder(orderid);
         return ResponseVO.buildSuccess(true);
     }
+    @Override
+    public ResponseVO executeOrder(int orderId){
+        orderMapper.executeOrder(orderId);
+        return ResponseVO.buildSuccess(true);
+    }
 }

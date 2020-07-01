@@ -20,11 +20,13 @@ public interface OrderMapper {
 
     List<Order> getAllOrders();
 
-    List<Order> getUserOrders(@Param("userid") int userid);
+    List<Order> getUserOrders(@Param("userId") int userId);
 
-    int annulOrder(@Param("orderid") int orderid);
+    int annulOrder(@Param("orderId") int orderId);
 
-    Order getOrderById(@Param("orderid") int orderid);
+    Order getOrderById(@Param("orderId") int orderId);
 
     int deleteOrder(@Param("orderId") int orderId );
+
+    int executeOrder(@Param("orderId") int orderId);
 }
