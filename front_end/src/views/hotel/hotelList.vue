@@ -1,54 +1,58 @@
 <template>
     <div class="hotelList">
         <v-row>
-            <v-sheet
-                    :elevation="8"
-                    class="mx-auto"
-                    width="250"
-            >
-                <v-list>
-                    <v-list-item>
-                        <v-list-item-title>筛选功能</v-list-item-title>
-                    </v-list-item>
+            <v-hover>
+                <template v-slot="{ hover }">
+                    <v-sheet
+                            :elevation="hover?24:8"
+                            class="mx-auto"
+                            width="250"
+                    >
+                        <v-list>
+                            <v-list-item>
+                                <v-list-item-title>筛选功能</v-list-item-title>
+                            </v-list-item>
 
-                    <v-list-group
-                            prepend-icon="local_mall"
-                    >
-                        <template v-slot:activator>
-                            <v-list-item-title>筛选商圈</v-list-item-title>
-                        </template>
-                        <v-list-item>
-                            <v-select
-                                    v-model="bizRegion"
-                                    @change="changeBizRegion"
-                                    :items="['无','西单','新街口','夫子庙','奥体中心','江宁万达','学则路']"
-                                    label="选择商圈"
-                                    solo
-                                    class="mt-3 mb-n3"
-                            ></v-select>
-                        </v-list-item>
-                    </v-list-group>
-                    <v-list-group
-                            prepend-icon="star"
-                    >
-                        <template v-slot:activator>
-                            <v-list-item-title>筛选评分</v-list-item-title>
-                        </template>
-                        <v-list-item>
-                            <v-row>
-                                <v-col cols="6">
-                                    <v-text-field label="最低评分" v-model="lowerStar" @change="changeLowerStar">
-                                    </v-text-field>
-                                </v-col>
-                                <v-col cols="6">
-                                    <v-text-field label="最高评分" v-model="upperStar" @change="changeUpperStar">
-                                    </v-text-field>
-                                </v-col>
-                            </v-row>
-                        </v-list-item>
-                    </v-list-group>
-                </v-list>
-            </v-sheet>
+                            <v-list-group
+                                    prepend-icon="local_mall"
+                            >
+                                <template v-slot:activator>
+                                    <v-list-item-title>筛选商圈</v-list-item-title>
+                                </template>
+                                <v-list-item>
+                                    <v-select
+                                            v-model="bizRegion"
+                                            @change="changeBizRegion"
+                                            :items="['无','西单','新街口','夫子庙','奥体中心','江宁万达','学则路']"
+                                            label="选择商圈"
+                                            solo
+                                            class="mt-3 mb-n3"
+                                    ></v-select>
+                                </v-list-item>
+                            </v-list-group>
+                            <v-list-group
+                                    prepend-icon="star"
+                            >
+                                <template v-slot:activator>
+                                    <v-list-item-title>筛选评分</v-list-item-title>
+                                </template>
+                                <v-list-item>
+                                    <v-row>
+                                        <v-col cols="6">
+                                            <v-text-field label="最低评分" v-model="lowerStar" @change="changeLowerStar">
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-text-field label="最高评分" v-model="upperStar" @change="changeUpperStar">
+                                            </v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                </v-list-item>
+                            </v-list-group>
+                        </v-list>
+                    </v-sheet>
+                </template>
+            </v-hover>
            <!-- <a-layout-sider width="230" style="background: #fff">
                 <a-card style="margin-top: 0%;border:0px">
                     <b>筛选功能</b>
@@ -101,45 +105,50 @@
                                             v-for="hotel in hotelList"
                                             :key="hotel.index"
                                             cols="3" >
-                                        <v-card
-                                                class="mx-auto"
-                                                max-width="210"
-                                        >
-                                            <v-img
-                                                    v-bind:src="require('../../assets/house.jpg')"
-                                                    height="300px"
-                                            ></v-img>
-                                            <v-card-title>
-                                                {{hotel.name}}
-                                            </v-card-title>
-                                            <v-card-subtitle class="mb-n3">
-                                                {{hotel.description}}
-                                            </v-card-subtitle>
-                                            <v-row class="ml-6">
-                                                <v-rating
-                                                        v-model="hotel.hotelStar"
-                                                        background-color="gray darken-1"
-                                                        color="yellow accent-4"
-                                                        dense
-                                                        half-increments
-                                                        readonly
-                                                        size="20"
-                                                ></v-rating>
-                                                <span class="text--lighten-2 caption">({{ hotel.rate }}分)</span>
-                                            </v-row>
-                                            <v-divider></v-divider>
-                                            <v-card-actions>
-                                                <v-btn
-                                                        color="blue"
-                                                        text
+                                        <v-hover>
+                                            <template v-slot="{ hover }">
+                                                <v-card
+                                                        :elevation="hover?12:6"
                                                         class="mx-auto"
-                                                        @click="jumpToDetails(hotel.id)"
+                                                        max-width="210"
                                                 >
-                                                    查看更多
-                                                </v-btn>
+                                                    <v-img
+                                                            v-bind:src="require('../../assets/house.jpg')"
+                                                            height="300px"
+                                                    ></v-img>
+                                                    <v-card-title>
+                                                        {{hotel.name}}
+                                                    </v-card-title>
+                                                    <v-card-subtitle class="mb-n3">
+                                                        {{hotel.description}}
+                                                    </v-card-subtitle>
+                                                    <v-row class="ml-6">
+                                                        <v-rating
+                                                                v-model="hotel.hotelStar"
+                                                                background-color="gray darken-1"
+                                                                color="yellow accent-4"
+                                                                dense
+                                                                half-increments
+                                                                readonly
+                                                                size="20"
+                                                        ></v-rating>
+                                                        <span class="text--lighten-2 caption">({{ hotel.rate }}分)</span>
+                                                    </v-row>
+                                                    <v-divider></v-divider>
+                                                    <v-card-actions>
+                                                        <v-btn
+                                                                color="blue"
+                                                                text
+                                                                class="mx-auto"
+                                                                @click="jumpToDetails(hotel.id)"
+                                                        >
+                                                            查看更多
+                                                        </v-btn>
 
-                                            </v-card-actions>
-                                        </v-card>
+                                                    </v-card-actions>
+                                                </v-card>
+                                            </template>
+                                        </v-hover>
                                     </v-col>
                                 </v-row>
                             </v-container>

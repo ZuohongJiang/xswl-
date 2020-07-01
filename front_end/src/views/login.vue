@@ -23,7 +23,37 @@
                     @change="handleTabClick"
             >
                 <a-tab-pane key="tab1" tab="账号密码登录">
-                    <a-form-item>
+                    <v-form
+                            v-model="valid_login"
+                            ref="v_form_login"
+                    >
+                        <v-text-field
+                                v-model="username"
+                                outlined
+                                label="邮箱"
+                                required
+                        ></v-text-field>
+
+                        <v-text-field
+                                :type="'password'"
+                                v-model="password"
+                                outlined
+                                :rules="needRules"
+                                label="密码"
+                                required
+                        ></v-text-field>
+
+                        <v-btn
+                                :disabled="!valid_login"
+                                width="100%"
+                                color="primary"
+                                @click="submit"
+                                :loading="loginLoading"
+                        >
+                            登录
+                        </v-btn>
+                    </v-form>
+                    <!--<a-form-item>
                         <a-input
                                 size="large"
                                 type="text"
@@ -60,11 +90,66 @@
                                 @click="handlelogin()"
                         >确定
                         </v-btn>
-                    </a-form-item>
+                    </a-form-item>-->
                 </a-tab-pane>
 
                 <a-tab-pane key="tab2" tab="注册新账号">
-                    <a-form-item>
+                    <v-form
+                            v-model="valid_register"
+                            ref="v_form_register"
+                    >
+                        <v-text-field
+                                v-model="registerEmail"
+                                outlined
+                                :rules="emailRules"
+                                label="邮箱"
+                                required
+                        ></v-text-field>
+                        <v-text-field
+                                v-model="registerPhone"
+                                outlined
+                                :rules="needRules"
+                                label="手机号"
+                                required
+                        ></v-text-field>
+                        <v-text-field
+                                v-model="registerUsername"
+                                outlined
+                                :rules="needRules"
+                                label="用户名"
+                                required
+                        ></v-text-field>
+
+                        <v-text-field
+                                :type="'password'"
+                                v-model="registerPassword"
+                                outlined
+                                :rules="passwordRules"
+                                label="密码"
+                                required
+                        ></v-text-field>
+
+                        <v-text-field
+                                :type="'password'"
+                                v-model="registerPasswordConfirm"
+                                outlined
+                                :rules="needRules.concat(passwordConfirmationRule)"
+                                label="密码"
+                                required
+                        ></v-text-field>
+
+
+                        <v-btn
+                                :disabled="!valid_register"
+                                width="100%"
+                                color="primary"
+                                @click="v_register"
+                                :loading="registerLoading"
+                        >
+                            注册
+                        </v-btn>
+                    </v-form>
+                    <!--<a-form-item>
                         <a-input
                                 size="large"
                                 type="email"
@@ -126,7 +211,7 @@
                                 @click="handleRegister()"
                         >确定
                         </v-btn>
-                    </a-form-item>
+                    </a-form-item>-->
                 </a-tab-pane>
             </a-tabs>
         </a-form>
@@ -147,12 +232,52 @@
                 loginLoading: false,
                 registerLoading: false,
                 form: this.$form.createForm(this),
+                colors: [
+                    'indigo',
+                    'warning',
+                    'pink darken-2',
+                    'red lighten-1',
+                    'deep-purple accent-4',
+                ],
+                slides: [
+                    'First',
+                    'Second',
+                    'Third',
+                    'Fourth',
+                    'Fifth',
+                ],
+                valid_login: false,
+                valid_register:false,
+                password: '',
+                username: '',
+                registerEmail: '',
+                registerPhone: '',
+                registerUsername: '',
+                registerPassword: '',
+                registerPasswordConfirm: '',
+                emailRules: [
+                    v => !!v || '不能为空',
+                    v => /.+@.+\..+/.test(v) || '请输入有效邮箱',
+                ],
+                needRules: [
+                    v => !!v || '不能为空'
+                ],
+                passwordRules: [
+                    v => !!v || '不能为空',
+                    v => (v || '').length >= 6 || '最少6个字符',
+                    v => (v || '').length <= 11 || '最多11个字符'
+                ],
             }
         },
+
         computed: {
             ...mapGetters([
                 'token'
-            ])
+            ]),
+            passwordConfirmationRule() {
+                return () =>
+                    this.registerPassword === this.registerPasswordConfirm || "两次输入密码不一致";
+            },
         },
         mounted() {
 
@@ -172,7 +297,10 @@
             ]),
 
             // handler
-            handleUsernameOrEmail(rule, value, callback) {
+            handleTabClick(key) {
+                this.customActiveKey = key
+            },
+            /*handleUsernameOrEmail(rule, value, callback) {
                 const {state} = this
                 const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
                 if (regex.test(value)) {
@@ -206,9 +334,6 @@
                     callback(new Error('两次密码不一致'))
                 }
                 callback()
-            },
-            handleTabClick(key) {
-                this.customActiveKey = key
             },
             handlelogin() {
                 const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password'] : ['registerUsername', 'registerUserMail', 'registerPassword', 'registerPasswordconfirm']
@@ -255,6 +380,36 @@
                         this.registerLoading = false
                     }
                 });
+            },*/
+            reset() {
+                this.$refs.v_form_login.reset()
+                this.$refs.v_form_register.reset()
+            },
+            submit() {
+                this.loginLoading = true
+                const data = {
+                    email: this.username,
+                    password: this.password
+                }
+                this.login(data).then((res)=>{
+                    this.loginLoading = false
+                })
+            },
+            v_register() {
+                this.registerLoading = true
+                const data = {
+                    email: this.registerEmail,
+                    password: this.registerPassword,
+                    phoneNumber: this.registerPhone,
+                    userName: this.registerUsername,
+                    credit: 100,
+                    userType: 0
+                }
+                this.register(data).then(() => {
+                    this.customActiveKey = 'tab1'
+                    this.reset()
+                    this.registerLoading = false
+                })
             }
         }
     }
