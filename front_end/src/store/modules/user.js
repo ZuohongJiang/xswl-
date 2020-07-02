@@ -14,14 +14,17 @@ import {
 import {
     getUserOrdersAPI,
     cancelOrderAPI,
+    getUserThisHotelOrdersAPI,
 } from '@/api/order'
 import {updateUserPasswordAPI} from "../../api/user";
-
+import {state} from "../../store/modules/hotel";
 const getDefaultState = () => {
     return {
         userId: '',
+        currentHotelId:'',
         userInfo: {},
         userOrderList: [],
+        userThisHotelOrders:[],
         orderDetailVisible: false,
         orderDetail:{}
     }
@@ -34,6 +37,7 @@ const user = {
         reset_state: function (state) {
             state.token = '',
                 state.userId = '',
+                state.currentHotelId = '',
                 state.userInfo = {},
                 state.userOrderList = []
         },
@@ -45,6 +49,9 @@ const user = {
         },
         set_userId: (state, data) => {
             state.userId = data
+        },
+        set_hotelId: (state, data) => {
+            state.currentHotelId =data
         },
         set_userInfo: (state, data) => {
             state.userInfo = {
@@ -60,6 +67,9 @@ const user = {
         },
         set_orderDetail:(state,data)=>{
             state.orderDetail=data
+        },
+        set_userThisHotelOrders:(state,data)=>{
+            state.userThisHotelOrders=data
         }
     },
 
@@ -69,6 +79,7 @@ const user = {
             if (res) {
                 setToken(res.id)
                 commit('set_userId', res.id)
+                commit('set_hotelId', res.currentHotelId)
                 dispatch('getUserInfo')
                 router.push('/hotel/hotelList')
             }

@@ -1,10 +1,13 @@
 package com.example.hotel.controller.order;
 
 import com.example.hotel.bl.order.OrderService;
+import com.example.hotel.po.Order;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author: chenyizong
@@ -48,7 +51,10 @@ public class OrderController {
     public ResponseVO deleteOrder(@PathVariable int orderId) {
         return orderService.deleteOrder(orderId);
     }
-
+    @GetMapping("/{hotelId}/{userId}/getUserThisHotelOrders")
+    public ResponseVO getUserThisHotelOrders(@PathVariable int hotelId, @PathVariable int userId) {
+        return ResponseVO.buildSuccess(orderService.getUserThisHotelOrders(hotelId,userId));
+    }
     @GetMapping("/{orderId}/executeOrder")
     public ResponseVO executeOrder(@PathVariable int orderId) {
         return orderService.executeOrder(orderId);

@@ -1,8 +1,10 @@
 const getters = {
   //user
+  userThisHotelOrders: state => state.hotel.userThisHotelOrders,
   token: state => state.user.token,
   userId: state => state.user.userId,
   userInfo: state => state.user.userInfo,
+  hotelId:state=>state.hotel.hotelId,
   orderDetailVisible: state => state.user.orderDetailVisible,
   orderDetail: state => state.user.orderDetail,
   userOrderList: state => state.user.userOrderList,

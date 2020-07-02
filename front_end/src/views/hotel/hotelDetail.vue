@@ -15,7 +15,7 @@
                                             height="400px"
                                             v-bind:src="require('../../assets/house.jpg')"
                                     >
-                                        <v-card-title>{{currentHotelInfo.name}}</v-card-title>
+                                        <v-card-title class="font-weight-thin ">{{currentHotelInfo.name}}</v-card-title>
                                     </v-img>
                                 </v-col>
                                 <v-col cols="4">
@@ -43,42 +43,38 @@
                             </v-row>
                         </v-card>
                         <div class="info">
-                            <!-- <a-card>
-                                 <div class="items" v-if="currentHotelInfo.name">
-                                     <span class="label">酒店名称：</span>
-                                     <span class="value">{{ currentHotelInfo.name }}</span>
-                                 </div>
-                                 <div class="items" v-if="currentHotelInfo.address">
-                                     <span class="label">地址</span>
-                                     <span class="value">{{ currentHotelInfo.address }}</span>
-                                 </div>
-                                 <div class="items" v-if="currentHotelInfo.rate">
-                                     <span class="label">评分:</span>
-                                     <span class="value">{{ currentHotelInfo.rate }}</span>
-                                 </div>
-                                 <div class="items" v-if="currentHotelInfo.hotelStar">
-                                     <span class="label">星级:</span>
-                                     <a-rate style="font-size: 15px" :value="this.changeStarToNum()" disabled allowHalf/>
-                                 </div>
-                                 <div class="items" v-if="currentHotelInfo.phoneNum">
-                                     <span class="label">酒店联系方式:</span>
-                                     <span class="value">{{ currentHotelInfo.phoneNum }}</span>
-                                 </div>
-                                 <div class="items" v-if="currentHotelInfo.description">
-                                     <span class="label">酒店简介:</span>
-                                     <span class="value">{{ currentHotelInfo.description }}</span>
-                                 </div>
-                             </a-card>-->
-
                         </div>
                     </div>
                     <a-divider></a-divider>
                     <a-tabs>
-                        <a-tab-pane tab="房间信息" key="1">
+                        <a-tab-pane tab="房间信息" key="1" >
                             <RoomList :rooms="currentHotelInfo.rooms"></RoomList>
                         </a-tab-pane>
-                        <a-tab-pane tab="酒店评价" key="2">
+
+                        <a-tab-pane tab="酒店评价" key="3">
                             <CommentList :comments="currentHotelInfo.comments"></CommentList>
+                        </a-tab-pane>
+                        <a-tab-pane tab="以往订单" key="2">
+                            <a-table
+                                    rowKey="{record=>record.id}"
+                                    :columns="zzz"
+                                    :dataSource="userThisHotelOrders"
+                                    bordered
+                            >
+                    <span slot="price" slot-scope="text">
+                        <span>￥{{ text }}</span>
+                    </span>
+                                <span slot="roomType" slot-scope="text">
+                        <span v-if="text == 'BigBed'">大床房</span>
+                        <span v-if="text == 'DoubleBed'">双床房</span>
+                        <span v-if="text == 'Family'">家庭房</span>
+                    </span>
+                                <span slot="orderState" slot-scope="text">
+                        <a-tag color="red" v-if="text=='已撤销'">{{ text }}</a-tag>
+                        <a-tag color="blue" v-if="text=='已预订'">{{ text }}</a-tag>
+                        <a-tag color="green" v-if="text=='已执行'">{{ text }}</a-tag>
+                    </span>
+                            </a-table>
                         </a-tab-pane>
                     </a-tabs>
                 </div>
@@ -90,6 +86,43 @@
     import {mapGetters, mapActions, mapMutations} from 'vuex'
     import RoomList from './components/roomList'
     import CommentList from './components/commentList'
+
+    const zzz = [
+        {
+            title: '订单号',
+            dataIndex: 'id',
+        },
+        {
+            title: '酒店名',
+            dataIndex: 'hotelName',
+        },
+        {
+            title: '房型',
+            dataIndex: 'roomType',
+            scopedSlots: {customRender: 'roomType'}
+        },
+        {
+            title: '房价',
+            dataIndex: 'price',
+        },
+        {
+            title: '状态',
+            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已执行', value: '已执行'}],
+            onFilter: (value, record) => record.orderState.includes(value),
+            dataIndex: 'orderState',
+            scopedSlots: {customRender: 'orderState'}
+        },
+        {
+             title: '入住日期',
+             dataIndex:'checkInDate'
+         },
+        {
+            title: '入住日期',
+            dataIndex:'checkOutDate'
+        },
+
+    ];
+
     export default {
         name: 'hotelDetail',
         components: {
@@ -97,16 +130,18 @@
             CommentList,
         },
         data() {
-            return {}
+            return {zzz}
         },
         computed: {
             ...mapGetters([
                 'currentHotelInfo',
+                'userThisHotelOrders'
             ])
         },
         mounted() {
             this.set_currentHotelId(Number(this.$route.params.hotelId))
             this.getHotelById()
+            this.getUserThisHotelOrders(Number(this.$route.params.hotelId),Number(this.$route.params.userId))
         },
         beforeRouteUpdate(to, from, next) {
             this.set_currentHotelId(Number(to.params.hotelId))
@@ -116,9 +151,11 @@
         methods: {
             ...mapMutations([
                 'set_currentHotelId',
+                'set_userThisHotelOrders'
             ]),
             ...mapActions([
-                'getHotelById'
+                'getHotelById',
+                'getUserThisHotelOrders'
             ]),
             changeStarToNum() {
                 if (this.currentHotelInfo.hotelStar === 'Three')

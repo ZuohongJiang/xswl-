@@ -8,6 +8,9 @@
     <select id="getUserOrders" resultMap="Order">
         select * from OrderList where userId=#{userId}
     </select>
+    <select id="getUserThisHotelOrders" resultMap="Order">
+        select * from OrderList where hotelId=#{hotelId} and userId=#{userId}
+    </select>
     <insert id="addOrder" parameterType="com.example.hotel.po.Order" useGeneratedKeys="true" keyProperty="id">
         insert into OrderList(userId,hotelId,hotelName,checkInDate,checkOutDate,roomType,roomId,roomNum,peopleNum,haveChild,createDate,price,clientName,phoneNumber,orderState)
         values(#{userId},#{hotelId},#{hotelName},#{checkInDate},#{checkOutDate},#{roomType},#{roomId},#{roomNum},#{peopleNum},#{haveChild},#{createDate},#{price},#{clientName},#{phoneNumber},#{orderState})

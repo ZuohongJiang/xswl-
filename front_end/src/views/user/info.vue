@@ -90,10 +90,9 @@
                                 small
                                 @click="confirmCancelOrder(record.id)"
                                 v-if="record.orderState == '已预订'"
-                        >删除</v-btn>
-                        <a-divider type="vertical"></a-divider>
+                        >撤回</v-btn>
+                        <a-divider type="vertical" v-if="record.orderState == '已执行'"></a-divider>
                         <v-btn color="primary" small v-if="record.orderState=='已执行'" @click="beginComment(record)">评价</v-btn>
-
                                     <!--<a-popconfirm
                                             title="你确定撤销该笔订单吗？"
                                             @confirm="confirmCancelOrder(record.id)"

@@ -86,6 +86,37 @@
                                         </v-row>
                                     </v-list-item>
                                 </v-list-group>
+                                <v-divider></v-divider>
+                                <v-list-item>
+                                    <v-list-item-title>
+                                        <v-icon>mdi-sort</v-icon>
+                                        排序功能
+                                    </v-list-item-title>
+                                </v-list-item>
+                                <v-divider></v-divider>
+                                <v-list-group
+                                        prepend-icon="mdi-sort-descending"
+                                >
+                                    <template v-slot:activator>
+                                        <v-list-item-title>降序排序</v-list-item-title>
+                                    </template>
+                                    <v-list-item>
+                                        <v-row class="mx-auto">
+                                            <v-select
+                                                    v-model="selectVal"
+                                                    :items="selectOpts"
+                                                    item-text="text"
+                                                    item-value="val"
+                                                    chips
+                                                    label="选择属性"
+                                                    multiple
+                                                    solo
+                                                    class="mt-3 mb-n3"
+                                                    @change="changeList"
+                                            ></v-select>
+                                        </v-row>
+                                    </v-list-item>
+                                </v-list-group>
                             </v-list>
                         </v-sheet>
                     </template>
@@ -129,9 +160,7 @@
                                                                         v-bind:src="require('../../assets/house.jpg')"
                                                                         height="300px"
                                                                 ></v-img>
-                                                                <v-card-title>
-                                                                    {{hotel.name}}
-                                                                </v-card-title>
+                                                                <v-card-title class="font-weight-black text--secondary">{{hotel.name}}</v-card-title>
                                                                 <v-card-subtitle class="mb-n3">
                                                                     {{hotel.address?hotel.address:'暂无地址'}}
                                                                 </v-card-subtitle>
@@ -179,17 +208,6 @@
                                         label="搜索酒店"
                                         @change="changeList"
                                 ></v-combobox>
-                                <v-select
-                                        v-model="selectVal"
-                                        :items="selectOpts"
-                                        item-text="text"
-                                        item-value="val"
-                                        chips
-                                        label="排序"
-                                        multiple
-                                        outlined
-                                        @change="changeList"
-                                ></v-select>
                             </v-col>
                         </v-row>
                     </a-spin>
