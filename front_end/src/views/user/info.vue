@@ -126,8 +126,8 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="green darken-1" text @click="cancelComment()">Disagree</v-btn>
-                        <v-btn color="green darken-1" text @click="handleSubmit()">Agree</v-btn>
+                        <v-btn color="green darken-1" text @click="cancelComment()">取消</v-btn>
+                        <v-btn color="green darken-1" text @click="handleSubmit()">提交</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -300,6 +300,7 @@
                     this.rating=0;
                     this.content='';
                     this.comment={};
+                    location.reload();
                 }
             },
             nextPage() {
