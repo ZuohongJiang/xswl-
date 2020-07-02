@@ -9,7 +9,7 @@
                 <a-col :span="13">
                     <a-tag color="red" v-if="this.orderDetail.orderState=='已撤销'">{{ this.orderDetail.orderState }}</a-tag>
                     <a-tag color="blue" v-if="this.orderDetail.orderState=='已预订'">{{ this.orderDetail.orderState }}</a-tag>
-                    <a-tag color="green" v-if="this.orderDetail.orderState=='已入住'">{{ this.orderDetail.orderState }}</a-tag>
+                    <a-tag color="green" v-if="this.orderDetail.orderState=='已执行'">{{ this.orderDetail.orderState }}</a-tag>
                     总金额 <font style="font-size:80%;color:rgb(0, 134, 246);margin: 0px -1%;">￥</font>
                     <font style="font-size:25px;color:rgb(0, 134, 246);margin-left:0%">{{this.orderDetail.price}}</font>
                 </a-col>

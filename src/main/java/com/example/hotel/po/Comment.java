@@ -8,6 +8,7 @@ public class Comment {
     private String createDate;
     private String commentContent;
     private Double rate;
+    private String userName;
 
     public Integer getId() {
         return id;
@@ -37,6 +38,10 @@ public class Comment {
         return rate;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -63,5 +68,9 @@ public class Comment {
 
     public void setRate(Double rate) {
         this.rate = rate;
+    }
+
+    public void setUserName(String userName){
+        this.userName = userName;
     }
 }

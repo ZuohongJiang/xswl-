@@ -8,6 +8,7 @@ import {
     registerAPI,
     getUserInfoAPI,
     updateUserInfoAPI,
+    getUserNameAPI
 } from '@/api/user'
 
 import {
@@ -104,6 +105,12 @@ const user = {
                 })
             })
         },
+        getUserName: async({state},data) =>{
+            const res = await  getUserNameAPI(data);
+            if(res){
+                return res;
+            }
+},
         updateUserInfo: async ({state, dispatch}, data) => {
             const params = {
                 id: state.userId,

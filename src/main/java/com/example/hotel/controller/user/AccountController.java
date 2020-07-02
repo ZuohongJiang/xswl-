@@ -56,4 +56,9 @@ public class AccountController {
         return accountService.updateUserPassword(id, userPasswordInfoVO.getOldPassword(), userPasswordInfoVO.getPassword());
     }
 
+//    @GetMapping("/{id}/getUserName")
+//    public ResponseVO getUserName(@PathVariable int id){
+//        return ResponseVO.buildSuccess(accountService.getUserName(id));
+//    }
+
 }

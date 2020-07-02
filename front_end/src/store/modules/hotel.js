@@ -35,6 +35,7 @@ const hotel = {
             pageNo: 0,
             pageSize: 12
         },
+        commentList:[],
         hotelListLoading: true,
         currentHotelId: '',
         userId:'',
@@ -132,18 +133,15 @@ const hotel = {
                 }
             }
         },
-        getUserThisHotelOrders: async ({state, commit,dispatch}) => {
+        getUserThisHotelOrders: async ({state, commit}) => {
             const data={
                 hotelId:state.currentHotelId,
                 userId:state.userId
 
             }
             const res = await getUserThisHotelOrdersAPI(data)
-            console.log(res)
             if (res) {
-                //dispatch('getUserThisHotelOrders')
                 commit('set_userThisHotelOrders',res)
-
             }
         },
         addOrder: async ({state, commit,dispatch}, data) => {
@@ -152,6 +150,7 @@ const hotel = {
                 dispatch('getUserThisHotelOrders')
                 message.success('预定成功')
                 commit('set_orderModalVisible', false)
+                dispatch('getUserThisHotelOrders')
             }
         },
         getOrderMatchCoupons: async ({state, commit}, data) => {
@@ -179,7 +178,6 @@ const hotel = {
             }
         },
         addComment:async ({commit},data) =>{
-            console.log(data);
           const res = await addCommentAPI(data)
             if(res){
                 message.success("评价成功")

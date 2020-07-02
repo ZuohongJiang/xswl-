@@ -10,6 +10,7 @@ import {
     getAllOrdersAPI,
     deleteOrderAPI,
     getHotelOrdersAPI,
+    getManageHotelsOrdersAPI
 } from '@/api/order'
 import {
     annulCouponAPI,
@@ -97,7 +98,8 @@ const hotelManager = {
             state.roomList = data
         },
         set_orderList: function (state, data) {
-            state.orderList.push.apply(state.orderList, data)
+            // state.orderList.push.apply(state.orderList, data)
+            state.orderList = data;
         },
         set_addHotelModalVisible: function (state, data) {
             state.addHotelModalVisible = data
@@ -178,6 +180,14 @@ const hotelManager = {
             })
             // const res = await getAllOrdersAPI();
             if (res) {
+                commit('set_orderList', res)
+            }
+        },
+        getManageHotelsOrders: async ({state,commit},data) =>{
+            console.log(data);
+            // alert("进入ACTION");
+            const res = await getManageHotelsOrdersAPI(data);
+            if(res) {
                 commit('set_orderList', res)
             }
         },

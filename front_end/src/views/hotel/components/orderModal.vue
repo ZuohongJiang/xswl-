@@ -132,7 +132,7 @@
                             <span v-if="text == '4'">限时优惠</span>
                         </a-tag>
                     </span>
-                    <span slot="discount" slot-scope="val" >
+                    <span slot="discount" slot-scope="val">
                         <span v-if="val===0">无</span>
                         <span v-else>{{val}}</span>
                     </span>
@@ -142,11 +142,8 @@
                     </span>
                 </a-table>
             </a-radio-group>
-             <a-form-item v-if="orderMatchCouponList.length>0" v-bind="formItemLayout" label="结算后总价">
+            <a-form-item v-bind="formItemLayout" label="结算后总价">
                 <span>￥{{ finalPrice }}</span>
-            </a-form-item>
-            <a-form-item v-if="orderMatchCouponList.length<=0" v-bind="formItemLayout" label="结算后总价">
-                <span>￥{{ totalPrice }}</span>
             </a-form-item>
         </a-form>
     </a-modal>
@@ -287,25 +284,7 @@
                     }
                 });
             },
-            // onchange() {
-            //     this.finalPrice = this.totalPrice
-            //     this.selectedItems = this.selectedItems + '1'
-            //     if (this.checkedList.length > 0) {
-            //         this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id) != -1).forEach(item =>
-            //             this.finalPrice = item.discountMoney == '0' ? this.finalPrice = this.finalPrice * item.discount : this.finalPrice - item.discountMoney)
-            //         this.checkedList = this.checkedList.filter(item => {
-            //             if (!item.selected) {
-            //                 item.disabled = true
-            //             }
-            //         })
-            //     } else {
-            //     }
-            //     //if(this.selectedItems==3){
-            //     //
-            //
-            // },
-
-    },
+        },
         watch: {
             totalPrice(val) {
                 let data = {
@@ -318,9 +297,10 @@
                 }
                 this.getOrderMatchCoupons(data)
             },
-            orderModalVisible(val){
-                if(val)
-                    this.totalPrice = Number(this.form.getFieldValue('roomNum')) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
+            orderModalVisible(val) {
+                if (val)
+                    if (this.totalPrice)
+                        this.totalPrice = Number(this.form.getFieldValue('roomNum')) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
             }
         }
     }

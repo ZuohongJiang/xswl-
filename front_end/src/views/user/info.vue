@@ -270,12 +270,12 @@
                 this.set_orderDetailVisible(true)
             },
             beginComment(record){
-                console.log("in?");
                 this.dialog=true;
                 this.comment={
                     orderId:record.id,
                     hotelId:record.hotelId,
                     userId:record.userId,
+                    userName:this.userInfo.userName,
                     rate:0,
                     content:''
                 }

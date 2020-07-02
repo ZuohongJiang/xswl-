@@ -71,6 +71,11 @@ public interface OrderService {
 
     ResponseVO executeOrder(int orderid);
 
-
+    /**
+     * 获得hotelIdList内所有酒店的订单
+     * @param hotelIdList
+     * @return
+     */
+    List<Order> getManageHotelsOrders(int[] hotelIdList);
 }
 

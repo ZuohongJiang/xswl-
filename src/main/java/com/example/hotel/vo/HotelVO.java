@@ -19,6 +19,7 @@ public class HotelVO {
     private Integer managerId;
 
     private List<RoomVO> rooms;
+    private List<CommentVO> comments;
 
     public Integer getId() {
         return id;
@@ -91,6 +92,10 @@ public class HotelVO {
     public void setRooms(List<RoomVO> rooms) {
         this.rooms = rooms;
     }
+
+    public List<CommentVO> getComments(){return comments;}
+
+    public void setComments(List<CommentVO> comments){this.comments = comments;}
 
     public Integer getManagerId() {
         return managerId;

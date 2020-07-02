@@ -45,4 +45,5 @@ public interface AccountService {
 
     ResponseVO updateUserCredit(int id,double credit);
 
+//    String getUserName(int id);
 }

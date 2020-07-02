@@ -216,10 +216,13 @@ export default {
         await this.set_managerId(this.userId);
         await this.getHotelListByManagerId();
         await this.initHotelIdList();
-        for(let i=0;i<this.hotelIdList.length;i++){
-            await this.set_activeHotelId(this.hotelIdList[i]);
-            await this.getHotelOrders();
-        }
+        await this.getManageHotelsOrders(this.hotelIdList);
+        // 订单重复BUG代码
+        // for(let i=0;i<this.hotelIdList.length;i++){
+        //     await this.set_activeHotelId(this.hotelIdList[i]);
+        //     await this.getHotelOrders();
+        // }
+
     },
     methods: {
         ...mapMutations([
@@ -238,6 +241,7 @@ export default {
         ...mapActions([
             'getHotelListByManagerId',
             // 'getAllOrders',
+            'getManageHotelsOrders',
             'getHotelOrders',
             'getHotelCoupon',
             'annulCoupon',

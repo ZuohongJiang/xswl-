@@ -2,6 +2,7 @@ import { axios } from '@/utils/request'
 const api = {
     orderPre: '/api/order'
 }
+const qs = require('qs');
 export function reserveHotelAPI(data) {
     return axios({
         url: `${api.orderPre}/addOrder`,
@@ -22,12 +23,18 @@ export function getAllOrdersAPI() {
         method: 'GET',
     })
 }
-// export function getHotelOrdersAPI(hotelIdList){
-//     return axios({
-//         url: `${api.orderPre}/${hotelIdList}/getHotelOrders`,
-//         method: 'GET',
-//     })
-// }
+export function getManageHotelsOrdersAPI(hotelIdList){
+    // alert("进入API");
+    // alert(hotelIdList);
+    return axios.get(`${api.orderPre}/getManageHotelsOrders`,{
+        params:{
+            hotelIdList:hotelIdList
+        },
+        paramsSerializer: params => {
+            return qs.stringify(params, { indices: false })
+        }
+    })
+}
 export function getHotelOrdersAPI(param){
     return axios({
         url: `${api.orderPre}/${param.hotelId}/allOrders`,
