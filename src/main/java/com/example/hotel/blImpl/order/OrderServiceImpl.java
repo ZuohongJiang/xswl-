@@ -75,7 +75,10 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getUserOrders(int userid) {
         return orderMapper.getUserOrders(userid);
     }
-
+    @Override
+    public List<Order> getUserThisHotelOrders(int hotelId,int userId) {
+        return orderMapper.getUserThisHotelOrders(hotelId,userId);
+    }
     @Override
     public ResponseVO annulOrder(int orderid) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）

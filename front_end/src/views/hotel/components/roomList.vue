@@ -75,7 +75,8 @@
             ...mapGetters([
                 'orderModalVisible',
                 'roomModalVisible',
-            ])
+                'userInfo'
+            ]),
         },
         monuted() {
 
@@ -88,15 +89,17 @@
                 'set_roomModalVisible'
             ]),
             ...mapActions([
-                'getCreditInfo'
+                'getUserInfo'
             ]),
             order(record) {
-                if(this.getCreditInfo>=0) {
-                    this.set_currentOrderRoom(record)
-                    this.set_orderModalVisible(true)
-                }
-                else
-                    message.error('信用过低，无法预订！')
+                this.getUserInfo().then(()=>{
+                    if(this.userInfo.credit>=0) {
+                        this.set_currentOrderRoom(record)
+                        this.set_orderModalVisible(true)
+                    }
+                    else
+                        message.error('信用过低，无法预订！')
+                })
             },
             showDetail(record) {
                 if (!record.detail) {

@@ -284,6 +284,8 @@
                     }
                 });
             },
+
+
         },
         watch: {
             totalPrice(val) {
@@ -305,3 +307,4 @@
         }
     }
 </script>
+
