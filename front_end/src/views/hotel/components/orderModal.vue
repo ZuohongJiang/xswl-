@@ -314,8 +314,13 @@
                         checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
                         checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
                     }
-                    this.getOrderMatchCoupons(data)
-                }
+                this.getOrderMatchCoupons(data)
             },
-        }}
-//</script>
+            orderModalVisible(val){
+                if(val)
+                this.totalPrice = Number(this.form.getFieldValue('roomNum')) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
+            }
+        }
+    }}
+</script>
+
