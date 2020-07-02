@@ -28,7 +28,9 @@
         <div class="logout">
             <a-dropdown placement="bottomCenter">
                 <div class="user">
-                    <a-avatar src="./defaultAvatar.png"></a-avatar>
+                    <v-avatar color="grey" size="36">
+                        <span class="white--text subtitle-1 mx-auto">67</span>
+                    </v-avatar>
                     <span style="font-size: 14px">{{ userInfo.userName }}</span>
                     <a-icon style="margin-left: 3px; font-size: 16px" type="down"></a-icon>
                 </div>
