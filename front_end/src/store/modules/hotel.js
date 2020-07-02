@@ -141,14 +141,15 @@ const hotel = {
             const res = await getUserThisHotelOrdersAPI(data)
             console.log(res)
             if (res) {
-                dispatch('getUserThisHotelOrders')
+                //dispatch('getUserThisHotelOrders')
                 commit('set_userThisHotelOrders',res)
 
             }
         },
-        addOrder: async ({state, commit}, data) => {
+        addOrder: async ({state, commit,dispatch}, data) => {
             const res = await reserveHotelAPI(data)
             if (res) {
+                dispatch('getUserThisHotelOrders')
                 message.success('预定成功')
                 commit('set_orderModalVisible', false)
             }

@@ -304,23 +304,25 @@
             //     //
             //
             // },
-            watch: {
-                totalPrice(val) {
-                    let data = {
-                        userId: this.userId,
-                        hotelId: this.currentHotelId,
-                        orderPrice: this.totalPrice,
-                        roomNum: this.form.getFieldValue('roomNum'),
-                        checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                        checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
-                    }
+
+    },
+        watch: {
+            totalPrice(val) {
+                let data = {
+                    userId: this.userId,
+                    hotelId: this.currentHotelId,
+                    orderPrice: this.totalPrice,
+                    roomNum: this.form.getFieldValue('roomNum'),
+                    checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                    checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                }
                 this.getOrderMatchCoupons(data)
             },
             orderModalVisible(val){
                 if(val)
-                this.totalPrice = Number(this.form.getFieldValue('roomNum')) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
+                    this.totalPrice = Number(this.form.getFieldValue('roomNum')) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
             }
         }
-    }}
+    }
 </script>
 
