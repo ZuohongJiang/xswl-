@@ -12,6 +12,7 @@
                                 </v-btn>
                             </div>
                             <a-table
+                                    rowKey="id"
                                     :columns="columns1"
                                     :dataSource="managerList"
                                     bordered
@@ -32,6 +33,7 @@
                                 </v-btn>
                             </div>
                             <a-table
+                                    rowKey="id"
                                     :columns="columns2"
                                     :dataSource="hotelList"
                                     bordered

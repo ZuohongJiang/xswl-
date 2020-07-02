@@ -19,7 +19,7 @@
             </div>
             <div class="list" style="margin-top: 1%">
                 <a-table
-                        rowKey="{record=>record.id}"
+                        rowKey="id"
                         :columns="columns"
                         :dataSource="couponList"
                         bordered

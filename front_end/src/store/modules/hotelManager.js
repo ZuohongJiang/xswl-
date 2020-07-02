@@ -184,8 +184,6 @@ const hotelManager = {
             }
         },
         getManageHotelsOrders: async ({state,commit},data) =>{
-            console.log(data);
-            // alert("进入ACTION");
             const res = await getManageHotelsOrdersAPI(data);
             if(res) {
                 commit('set_orderList', res)

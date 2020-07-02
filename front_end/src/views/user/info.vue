@@ -64,6 +64,7 @@
                         </a-tab-pane>
                         <a-tab-pane tab="我的订单" key="2">
                             <a-table
+                                    rowKey="id"
                                     :columns="columns"
                                     :dataSource="userOrderList"
                                     bordered
@@ -93,17 +94,6 @@
                         >撤回</v-btn>
                         <a-divider type="vertical" v-if="record.orderState == '已执行'"></a-divider>
                         <v-btn color="primary" small v-if="record.orderState=='已执行'" @click="beginComment(record)">评价</v-btn>
-                                    <!--<a-popconfirm
-                                            title="你确定撤销该笔订单吗？"
-                                            @confirm="confirmCancelOrder(record.id)"
-                                            @cancel="cancelCancelOrder"
-                                            okText="确定"
-                                            cancelText="取消"
-                                            v-if="record.orderState == '已预订'"
-                                    >
-                                        <v-button color="danger" small>撤销</v-button>
-                                    </a-popconfirm>-->
-
                     </span>
                             </a-table>
                         </a-tab-pane>

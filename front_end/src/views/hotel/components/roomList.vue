@@ -5,7 +5,7 @@
         </div>
         <div class="list">
             <a-table
-                    rowKey="{record=>record.id}"
+                    rowKey="id"
                     :columns="columns"
                     :dataSource="rooms"
             >

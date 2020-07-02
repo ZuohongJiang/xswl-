@@ -150,7 +150,6 @@ const hotel = {
                 dispatch('getUserThisHotelOrders')
                 message.success('预定成功')
                 commit('set_orderModalVisible', false)
-               // dispatch('getUserThisHotelOrders')
             }
         },
         getOrderMatchCoupons: async ({state, commit}, data) => {
@@ -180,7 +179,9 @@ const hotel = {
         addComment:async ({commit},data) =>{
           const res = await addCommentAPI(data)
             if(res){
-                message.success("评价成功")
+                message.success("评价成功！")
+            }else{
+                message.error("该订单已评价！")
             }
         }
     }

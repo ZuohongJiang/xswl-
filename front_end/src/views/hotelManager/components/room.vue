@@ -8,6 +8,7 @@
                 @cancel="cancel"
         >
             <a-table
+                    rowKey="id"
                     :columns="columns"
                     :dataSource="roomList"
                     bordered>

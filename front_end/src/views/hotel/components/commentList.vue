@@ -1,29 +1,25 @@
 <template>
     <v-container>
-        <v-card outlined class="comment_container" >
+        <v-card outlined elevation="2" class="comment_container" >
             <v-list three-line v-for="comment in comments" :key="comment.id">
                 <template>
-<!--                    <v-divider></v-divider>-->
-
                     <v-list-item>
                         <v-list-item-avatar>
-                            <v-img src="https://cdn.vuetifyjs.com/images/lists/2.jpg" @click="test(comment)"></v-img>
-<!--                            <v-icon dark>mdi-account-circle</v-icon>-->
+                            <v-img v-bind:src="require('../../../../src/assets/halcyon.png')" @click="test(comment)"></v-img>
                         </v-list-item-avatar>
-
                         <v-list-item-content>
                             <v-list-item-title >
-
-                                        <div>{{comment.userName}}</div>
-                                <v-row>
-                                    <v-col>
-                                        <div>    评分：{{comment.rate}}             {{comment.createDate}}</div>
-                                    </v-col>
-<!--                                    <v-col>-->
-<!--                                        <div>{{comment.createDate}}</div>-->
-<!--                                    </v-col>-->
-
-                            </v-row>
+                                        <v-list-item-content class="button">{{comment.userName}}</v-list-item-content>
+                                <v-list-item-content>
+                                    <v-row class="my-n5">
+                                        <v-col cols="1" >
+                                            评分：{{comment.rate}} 分
+                                        </v-col>
+                                        <v-col cols="1" class="my-n2 ml-n4">
+                                            <div class="overline">{{comment.createDate}}</div>
+                                        </v-col>
+                                    </v-row>
+                                </v-list-item-content>
                             </v-list-item-title>
                             <v-list-item-subtitle v-html="comment.commentContent"></v-list-item-subtitle>
                         </v-list-item-content>
