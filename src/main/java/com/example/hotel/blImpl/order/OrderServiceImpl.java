@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final static String RESERVE_ERROR = "预订失败";
     private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
+    private final static String PRICE_ERROR = "订单价格异常";
+
     @Autowired
     OrderMapper orderMapper;
     @Autowired
@@ -39,6 +41,9 @@ public class OrderServiceImpl implements OrderService {
         int curNum = hotelService.getRoomCurNum(orderVO.getRoomId());
         if (reserveRoomNum > curNum) {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
+        }
+        if(orderVO.getPrice()<=0){
+            return ResponseVO.buildFailure(PRICE_ERROR);
         }
         try {
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");

@@ -12,6 +12,10 @@ import {
     orderMatchCouponsAPI,
 } from '@/api/coupon'
 import {getUserOrdersAPI} from "../../api/order";
+import {
+    addCommentAPI,
+    getHotelCommentsAPI
+} from "../../api/comment";
 import user from "./user";
 
 const hotel = {
@@ -141,6 +145,13 @@ const hotel = {
                     return e.hotelId
                 })
                 commit('set_myOrderedHotelList',Array.from(new Set(data)))
+            }
+        },
+        addComment:async ({commit},data) =>{
+            console.log(data);
+          const res = await addCommentAPI(data)
+            if(res){
+                message.success("评价成功")
             }
         }
     }

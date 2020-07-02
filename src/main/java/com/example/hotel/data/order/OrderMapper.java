@@ -29,4 +29,6 @@ public interface OrderMapper {
     int deleteOrder(@Param("orderId") int orderId );
 
     int executeOrder(@Param("orderId") int orderId);
+
+    int commentOrder(@Param("orderId") int orderId);
 }

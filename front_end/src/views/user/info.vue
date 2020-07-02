@@ -80,6 +80,7 @@
                         <a-tag color="red" v-if="text=='已撤销'">{{ text }}</a-tag>
                         <a-tag color="blue" v-if="text=='已预订'">{{ text }}</a-tag>
                         <a-tag color="green" v-if="text=='已执行'">{{ text }}</a-tag>
+                                    <a-tag color="grey" v-if="text=='已评价'">{{ text }}</a-tag>
                     </span>
                                 <span slot="action" slot-scope="record">
                         <v-btn color="primary" small @click="showDetail(record)">查看</v-btn>
@@ -91,7 +92,7 @@
                                 v-if="record.orderState == '已预订'"
                         >删除</v-btn>
                         <a-divider type="vertical"></a-divider>
-                        <v-btn color="primary" small>评价</v-btn>
+                        <v-btn color="primary" small v-if="record.orderState=='已执行'" @click="beginComment(record)">评价</v-btn>
 
                                     <!--<a-popconfirm
                                             title="你确定撤销该笔订单吗？"
@@ -108,10 +109,29 @@
                             </a-table>
                         </a-tab-pane>
                     </a-tabs>
-
                 </v-sheet>
+
             </template>
         </v-hover>
+        <v-row justify="center">
+            <v-dialog v-model="dialog"  persistent max-width="700">
+                <v-card>
+                    <v-card-title class="headline">为本次入住撰写评价</v-card-title>
+                    <v-card-text>
+                        <v-container>
+                            <v-rating v-model="rating" half-increments hover></v-rating>
+                            <v-alert type="error" v-if="rating===0">请选择评分！</v-alert>
+                        </v-container>
+                        <v-textarea  outlined label="在此写下您的评价" v-model="content"></v-textarea>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="green darken-1" text @click="cancelComment()">Disagree</v-btn>
+                        <v-btn color="green darken-1" text @click="handleSubmit()">Agree</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </v-row>
         <OrderDetailModal></OrderDetailModal>
     </div>
 </template>
@@ -140,7 +160,7 @@
         },
         {
             title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已执行', value: '已执行'}],
+            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已执行', value: '已执行'},{text: '已评价', value: '已评价'}],
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState',
             scopedSlots: {customRender: 'orderState'}
@@ -158,6 +178,10 @@
             return {
                 modify_password: false,
                 modify: false,
+                content:'',
+                comment:{},
+                dialog: false,
+                rating: 0,
                 formLayout: 'horizontal',
                 pagination: {},
                 columns,
@@ -194,7 +218,8 @@
                 'getUserOrders',
                 'updateUserInfo',
                 'updateUserPassword',
-                'cancelOrder'
+                'cancelOrder',
+                'addComment'
             ]),
             saveModify() {
                 this.form.validateFields((err, values) => {
@@ -244,6 +269,38 @@
             showDetail(record) {
                 this.set_orderDetail(record)
                 this.set_orderDetailVisible(true)
+            },
+            beginComment(record){
+                console.log("in?");
+                this.dialog=true;
+                this.comment={
+                    orderId:record.id,
+                    hotelId:record.hotelId,
+                    userId:record.userId,
+                    rate:0,
+                    content:''
+                }
+            },
+            cancelComment(){
+                this.dialog=false;
+                this.rating=0;
+                this.content='';
+                this.comment={};
+            },
+            handleSubmit(){
+                if(this.rating===0)
+                    alert("请为本次入住打分");
+                if(this.content==='')
+                    alert("请填写评价");
+                else{
+                    this.comment.commentContent=this.content;
+                    this.comment.rate=this.rating;
+                    this.addComment(this.comment);
+                    this.dialog=false;
+                    this.rating=0;
+                    this.content='';
+                    this.comment={};
+                }
             },
             nextPage() {
                 if (this.page + 1 <= this.numberOfPages) this.page += 1

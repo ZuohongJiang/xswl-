@@ -153,4 +153,18 @@ INSERT INTO `user` VALUES (4, '1012681@qq.com', '123456', '测试一号', '12345
 INSERT INTO `user` VALUES (5, '123@qq.com', '123456', '测试二号', '12345678911', 100, 'Client');
 INSERT INTO `user` VALUES (6, '333@qq.com', '123456', '测试名', '99912345678', 99, 'Admin');
 
+-- ----------------------------
+-- Table structure for comment
+-- ----------------------------
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `hotel`.`comment` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `orderId` INT NOT NULL,
+  `userId` INT NOT NULL,
+  `hotelId` INT NOT NULL,
+  `createDate` VARCHAR(255) NOT NULL,
+  `commentContent` VARCHAR(1000) CHARACTER SET 'utf8' NOT NULL,
+  `rate` DOUBLE NOT NULL,
+  PRIMARY KEY (`id`, `orderId`))
+ENGINE = InnoDB;
 SET FOREIGN_KEY_CHECKS = 1;

@@ -53,6 +53,7 @@
                         <a-tag color="red" v-if="text=='已撤销'">{{ text }}</a-tag>
                         <a-tag color="blue" v-if="text=='已预订'">{{ text }}</a-tag>
                         <a-tag color="green" v-if="text=='已执行'">{{ text }}</a-tag>
+                        <a-tag color="grey" v-if="text=='已评价'">{{ text }}</a-tag>
                     </span>
                     <span slot="action" slot-scope="record">
                         <v-btn small @click="showDetail(record)">订单详情</v-btn>
@@ -163,8 +164,11 @@ const columns2 = [
         dataIndex: 'price',
     },
     {
+        filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已执行', value: '已执行'},{text: '已评价', value: '已评价'}],
+        onFilter: (value, record) => record.orderState.includes(value),
         title: '订单状态',
         dataIndex: 'orderState',
+        scopedSlots: {customRender: 'orderState'}
     },
     {
       title: '操作',
@@ -300,7 +304,7 @@ export default {
                     alert("订单已撤销！");
                     return;
                 }
-                else if(record.orderState==="已执行"){
+                else if(record.orderState==="已执行"||record.orderState==="已评价"){
                     alert("订单已执行");
                     return;
                 }
