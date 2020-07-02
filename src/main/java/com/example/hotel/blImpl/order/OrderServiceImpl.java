@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final static String RESERVE_ERROR = "预订失败";
     private final static String ROOMNUM_LACK = "预订房间数量剩余不足";
+    private final static String PRICE_ERROR = "订单价格异常";
+
     @Autowired
     OrderMapper orderMapper;
     @Autowired
@@ -39,6 +42,9 @@ public class OrderServiceImpl implements OrderService {
         int curNum = hotelService.getRoomCurNum(orderVO.getRoomId());
         if (reserveRoomNum > curNum) {
             return ResponseVO.buildFailure(ROOMNUM_LACK);
+        }
+        if(orderVO.getPrice()<=0){
+            return ResponseVO.buildFailure(PRICE_ERROR);
         }
         try {
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -74,7 +80,15 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO annulOrder(int orderid) {
         //取消订单逻辑的具体实现（注意可能有和别的业务类之间的交互）
         Order order = orderMapper.getOrderById(orderid);
-        orderMapper.annulOrder(orderid);
+        orderMapper.annulOrder(order.getId());
+        Long curTime=System.currentTimeMillis();
+        ParsePosition pos = new ParsePosition(0);
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        Long exeTime=sdf.parse(order.getCheckInDate(),pos).getTime();
+        if((exeTime-curTime)/3600000<6){
+            User user=accountService.getUserInfo(order.getUserId());
+            accountService.updateUserCredit(user.getId(),user.getCredit()-order.getPrice()/2);
+        }
         hotelService.updateRoomInfo(order.getRoomId(), (-order.getRoomNum()));
         return ResponseVO.buildSuccess(true);
     }

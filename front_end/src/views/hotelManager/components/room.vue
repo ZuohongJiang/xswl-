@@ -119,6 +119,7 @@
                 this.set_currentRoom(record)
                 this.set_editRoomModalVisible(true)
                 this.set_roomVisible(false)
+
             },
             cancelDelRoom(){
 

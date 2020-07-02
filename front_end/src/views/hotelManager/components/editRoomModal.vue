@@ -13,7 +13,7 @@
                 <a-select
                         v-decorator="[
                     'roomType',
-                    { rules: [{ required: true, message: '请选择房型' }] }]"
+                    { rules: [{ required: true, message: '请选择房型' }],initialValue: currentRoom.roomType }]"
                 >
                     <a-select-option value="BigBed">大床房</a-select-option>
                     <a-select-option value="DoubleBed">双床房</a-select-option>
@@ -23,36 +23,36 @@
             <a-form-item label="房间数量" v-bind="formItemLayout">
                 <a-input
                         placeholder="请填写房间数量"
-                        v-decorator="['roomNum', { rules: [{ required: true, message: '请输入房间数量' }] }]"
+                        v-decorator="['roomNum', { rules: [{ required: true, message: '请输入房间数量'}],initialValue: currentRoom.total}]"
                 />
             </a-form-item>
             <a-form-item label="原始价格" v-bind="formItemLayout">
                 <a-input
                         placeholder="请填写原始价格"
-                        v-decorator="['price', { rules: [{ required: true, message: '请输入原始价格' }] }]"
+                        v-decorator="['price', { rules: [{ required: true, message: '请输入原始价格' }],initialValue: currentRoom.price}]"
                 />
             </a-form-item>
             <a-form-item label="面积" v-bind="formItemLayout">
                 <a-input
                         placeholder="请填写面积"
-                        v-decorator="['area', { rules: [{ required: false}] }]"
+                        v-decorator="['area', {initialValue:currentRoom.area}]"
                 />
             </a-form-item>
             <a-form-item label="楼层" v-bind="formItemLayout">
                 <a-input
                         placeholder="请填写楼层"
-                        v-decorator="['level', { rules: [{ required: false}] }]"
+                        v-decorator="['level', { initialValue: currentRoom.level}]"
                 />
             </a-form-item>
             <a-form-item label="床型" v-bind="formItemLayout">
                 <a-input
                         placeholder="请填写床型"
-                        v-decorator="['bedType', { rules: [{ required: false}] }]"
+                        v-decorator="['bedType', {initialValue: currentRoom.bedType }]"
                 />
             </a-form-item>
             <a-form-item label="可否加床" v-bind="formItemLayout">
                 <a-radio-group name="addBed" :default-value=false
-                               v-decorator="['addBed', { initialValue:false} ]">
+                               v-decorator="['addBed', { initialValue:currentRoom.addBed} ]">
                     <a-radio :value=true>
                         可
                     </a-radio>
@@ -65,7 +65,7 @@
                 <a-textarea
                         placeholder="请填写设施"
                         rows="7"
-                        v-decorator="['facility', { rules: [{ required: false}] }]"
+                        v-decorator="['facility', {initialValue:currentRoom.facility}]"
                 />
             </a-form-item>
         </a-form>
@@ -92,7 +92,7 @@
         computed: {
             ...mapGetters([
                 'editRoomModalVisible',
-                'currentRoom'
+                'currentRoom',
             ])
         },
         beforeCreate() {

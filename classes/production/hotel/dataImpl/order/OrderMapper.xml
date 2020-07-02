@@ -27,6 +27,10 @@
         update OrderList set orderState="已执行" where id=#{orderId}
     </update>
 
+    <update id="commentOrder">
+        update OrderList set orderState="已评价" where id=#{orderId}
+    </update>
+
     <resultMap id="Order" type="com.example.hotel.po.Order">
     </resultMap>
 </mapper>

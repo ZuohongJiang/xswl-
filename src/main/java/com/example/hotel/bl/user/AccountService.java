@@ -43,4 +43,6 @@ public interface AccountService {
 
     ResponseVO updateUserPassword(int id,String oldPassword,String password);
 
+    ResponseVO updateUserCredit(int id,double credit);
+
 }

@@ -27,6 +27,13 @@
         select * from Hotel where manager_id=#{managerId}
     </select>
 
+    <select id="selectHotelRate" resultType="java.lang.Double">
+        select rate from Hotel where id=#{id}
+    </select>
+
+    <update id="updateHotelRate">
+        update Hotel set rate=#{rate} where id=#{id}
+    </update>
     <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
         <id column="id" property="id"></id>
         <result column="address" property="address"></result>
