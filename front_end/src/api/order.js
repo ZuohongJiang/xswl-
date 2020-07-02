@@ -9,6 +9,13 @@ export function reserveHotelAPI(data) {
         data,
     })
 }
+
+export function getUserThisHotelOrdersAPI(data) {
+    return axios({
+        url: `${api.orderPre}/${data.hotelId}/${data.userId}/getUserThisHotelOrders`,
+        method: 'GET',
+    })
+}
 export function getAllOrdersAPI() {
     return axios({
         url: `${api.orderPre}/getAllOrders`,

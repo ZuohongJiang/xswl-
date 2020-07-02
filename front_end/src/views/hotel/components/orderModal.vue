@@ -142,8 +142,11 @@
                     </span>
                 </a-table>
             </a-radio-group>
-            <a-form-item v-bind="formItemLayout" label="结算后总价">
+             <a-form-item v-if="orderMatchCouponList.length>0" v-bind="formItemLayout" label="结算后总价">
                 <span>￥{{ finalPrice }}</span>
+            </a-form-item>
+            <a-form-item v-if="orderMatchCouponList.length<=0" v-bind="formItemLayout" label="结算后总价">
+                <span>￥{{ totalPrice }}</span>
             </a-form-item>
         </a-form>
     </a-modal>
@@ -284,19 +287,35 @@
                     }
                 });
             },
-        },
-        watch: {
-            totalPrice(val) {
-                let data = {
-                    userId: this.userId,
-                    hotelId: this.currentHotelId,
-                    orderPrice: this.totalPrice,
-                    roomNum: this.form.getFieldValue('roomNum'),
-                    checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                    checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+            // onchange() {
+            //     this.finalPrice = this.totalPrice
+            //     this.selectedItems = this.selectedItems + '1'
+            //     if (this.checkedList.length > 0) {
+            //         this.orderMatchCouponList.filter(item => this.checkedList.indexOf(item.id) != -1).forEach(item =>
+            //             this.finalPrice = item.discountMoney == '0' ? this.finalPrice = this.finalPrice * item.discount : this.finalPrice - item.discountMoney)
+            //         this.checkedList = this.checkedList.filter(item => {
+            //             if (!item.selected) {
+            //                 item.disabled = true
+            //             }
+            //         })
+            //     } else {
+            //     }
+            //     //if(this.selectedItems==3){
+            //     //
+            //
+            // },
+            watch: {
+                totalPrice(val) {
+                    let data = {
+                        userId: this.userId,
+                        hotelId: this.currentHotelId,
+                        orderPrice: this.totalPrice,
+                        roomNum: this.form.getFieldValue('roomNum'),
+                        checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                        checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                    }
+                    this.getOrderMatchCoupons(data)
                 }
-                this.getOrderMatchCoupons(data)
-            }
-        }
-    }
-</script>
+            },
+        }}
+//</script>

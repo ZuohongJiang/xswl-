@@ -11,11 +11,14 @@ import {
 import {
     orderMatchCouponsAPI,
 } from '@/api/coupon'
-import {getUserOrdersAPI} from "../../api/order";
+//import {getUserOrdersAPI} from "../../api/order";
 import {
     addCommentAPI,
     getHotelCommentsAPI
 } from "../../api/comment";
+import {getUserOrdersAPI,
+        getUserThisHotelOrdersAPI
+} from "@/api/order";
 import user from "./user";
 
 const hotel = {
@@ -34,11 +37,13 @@ const hotel = {
         },
         hotelListLoading: true,
         currentHotelId: '',
+        userId:'',
         currentHotelInfo: {},
         orderModalVisible: false,
         currentOrderRoom: {},
         orderMatchCouponList: [],
-        myOrderedHotelList: []
+        myOrderedHotelList: [],
+        userThisHotelOrders:[]
     },
     mutations: {
         set_myOrderedHotelList: function (state, data) {
@@ -52,17 +57,17 @@ const hotel = {
         set_manageHotelList: function (state, data) {
             state.manageHotelList = data
         },
-        set_manageHotelListParams: function (state, data) {
-            state.manageHotelListParams = {
-                ...state.manageHotelListParams,
-                ...data,
-            }
+        set_userThisHotelOrders: function (state, data) {
+            state.userThisHotelOrders=data
         },
         set_manageHotelListLoading: function (state, data) {
             state.manageHotelListLoading = data
         },
         set_hotelList: function (state, data) {
             state.hotelList = data
+        },
+        set_userId:function (state, data) {
+            state.userId = data
         },
         set_hotelListParams: function (state, data) {
             state.hotelListParams = {
@@ -125,6 +130,20 @@ const hotel = {
                     res.hotelStar = res.hotelStar == 'Three' ? 3 : (res.hotelStar == 'Four' ? 4 : 5)
                     commit('set_currentHotelInfo', res)
                 }
+            }
+        },
+        getUserThisHotelOrders: async ({state, commit,dispatch}) => {
+            const data={
+                hotelId:state.currentHotelId,
+                userId:state.userId
+
+            }
+            const res = await getUserThisHotelOrdersAPI(data)
+            console.log(res)
+            if (res) {
+                dispatch('getUserThisHotelOrders')
+                commit('set_userThisHotelOrders',res)
+
             }
         },
         addOrder: async ({state, commit}, data) => {

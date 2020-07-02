@@ -188,3 +188,4 @@ COMMIT;
 -- Dump completed on 2020-04-12 10:08:42
 SET FOREIGN_KEY_CHECKS = 1;
 alter table Coupon add column target_roomNum varchar(45) not null;
+alter table Room add column detail varchar(225) not null;
