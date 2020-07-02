@@ -284,8 +284,6 @@
                     }
                 });
             },
-
-
         },
         watch: {
             totalPrice(val) {
