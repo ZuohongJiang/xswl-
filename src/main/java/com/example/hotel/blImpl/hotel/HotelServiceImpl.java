@@ -124,6 +124,7 @@ public class HotelServiceImpl implements HotelService {
             commentVO.setRate(c.getRate());
             commentVO.setCreateDate(c.getCreateDate());
             commentVO.setCommentContent(c.getCommentContent());
+            commentVO.setUserName(c.getUserName());
             return commentVO;
         }).collect(Collectors.toList());
         hotelVO.setComments(commentVOS);

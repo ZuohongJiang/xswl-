@@ -174,7 +174,7 @@
                                                                             readonly
                                                                             size="20"
                                                                     ></v-rating>
-                                                                    <span class="text--lighten-2 caption">({{ hotel.rate }}分)</span>
+                                                                    <span class="text--lighten-2 caption">({{ hotel.rate.toFixed(1) }}分)</span>
                                                                 </v-row>
                                                                 <v-divider></v-divider>
                                                                 <v-card-actions>

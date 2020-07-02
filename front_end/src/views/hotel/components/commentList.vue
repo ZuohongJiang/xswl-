@@ -17,11 +17,11 @@
                                         <div>{{comment.userName}}</div>
                                 <v-row>
                                     <v-col>
-                                        <div>{{comment.rate}}</div>
+                                        <div>    评分：{{comment.rate}}             {{comment.createDate}}</div>
                                     </v-col>
-                                    <v-col>
-                                        <div>{{comment.createDate}}</div>
-                                    </v-col>
+<!--                                    <v-col>-->
+<!--                                        <div>{{comment.createDate}}</div>-->
+<!--                                    </v-col>-->
 
                             </v-row>
                             </v-list-item-title>

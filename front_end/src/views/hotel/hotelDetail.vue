@@ -21,7 +21,7 @@
                                 <v-col cols="4">
                                     <v-card-text class="mt-7 ml-n3" style="font-size:17px">
                                         <div>地址：{{currentHotelInfo.address?currentHotelInfo.address:'暂无'}}</div>
-                                        <div>评分：{{currentHotelInfo.rate}}分</div>
+                                        <div>评分：{{currentHotelInfo.rate.toFixed(1)}}分</div>
                                         <v-row class="my-n3">
                                             <v-col cols="3" class="mr-0 pr-0">星级：</v-col>
                                             <v-col cols="9" class="ml-n5 pl-0">
@@ -73,6 +73,7 @@
                         <a-tag color="red" v-if="text=='已撤销'">{{ text }}</a-tag>
                         <a-tag color="blue" v-if="text=='已预订'">{{ text }}</a-tag>
                         <a-tag color="green" v-if="text=='已执行'">{{ text }}</a-tag>
+                                    <a-tag color="grey" v-if="text==已评价">{{ text }}</a-tag>
                     </span>
                             </a-table>
                         </a-tab-pane>
@@ -107,7 +108,7 @@
         },
         {
             title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已执行', value: '已执行'}],
+            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已执行', value: '已执行'},{text: '已评价', value: '已评价'}],
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState',
             scopedSlots: {customRender: 'orderState'}
