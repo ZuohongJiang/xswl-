@@ -87,10 +87,16 @@
                 'set_roomDetail',
                 'set_roomModalVisible'
             ]),
-            ...mapActions([]),
+            ...mapActions([
+                'getCreditInfo'
+            ]),
             order(record) {
-                this.set_currentOrderRoom(record)
-                this.set_orderModalVisible(true)
+                if(this.getCreditInfo>=0) {
+                    this.set_currentOrderRoom(record)
+                    this.set_orderModalVisible(true)
+                }
+                else
+                    message.error('信用过低，无法预订！')
             },
             showDetail(record) {
                 if (!record.detail) {

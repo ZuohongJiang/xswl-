@@ -132,7 +132,7 @@
                             <span v-if="text == '4'">限时优惠</span>
                         </a-tag>
                     </span>
-                    <span slot="discount" slot-scope="val" >
+                    <span slot="discount" slot-scope="val">
                         <span v-if="val===0">无</span>
                         <span v-else>{{val}}</span>
                     </span>
@@ -297,9 +297,10 @@
                 }
                 this.getOrderMatchCoupons(data)
             },
-            orderModalVisible(val){
-                if(val)
-                this.totalPrice = Number(this.form.getFieldValue('roomNum')) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
+            orderModalVisible(val) {
+                if (val)
+                    if (this.totalPrice)
+                        this.totalPrice = Number(this.form.getFieldValue('roomNum')) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
             }
         }
     }

@@ -2,7 +2,7 @@ const getters = {
   //user
   token: state => state.user.token,
   userId: state => state.user.userId,
-  userInfo: state => state.user.userInfo,
+  userInfo: state => {return state.user.userInfo},
   orderDetailVisible: state => state.user.orderDetailVisible,
   orderDetail: state => state.user.orderDetail,
   userOrderList: state => state.user.userOrderList,
