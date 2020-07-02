@@ -113,12 +113,14 @@ const hotel = {
             }
         },
         getHotelById: async ({commit, state}) => {
-            const res = await getHotelByIdAPI({
-                hotelId: state.currentHotelId
-            })
-            if (res) {
-                res.hotelStar = res.hotelStar == 'Three' ? 3 : (res.hotelStar == 'Four' ? 4 : 5)
-                commit('set_currentHotelInfo', res)
+            if(state.currentHotelId) {
+                const res = await getHotelByIdAPI({
+                    hotelId: state.currentHotelId
+                })
+                if (res) {
+                    res.hotelStar = res.hotelStar == 'Three' ? 3 : (res.hotelStar == 'Four' ? 4 : 5)
+                    commit('set_currentHotelInfo', res)
+                }
             }
         },
         addOrder: async ({state, commit}, data) => {
@@ -131,6 +133,15 @@ const hotel = {
         getOrderMatchCoupons: async ({state, commit}, data) => {
             const res = await orderMatchCouponsAPI(data)
             if (res) {
+                res.sort((a,b)=>{
+                    if(a.discount!==0&&b.discount!==0)
+                        return a.discount-b.discount
+                    else if(a.discount===0&&b.discount!==0)
+                        return 1
+                    else if(a.discount!==0&&b.discount===0)
+                        return -1
+                    else return b.discountMoney-a.discountMoney
+                })
                 commit('set_orderMatchCouponList', res)
             }
         },

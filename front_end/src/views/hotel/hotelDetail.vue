@@ -15,7 +15,7 @@
                                             height="400px"
                                             v-bind:src="require('../../assets/house.jpg')"
                                     >
-                                        <v-card-title>{{currentHotelInfo.name}}</v-card-title>
+                                        <v-card-title class="font-weight-thin ">{{currentHotelInfo.name}}</v-card-title>
                                     </v-img>
                                 </v-col>
                                 <v-col cols="4">

@@ -173,7 +173,6 @@ const hotelManager = {
             }
         },
         getHotelOrders: async ({state, commit}) => {
-            console.log(state.activeHotelId);
             const res = await getHotelOrdersAPI({
                 hotelId: state.activeHotelId
             })
@@ -211,8 +210,8 @@ const hotelManager = {
             }
         },
         updateHotelInfo: async ({state, dispatch, commit}) => {
-            let star=state.updateHotelInfoParams.hotelStar
-            state.updateHotelInfoParams.hotelStar=star===3?'Three':(star===4?'Four':'Five')
+            let star = state.updateHotelInfoParams.hotelStar
+            state.updateHotelInfoParams.hotelStar = star === 3 ? 'Three' : (star === 4 ? 'Four' : 'Five')
             const res = await updateHotelInfoAPI(state.updateHotelInfoParams)
             if (res) {
                 dispatch('getHotelList')
@@ -335,12 +334,11 @@ const hotelManager = {
                 message.error('删除失败')
             }
         },
-        executeOrder: async({commit}, data) =>{
-            const res =await executeOrderAPI(data)
-            if(res) {
+        executeOrder: async ({commit}, data) => {
+            const res = await executeOrderAPI(data)
+            if (res) {
                 message.success('执行成功')
-            }
-            else{
+            } else {
                 message.error('执行失败')
             }
         },

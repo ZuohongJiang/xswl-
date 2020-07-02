@@ -32,6 +32,18 @@
                     <span v-if="text == '4'">限时优惠</span>
                     </a-tag>
                 </span>
+                    <span slot="target_roomNum" slot-scope="val" >
+                        <span v-if="val">{{val}}</span>
+                        <span v-else>无</span>
+                    </span>
+                    <span slot="discount" slot-scope="val" >
+                        <span v-if="val===0">无</span>
+                        <span v-else>{{val}}</span>
+                    </span>
+                    <span slot="discountMoney" slot-scope="val" v-if="val!==0">
+                        <span v-if="val===0">无</span>
+                        <span v-else>{{val}}</span>
+                    </span>
                     <span slot="status" slot-scope="text">
                     <a-tag color="green" v-if="text=='1'">可用</a-tag>
                     <a-tag color="red" v-if="text=='0'">不可用</a-tag>
@@ -83,7 +95,7 @@
         {
             title: '优惠类型',
             //filters: [{ text: '多间优惠', value: '多间优惠' }, { text: '满减优惠', value: '满减优惠' }, { text: '限时优惠', value: '限时优惠' }],
-           // onFilter: (value, record) => record.couponType.includes(value),
+            // onFilter: (value, record) => record.couponType.includes(value),
             dataIndex: 'couponType',
             scopedSlots: {customRender: 'couponType'}
         },
@@ -102,10 +114,17 @@
         {
             title: '达标房间数',
             dataIndex: 'target_roomNum',
+            scopedSlots: {customRender: 'target_roomNum'}
         },
         {
             title: '折扣',
             dataIndex: 'discount',
+            scopedSlots: {customRender: 'discount'}
+        },
+        {
+            title: '折扣金额',
+            dataIndex: 'discountMoney',
+            scopedSlots: {customRender: 'discountMoney'}
         },
         {
             title: '开始时间',
@@ -118,13 +137,9 @@
             scopedSlots: {customRender: 'endTime'}
         },
         {
-            title: '折扣金额',
-            dataIndex: 'discountMoney',
-        },
-        {
             title: '操作',
             key: 'action',
-            scopedSlots: { customRender: 'action' },
+            scopedSlots: {customRender: 'action'},
         },
         // 这里定义列表头
     ];
@@ -166,11 +181,11 @@
                 this.set_addCouponVisible(true)
                 this.set_couponVisible(false)
             },
-            confirmCancelCoupon(Id){
+            confirmCancelCoupon(Id) {
                 console.log(Id);
                 this.annulCoupon(Id)
             },
-            order(id){
+            order(id) {
                 this.showOrdered(id)
             },
 

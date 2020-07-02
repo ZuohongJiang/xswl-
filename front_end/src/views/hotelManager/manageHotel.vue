@@ -249,7 +249,7 @@ export default {
         // },
          showHotelInfo(record){
              this.set_activeHotelId(record.id);
-             this.getHotelById(record.id);
+             this.getHotelById();
              this.set_updateHotelInfoModalVisible(true)
                 // console.log("????")
                 //  this.set_updateHotelInfoModalVisible(true)
