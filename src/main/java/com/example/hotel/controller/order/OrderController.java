@@ -54,4 +54,9 @@ public class OrderController {
         return orderService.executeOrder(orderId);
     }
 
+    @GetMapping("/{hotelIdList}/getManageHotelsOrders")
+    public ResponseVO retrieveManageHotelsOrders(@PathVariable int[] hotelIdList){
+        return ResponseVO.buildSuccess(orderService.getManageHotelsOrders(hotelIdList));
+    }
+
 }

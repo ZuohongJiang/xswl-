@@ -32,6 +32,7 @@ const hotel = {
             pageNo: 0,
             pageSize: 12
         },
+        commentList:[],
         hotelListLoading: true,
         currentHotelId: '',
         currentHotelInfo: {},
@@ -117,12 +118,14 @@ const hotel = {
             }
         },
         getHotelById: async ({commit, state}) => {
-            const res = await getHotelByIdAPI({
-                hotelId: state.currentHotelId
-            })
-            if (res) {
-                res.hotelStar = res.hotelStar == 'Three' ? 3 : (res.hotelStar == 'Four' ? 4 : 5)
-                commit('set_currentHotelInfo', res)
+            if(state.currentHotelId) {
+                const res = await getHotelByIdAPI({
+                    hotelId: state.currentHotelId
+                })
+                if (res) {
+                    res.hotelStar = res.hotelStar == 'Three' ? 3 : (res.hotelStar == 'Four' ? 4 : 5)
+                    commit('set_currentHotelInfo', res)
+                }
             }
         },
         addOrder: async ({state, commit}, data) => {

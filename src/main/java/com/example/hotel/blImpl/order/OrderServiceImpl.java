@@ -103,6 +103,14 @@ public class OrderServiceImpl implements OrderService {
         return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
     }
 
+    @Override public List<Order> getManageHotelsOrders(int[] hotelIdList){
+        List<Order> orders = getHotelOrders(hotelIdList[0]);
+        for(int i=1;i<hotelIdList.length;i++){
+            orders.addAll(getHotelOrders(hotelIdList[i]));
+        }
+        return orders;
+    }
+
     /**
      *
      * @param orderid

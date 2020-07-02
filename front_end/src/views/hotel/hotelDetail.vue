@@ -77,6 +77,9 @@
                         <a-tab-pane tab="房间信息" key="1">
                             <RoomList :rooms="currentHotelInfo.rooms"></RoomList>
                         </a-tab-pane>
+                        <a-tab-pane tab="酒店评价" key="2">
+                            <CommentList :comments="currentHotelInfo.comments"></CommentList>
+                        </a-tab-pane>
                     </a-tabs>
                 </div>
             </v-sheet>
@@ -86,11 +89,12 @@
 <script>
     import {mapGetters, mapActions, mapMutations} from 'vuex'
     import RoomList from './components/roomList'
-
+    import CommentList from './components/commentList'
     export default {
         name: 'hotelDetail',
         components: {
             RoomList,
+            CommentList,
         },
         data() {
             return {}

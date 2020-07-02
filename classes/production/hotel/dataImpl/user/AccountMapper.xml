@@ -19,6 +19,10 @@
         update User set password=#{password}
         where id=#{id}
     </update>
+    <update id="updateCredit">
+        update User set credit=#{credit}
+        where id=#{id}
+    </update>
 
 
     <resultMap id="User" type="com.example.hotel.po.User">

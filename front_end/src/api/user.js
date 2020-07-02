@@ -37,3 +37,9 @@ export function updateUserPasswordAPI(data) {
         data
     })
 }
+export function getUserNameAPI(id){
+    return axios({
+        url:`${api.userPre}/${id}/getUserName`,
+        method:'GET',
+    })
+}

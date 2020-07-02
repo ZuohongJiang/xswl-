@@ -165,6 +165,7 @@ CREATE TABLE `hotel`.`comment` (
   `createDate` VARCHAR(255) NOT NULL,
   `commentContent` VARCHAR(1000) CHARACTER SET 'utf8' NOT NULL,
   `rate` DOUBLE NOT NULL,
+  `userName` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`, `orderId`))
 ENGINE = InnoDB;
 SET FOREIGN_KEY_CHECKS = 1;

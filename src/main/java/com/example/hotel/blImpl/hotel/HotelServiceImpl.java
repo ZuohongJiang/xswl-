@@ -4,17 +4,16 @@ import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
+import com.example.hotel.bl.comment.CommentService;
 import com.example.hotel.data.hotel.HotelMapper;
 import com.example.hotel.data.hotel.RoomMapper;
 import com.example.hotel.data.user.AccountMapper;
 import com.example.hotel.enums.BizRegion;
 import com.example.hotel.enums.HotelStar;
 import com.example.hotel.enums.UserType;
-import com.example.hotel.po.Hotel;
-import com.example.hotel.po.HotelRoom;
-import com.example.hotel.po.Order;
-import com.example.hotel.po.User;
+import com.example.hotel.po.*;
 import com.example.hotel.util.ServiceException;
+import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.CouponVO;
 import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.RoomVO;
@@ -38,6 +37,9 @@ public class HotelServiceImpl implements HotelService {
 
     @Autowired
     private RoomService roomService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Override
     public void addHotel(HotelVO hotelVO) throws ServiceException {
@@ -112,6 +114,19 @@ public class HotelServiceImpl implements HotelService {
             return roomVO;
         }).collect(Collectors.toList());
         hotelVO.setRooms(roomVOS);
+        List<Comment> comments = commentService.getHotelComments(hotelId);
+        List<CommentVO> commentVOS = comments.stream().map(c -> {
+            CommentVO commentVO =new CommentVO();
+            commentVO.setId(c.getId());
+            commentVO.setHotelId(c.getHotelId());
+            commentVO.setUserId(c.getUserId());
+            commentVO.setOrderId(c.getOrderId());
+            commentVO.setRate(c.getRate());
+            commentVO.setCreateDate(c.getCreateDate());
+            commentVO.setcommentContent(c.getCommentContent());
+            return commentVO;
+        }).collect(Collectors.toList());
+        hotelVO.setComments(commentVOS);
 
         return hotelVO;
     }
