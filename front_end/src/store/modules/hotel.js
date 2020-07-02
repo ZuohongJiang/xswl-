@@ -150,7 +150,7 @@ const hotel = {
                 dispatch('getUserThisHotelOrders')
                 message.success('预定成功')
                 commit('set_orderModalVisible', false)
-                dispatch('getUserThisHotelOrders')
+               // dispatch('getUserThisHotelOrders')
             }
         },
         getOrderMatchCoupons: async ({state, commit}, data) => {
