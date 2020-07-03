@@ -17,11 +17,6 @@
                 <span>{{ activeUserInfo.email }}</span>
             </a-form-item>
             <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-<!--                <a-input-->
-<!--                        placeholder="请填写手机号"-->
-<!--                        v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }] }]"-->
-<!--                        v-if="modify"-->
-<!--                />-->
                 <span>{{ activeUserInfo.phoneNumber}}</span>
             </a-form-item>
             <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
@@ -73,9 +68,6 @@
 
           },
           activeUserInfo:function(val,oldVal){
-              // console.log(val);
-              // console.log("in hotelManagerInfoModal");
-              // console.log(oldVal);
           }
         },
         beforeCreate() {
@@ -93,6 +85,7 @@
             ...mapActions([
                 'updateHotelInfo'
             ]),
+            //重置表单信息
             cancel() {
                 this.set_activeUserId('');
                 this.set_activeUserInfo({credit:'',email:'',id:'',password:'',phoneNumber:'',userName:'',userType:''});
@@ -101,7 +94,6 @@
             },
             start_setHotelManager(){
                 this.modify=true;
-
             },
             cancel_setHotelManager(){
                 this.modify=false;

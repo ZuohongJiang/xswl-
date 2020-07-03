@@ -25,7 +25,7 @@ public class AccountServiceImpl implements AccountService {
     public ResponseVO registerAccount(UserVO userVO) throws ServerException {
         User user = new User();
         BeanUtils.copyProperties(userVO,user);
-        if(accountMapper.getAccountByName(user.getEmail())!=null)
+        if(accountMapper.getAccountByName(user.getEmail())!=null) //判断邮箱是否注册过
             throw new ServerException(ACCOUNT_EXIST);
         try {
             accountMapper.createNewAccount(user);
@@ -68,7 +68,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public ResponseVO updateUserPassword(int id, String oldPassword, String password) {
         User user=accountMapper.getAccountById(id);
-        if(!oldPassword.equals(user.getPassword()))
+        if(!oldPassword.equals(user.getPassword())) //判断旧密码是否正确
             return ResponseVO.buildFailure(PASSWORD_ERROR);
         try{
             accountMapper.updatePassword(id,password);

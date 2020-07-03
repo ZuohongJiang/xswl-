@@ -160,7 +160,9 @@
                                                                         v-bind:src="require('../../assets/house.jpg')"
                                                                         height="300px"
                                                                 ></v-img>
-                                                                <v-card-title class="font-weight-black text--secondary">{{hotel.name}}</v-card-title>
+                                                                <v-card-title class="font-weight-black text--secondary">
+                                                                    {{hotel.name}}
+                                                                </v-card-title>
                                                                 <v-card-subtitle class="mb-n3">
                                                                     {{hotel.address?hotel.address:'暂无地址'}}
                                                                 </v-card-subtitle>
@@ -225,12 +227,8 @@
         data() {
             return {
                 emptyBox: [{name: 'box1'}, {name: 'box2'}, {name: 'box3'}],
-                dataSource: [],
-                oriList: [],
-                saveList: [],
-                nosortList: [],
-                filterOp: {},
-                show: false,
+                saveList: [], //保存获取到的原始酒店列表
+                filterOp: {}, //保存筛选选项。下面是具体参数以及列表
                 bizRegion: undefined,
                 lowerStar: 0,
                 upperStar: 5,
@@ -263,6 +261,7 @@
                 'getHotelList',
                 'getMyOrderedHotelList'
             ]),
+            //处理筛选选项改变的方法
             changeBizRegion() {
                 const reg = {
                     "无": "Noth", "西单": "XiDan", "新街口": "XinJieKou",
@@ -293,19 +292,7 @@
                 this.filterOp["checkOrdered"] = this.checkOrdered
                 this.changeList()
             },
-            solveSort(data) {
-                let test = data.concat([])
-                test.sort((a, b) => {
-                    if (this.selectVal.length === 1)
-                        return b[this.selectVal[0]] - a[this.selectVal[0]]
-                    else {
-                        if (b[this.selectVal[0]] === a[this.selectVal[0]])
-                            return b[this.selectVal[1]] - a[this.selectVal[1]]
-                        else return b[this.selectVal[0]] - a[this.selectVal[0]]
-                    }
-                })
-                return test
-            },
+            //将传入的酒店列表，即data根据筛选参数，返回筛选后的列表
             solveFilter(data) {
                 if (this.filterOp) {
                     if ("bizRegion" in this.filterOp) {
@@ -345,6 +332,21 @@
                 }
                 return data
             },
+            //将传入的酒店列表，按照selectVal列表排序
+            solveSort(data) {
+                let test = data.concat([]) //防止在原列表上排序，深拷贝
+                test.sort((a, b) => {
+                    if (this.selectVal.length === 1)
+                        return b[this.selectVal[0]] - a[this.selectVal[0]]
+                    else {
+                        if (b[this.selectVal[0]] === a[this.selectVal[0]])
+                            return b[this.selectVal[1]] - a[this.selectVal[1]]
+                        else return b[this.selectVal[0]] - a[this.selectVal[0]]
+                    }
+                })
+                return test
+            },
+            //仅根据搜索框的内容，从酒店列表中筛选出匹配的列表
             solveSearchVal() {
                 var value
                 var data
@@ -362,10 +364,11 @@
                 }
                 return data
             },
+            //变更时@onChange的绑定方法
             changeList() {
-                let pureSearch = this.solveSearchVal()
-                let filterResult = this.solveFilter(pureSearch)
-                if (this.selectVal.length !== 0)
+                let pureSearch = this.solveSearchVal() //先获取搜索框匹配的列表
+                let filterResult = this.solveFilter(pureSearch) //处理筛选
+                if (this.selectVal.length !== 0) //处理排序
                     this.set_hotelList(this.solveSort(filterResult))
                 else this.set_hotelList(filterResult)
             },

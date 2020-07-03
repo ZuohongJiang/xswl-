@@ -72,8 +72,6 @@
                     </span>
                 </a-table>
             </div>
-
-            <!-- 这里是模态框内容区域，请编写列表代码与添加策略按钮 -->
         </a-modal>
         <AddCoupon></AddCoupon>
     </div>
@@ -94,8 +92,6 @@
         },
         {
             title: '优惠类型',
-            //filters: [{ text: '多间优惠', value: '多间优惠' }, { text: '满减优惠', value: '满减优惠' }, { text: '限时优惠', value: '限时优惠' }],
-            // onFilter: (value, record) => record.couponType.includes(value),
             dataIndex: 'couponType',
             scopedSlots: {customRender: 'couponType'}
         },
@@ -141,7 +137,6 @@
             key: 'action',
             scopedSlots: {customRender: 'action'},
         },
-        // 这里定义列表头
     ];
     export default {
         name: 'coupon',
@@ -152,7 +147,6 @@
         },
         components: {
             AddCoupon,
-
         },
         computed: {
             ...mapGetters([
@@ -182,7 +176,6 @@
                 this.set_couponVisible(false)
             },
             confirmCancelCoupon(Id) {
-                console.log(Id);
                 this.annulCoupon(Id)
             },
             order(id) {

@@ -35,6 +35,7 @@ public class CommentServiceImpl implements CommentService {
         String curdate = sf.format(date);
         commentVO.setCreateDate(curdate);
         Comment comment=new Comment();
+        //vo->po 评价类型转化
         BeanUtils.copyProperties(commentVO, comment);
         commentMapper.addComment(comment);
         orderService.commentOrder(commentVO.getOrderId());

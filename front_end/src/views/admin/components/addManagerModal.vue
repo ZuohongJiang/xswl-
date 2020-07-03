@@ -10,6 +10,7 @@
     <a-Form :form="form">
         <a-form-item v-bind="formItemLayout" label="用户邮箱">
                 <a-input
+                    placeholder="请输入用户邮箱"
                     v-decorator="[
                         'email',
                         { rules: [{required: true, message: '请输入用户邮箱', }] }
@@ -18,9 +19,10 @@
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="密码">
                 <a-input
+                    placeholder="请输入用户密码"
                     v-decorator="[
                         'password',
-                        { rules: [{required: true, message: '请输入密码', }] }
+                        { rules: [{required: true, message: '请输入用户密码', }] }
                     ]"
                 />
             </a-form-item >

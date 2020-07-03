@@ -22,6 +22,7 @@
             </a-form-item>
             <a-form-item label="酒店星级" v-bind="formItemLayout">
                 <a-select
+                    placeholder="请选择酒店星级"
                     v-decorator="[
                     'hotelStar', 
                     { rules: [{ required: true, message: '请选择酒店星级' }] }]"
@@ -34,6 +35,7 @@
             </a-form-item>
             <a-form-item label="酒店商圈" v-bind="formItemLayout">
                     <a-select
+                            placeholder="请选择酒店商圈"
                             v-decorator="[
                     'bizRegion',
                     { rules: [{ required: true, message: '请选择酒店商圈' }] }]"

@@ -15,7 +15,7 @@
                                         <v-col cols="1" >
                                             评分：{{comment.rate}} 分
                                         </v-col>
-                                        <v-col cols="1" class="my-n2 ml-n4">
+                                        <v-col cols="1" class="my-n2 ml-2">
                                             <div class="overline">{{comment.createDate}}</div>
                                         </v-col>
                                     </v-row>
@@ -44,8 +44,7 @@
 
         methods:{
             test(comment){
-                console.log(comment);
-                alert(comment);
+                alert("本网站不是交友网站");
             }
         }
     }

@@ -30,6 +30,7 @@ export function getManageHotelsOrdersAPI(hotelIdList){
         params:{
             hotelIdList:hotelIdList
         },
+        //格式化处理列表参数
         paramsSerializer: params => {
             return qs.stringify(params, { indices: false })
         }

@@ -86,14 +86,17 @@
                                 <span slot="action" slot-scope="record">
                         <v-btn color="primary" small @click="showDetail(record)">查看</v-btn>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
-                        <v-btn
-                                color="error"
-                                small
-                                @click="confirmCancelOrder(record.id)"
-                                v-if="record.orderState == '已预订'"
-                        >撤回</v-btn>
+                                    <a-popconfirm
+                                            title="你确定撤销该订单吗？"
+                                            @confirm="confirmCancelOrder(record.id)"
+                                            @cancel="cancelCancelOrder"
+                                            okText="确定"
+                                            cancelText="取消">
+                        <v-btn color="error" small v-if="record.orderState == '已预订'">撤销</v-btn>
+                                    </a-popconfirm>
                         <a-divider type="vertical" v-if="record.orderState == '已执行'"></a-divider>
-                        <v-btn color="primary" small v-if="record.orderState=='已执行'" @click="beginComment(record)">评价</v-btn>
+                        <v-btn color="primary" small v-if="record.orderState=='已执行'"
+                               @click="beginComment(record)">评价</v-btn>
                     </span>
                             </a-table>
                         </a-tab-pane>
@@ -103,7 +106,7 @@
             </template>
         </v-hover>
         <v-row justify="center">
-            <v-dialog v-model="dialog"  persistent max-width="700">
+            <v-dialog v-model="dialog" persistent max-width="700">
                 <v-card>
                     <v-card-title class="headline">为本次入住撰写评价</v-card-title>
                     <v-card-text>
@@ -111,7 +114,7 @@
                             <v-rating v-model="rating" half-increments hover></v-rating>
                             <v-alert type="error" v-if="rating===0">请选择评分！</v-alert>
                         </v-container>
-                        <v-textarea  outlined label="在此写下您的评价" v-model="content"></v-textarea>
+                        <v-textarea outlined label="在此写下您的评价" v-model="content"></v-textarea>
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
@@ -149,7 +152,10 @@
         },
         {
             title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已执行', value: '已执行'},{text: '已评价', value: '已评价'}],
+            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {
+                text: '已执行',
+                value: '已执行'
+            }, {text: '已评价', value: '已评价'}],
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState',
             scopedSlots: {customRender: 'orderState'}
@@ -167,8 +173,8 @@
             return {
                 modify_password: false,
                 modify: false,
-                content:'',
-                comment:{},
+                content: '',
+                comment: {},
                 dialog: false,
                 rating: 0,
                 formLayout: 'horizontal',
@@ -213,6 +219,7 @@
             saveModify() {
                 this.form.validateFields((err, values) => {
                     if (!err) {
+                        //判断当前是更改用户信息or密码
                         if (this.modify) {
                             const data = {
                                 userName: this.form.getFieldValue('userName'),
@@ -252,46 +259,44 @@
             confirmCancelOrder(orderId) {
                 this.cancelOrder(orderId)
             },
-            cancelCancelOrder() {
-                //TODO
-            },
             showDetail(record) {
                 this.set_orderDetail(record)
                 this.set_orderDetailVisible(true)
             },
-            beginComment(record){
-                this.dialog=true;
-                this.comment={
-                    orderId:record.id,
-                    hotelId:record.hotelId,
-                    userId:record.userId,
-                    userName:this.userInfo.userName,
-                    rate:0,
-                    content:''
+            beginComment(record) {
+                this.dialog = true;
+                this.comment = {
+                    orderId: record.id,
+                    hotelId: record.hotelId,
+                    userId: record.userId,
+                    userName: this.userInfo.userName,
+                    rate: 0,
+                    content: ''
                 }
             },
-            cancelComment(){
-                this.dialog=false;
-                this.rating=0;
-                this.content='';
-                this.comment={};
+            cancelComment() {
+                this.dialog = false;
+                this.rating = 0;
+                this.content = '';
+                this.comment = {};
             },
-            handleSubmit(){
-                if(this.rating===0)
+            handleSubmit() {
+                if (this.rating === 0)
                     alert("请为本次入住打分");
-                if(this.content==='')
+                if (this.content === '')
                     alert("请填写评价");
-                else{
-                    this.comment.commentContent=this.content;
-                    this.comment.rate=this.rating;
+                else {
+                    this.comment.commentContent = this.content;
+                    this.comment.rate = this.rating;
                     this.addComment(this.comment);
-                    this.dialog=false;
-                    this.rating=0;
-                    this.content='';
-                    this.comment={};
+                    this.dialog = false;
+                    this.rating = 0;
+                    this.content = '';
+                    this.comment = {};
                     location.reload();
                 }
             },
+            cancelCancelOrder(){},
             nextPage() {
                 if (this.page + 1 <= this.numberOfPages) this.page += 1
             },

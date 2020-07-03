@@ -40,10 +40,10 @@ public class OrderServiceImpl implements OrderService {
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
         int curNum = hotelService.getRoomCurNum(orderVO.getRoomId());
-        if (reserveRoomNum > curNum) {
+        if (reserveRoomNum > curNum) { //判断余量是否充足
             return ResponseVO.buildFailure(ROOMNUM_LACK);
         }
-        if(orderVO.getPrice()<=0){
+        if(orderVO.getPrice()<=0){ //不允许非正订单
             return ResponseVO.buildFailure(PRICE_ERROR);
         }
         try {
@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
             orderVO.setClientName(user.getUserName());
             orderVO.setPhoneNumber(user.getPhoneNumber());
             Order order = new Order();
-            BeanUtils.copyProperties(orderVO, order);
+            BeanUtils.copyProperties(orderVO, order);   //vo->po 订单类型转化
             orderMapper.addOrder(order);
             hotelService.updateRoomInfo(orderVO.getRoomId(), orderVO.getRoomNum());
         } catch (Exception e) {
@@ -88,10 +88,12 @@ public class OrderServiceImpl implements OrderService {
         ParsePosition pos = new ParsePosition(0);
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
         Long exeTime=sdf.parse(order.getCheckInDate(),pos).getTime();
+        //判断是否超期，超期扣除信用值，为订单价值的1/2
         if((exeTime-curTime)/3600000<6){
             User user=accountService.getUserInfo(order.getUserId());
             accountService.updateUserCredit(user.getId(),user.getCredit()-order.getPrice()/2);
         }
+        //更新对应房间的存量
         hotelService.updateRoomInfo(order.getRoomId(), (-order.getRoomNum()));
         return ResponseVO.buildSuccess(true);
     }
@@ -105,8 +107,15 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = getAllOrders();
         return orders.stream().filter(order -> order.getHotelId().equals(hotelId)).collect(Collectors.toList());
     }
-
+    /**
+     * @Description: 获取列表中所有hotelId对应的酒店下的全部订单
+     * @Params: hotelId列表，可能为空
+     * @returns: 订单列表
+     * @Author: Jiang Zuohong
+     * @date: 2020/7/1
+     */
     @Override public List<Order> getManageHotelsOrders(int[] hotelIdList){
+        //注意参数，是当前管理员账户下的所有酒店id列表
         List<Order> orders = getHotelOrders(hotelIdList[0]);
         for(int i=1;i<hotelIdList.length;i++){
             orders.addAll(getHotelOrders(hotelIdList[i]));
@@ -126,9 +135,14 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.deleteOrder(orderid);
         return ResponseVO.buildSuccess(true);
     }
+
     @Override
     public ResponseVO executeOrder(int orderId){
         orderMapper.executeOrder(orderId);
+        //增加当前订单价值的信用值
+        Order order=orderMapper.getOrderById(orderId);
+        User user=accountService.getUserInfo(order.getUserId());
+        accountService.updateUserCredit(user.getId(),user.getCredit()+order.getPrice());
         return ResponseVO.buildSuccess(true);
     }
     @Override

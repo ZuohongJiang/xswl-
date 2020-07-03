@@ -46,6 +46,7 @@ const admin = {
         },
     },
     actions: {
+        //获取、管理酒店工作人员
         getManagerList: async({ commit }) => {
             const res = await getManagerListAPI()
             if(res){
@@ -66,6 +67,8 @@ const admin = {
                 message.error('添加失败')
             }
         },
+
+        //获取当前活动用户信息
         get_activeUserInfo({state, commit}) {
             return new Promise((resolve, reject) => {
                 getUserInfoAPI(state.activeUserId).then(response => {

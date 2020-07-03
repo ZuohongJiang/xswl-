@@ -15,7 +15,6 @@ public class AccountController {
     private final static String ACCOUNT_INFO_ERROR = "用户名或密码错误";
     @Autowired
     private AccountService accountService;
-
     @PostMapping("/login")
     public ResponseVO login(@RequestBody UserForm userForm) {
         User user = accountService.login(userForm);
@@ -56,9 +55,9 @@ public class AccountController {
         return accountService.updateUserPassword(id, userPasswordInfoVO.getOldPassword(), userPasswordInfoVO.getPassword());
     }
 
-//    @GetMapping("/{id}/getUserName")
-//    public ResponseVO getUserName(@PathVariable int id){
-//        return ResponseVO.buildSuccess(accountService.getUserName(id));
-//    }
+/*   @GetMapping("/{id}/getUserName")
+    public ResponseVO getUserName(@PathVariable int id){
+        return ResponseVO.buildSuccess(accountService.getUserName(id));
+    }*/
 
 }

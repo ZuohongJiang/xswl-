@@ -28,7 +28,7 @@
         <div class="logout">
             <a-dropdown placement="bottomCenter">
                 <div class="user">
-                    <v-avatar color="grey" size="36">
+                    <v-avatar outlined color="grey" size="36">
                         <v-img v-bind:src="require('../../src/assets/avatar.jpg')"></v-img>
                     </v-avatar>
                     <span style="font-size: 14px">{{ userInfo.userName }}</span>

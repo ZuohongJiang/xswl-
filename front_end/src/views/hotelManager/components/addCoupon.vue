@@ -75,8 +75,6 @@
                 />
             </a-form-item>
         </a-form>
-
-        <!-- 这里是添加策略模态框区域，请编写表单 -->
     </a-modal>
 </template>
 <script>
@@ -101,8 +99,8 @@
         },
         watch:{
             couponType(val,oldval){
-                console.log(val)
-                console.log(oldval)
+/*                console.log(val)
+                console.log(oldval)*/
             }
         },
         computed: {
@@ -131,13 +129,6 @@
             },
             cancel() {
                 this.set_addCouponVisible(false)
-            },
-            changeType(v) {
-                if (v == '3') {
-
-                } else {
-                    this.$message.warning('请实现')
-                }
             },
             handleSubmit(e) {
                 e.preventDefault();

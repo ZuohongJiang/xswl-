@@ -18,15 +18,16 @@ import {
 } from '@/api/order'
 import {updateUserPasswordAPI} from "../../api/user";
 import {state} from "../../store/modules/hotel";
+
 const getDefaultState = () => {
     return {
         userId: '',
-        currentHotelId:'',
+        currentHotelId: '',
         userInfo: {},
         userOrderList: [],
-        userThisHotelOrders:[],
+        userThisHotelOrders: [],
         orderDetailVisible: false,
-        orderDetail:{}
+        orderDetail: {}
     }
 }
 
@@ -51,7 +52,7 @@ const user = {
             state.userId = data
         },
         set_hotelId: (state, data) => {
-            state.currentHotelId =data
+            state.currentHotelId = data
         },
         set_userInfo: (state, data) => {
             state.userInfo = {
@@ -65,15 +66,16 @@ const user = {
         set_orderDetailVisible: (state, data) => {
             state.orderDetailVisible = data
         },
-        set_orderDetail:(state,data)=>{
-            state.orderDetail=data
+        set_orderDetail: (state, data) => {
+            state.orderDetail = data
         },
-        set_userThisHotelOrders:(state,data)=>{
-            state.userThisHotelOrders=data
+        set_userThisHotelOrders: (state, data) => {
+            state.userThisHotelOrders = data
         }
     },
 
     actions: {
+        //处理登录相关的方法
         login: async ({dispatch, commit}, userData) => {
             const res = await loginAPI(userData)
             if (res) {
@@ -105,12 +107,16 @@ const user = {
                 })
             })
         },
-        getUserName: async({state},data) =>{
-            const res = await  getUserNameAPI(data);
-            if(res){
+
+
+        getUserName: async ({state}, data) => {
+            const res = await getUserNameAPI(data);
+            if (res) {
                 return res;
             }
-},
+        },
+
+        //更新用户信息
         updateUserInfo: async ({state, dispatch}, data) => {
             const params = {
                 id: state.userId,
@@ -133,6 +139,8 @@ const user = {
                 dispatch('getUserInfo')
             }
         },
+
+        //用户获取、处理订单的方法
         getUserOrders: async ({state, commit}) => {
             const data = {
                 userId: Number(state.userId)
@@ -151,6 +159,8 @@ const user = {
                 message.error('撤销失败')
             }
         },
+
+        //登出
         logout: async ({commit}) => {
             removeToken()
             resetRouter()

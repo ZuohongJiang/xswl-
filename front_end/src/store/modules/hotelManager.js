@@ -168,6 +168,7 @@ const hotelManager = {
         },
     },
     actions: {
+        //管理员获取、处理订单的方法
         getAllOrders: async ({state, commit}) => {
             const res = await getAllOrdersAPI()
             if (res) {
@@ -184,11 +185,35 @@ const hotelManager = {
             }
         },
         getManageHotelsOrders: async ({state,commit},data) =>{
-            const res = await getManageHotelsOrdersAPI(data);
-            if(res) {
-                commit('set_orderList', res)
+            //判断空列表，否则http请求错误
+            if(data.length===0)
+                commit('set_orderList',[])
+            else {
+                const res = await getManageHotelsOrdersAPI(data);
+                if (res) {
+                    commit('set_orderList', res)
+                }
             }
         },
+        deleteOrderRecord: async ({commit, dispatch}, data) => {
+            const res = await deleteOrderAPI(data)
+            if (res) {
+                message.success('删除成功')
+                dispatch('getAllOrders')
+            } else {
+                message.error('删除失败')
+            }
+        },
+        executeOrder: async ({commit}, data) => {
+            const res = await executeOrderAPI(data)
+            if (res) {
+                message.success('执行成功，已增加用户信用值！')
+            } else {
+                message.error('执行失败')
+            }
+        },
+
+        //管理员查看、管理酒店的方法
         addHotel: async ({state, dispatch, commit}) => {
             const res = await addHotelAPI(state.addHotelParams)
             if (res) {
@@ -240,6 +265,29 @@ const hotelManager = {
                 message.error('修改失败')
             }
         },
+        delHotel: async ({dispatch}, data) => {
+            const res = await deleteHotelAPI(data)
+            if (res) {
+                dispatch('getHotelList')
+                message.success('删除成功')
+            } else {
+                message.error('删除失败')
+            }
+        },
+
+        //查看房间、管理员管理房间的方法
+        getRoomList: async ({state, commit}) => {
+            const res = await getHotelByIdAPI({
+                hotelId: state.activeHotelId
+            })
+            if (res) {
+                res.rooms.forEach(item => {
+                    var obj = JSON.parse(item.detail)
+                    Object.assign(item, obj)
+                })
+                commit('set_roomList', res.rooms)
+            }
+        },
         addRoom: async ({state, dispatch, commit}) => {
             const res = await addRoomAPI(state.addRoomParams)
             if (res === null) {
@@ -274,6 +322,18 @@ const hotelManager = {
                 message.error('更新失败')
             }
         },
+        deleteRoom: async ({dispatch}, data) => {
+            const res = await deleteRoomAPI(data)
+            if (res) {
+                dispatch('getRoomList')
+                message.success('删除成功')
+            } else {
+                message.error('删除失败')
+            }
+        },
+
+
+        //管理员管理优惠策略的方法
         getHotelCoupon: async ({state, commit}) => {
             const res = await hotelAllCouponsAPI(state.activeHotelId)
             if (res) {
@@ -282,16 +342,16 @@ const hotelManager = {
             }
         },
         getHotelOrderedCoupon: async ({state, commit}) => {
+            //获取排序后的优惠列表
             const res = await hotelOrderedCouponsAPI(state.activeHotelId)
             if (res) {
-                // 获取到酒店策略之后的操作（将获取到的数组赋值给couponList）
                 commit('set_couponList', res)
             }
         },
         showOrdered: async ({state, dispatch}) => {
             const res = await hotelOrderedCouponsAPI(state.activeHotelId)
             if (res) {
-                dispatch('getHotelOrderedCoupon')
+                dispatch('getHotelOrderedCoupon') //调用上面的方法
                 message.success('排序成功')
             } else {
                 message.error('排序失败')
@@ -304,19 +364,6 @@ const hotelManager = {
                 message.success('撤销成功')
             } else {
                 message.error('撤销失败')
-            }
-        },
-
-        getRoomList: async ({state, commit}) => {
-            const res = await getHotelByIdAPI({
-                hotelId: state.activeHotelId
-            })
-            if (res) {
-                res.rooms.forEach(item => {
-                    var obj = JSON.parse(item.detail)
-                    Object.assign(item, obj)
-                })
-                commit('set_roomList', res.rooms)
             }
         },
         addHotelCoupon: async ({commit, dispatch}, data) => {
@@ -333,41 +380,6 @@ const hotelManager = {
             }
         },
 
-        deleteOrderRecord: async ({commit, dispatch}, data) => {
-            const res = await deleteOrderAPI(data)
-            if (res) {
-                message.success('删除成功')
-                dispatch('getAllOrders')
-            } else {
-                message.error('删除失败')
-            }
-        },
-        executeOrder: async ({commit}, data) => {
-            const res = await executeOrderAPI(data)
-            if (res) {
-                message.success('执行成功')
-            } else {
-                message.error('执行失败')
-            }
-        },
-        deleteRoom: async ({dispatch}, data) => {
-            const res = await deleteRoomAPI(data)
-            if (res) {
-                dispatch('getRoomList')
-                message.success('删除成功')
-            } else {
-                message.error('删除失败')
-            }
-        },
-        delHotel: async ({dispatch}, data) => {
-            const res = await deleteHotelAPI(data)
-            if (res) {
-                dispatch('getHotelList')
-                message.success('删除成功')
-            } else {
-                message.error('删除失败')
-            }
-        }
     }
 }
 export default hotelManager

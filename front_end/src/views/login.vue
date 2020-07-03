@@ -3,12 +3,10 @@
         <div class="top">
             <div class="header">
                 <div>
-                    <!-- <img src="@/assets/logo.svg" class="logo" alt="logo"> -->
                     <span class="title">NJU酒店管理系统</span>
                 </div>
             </div>
             <div class="desc">
-
             </div>
         </div>
         <a-form
@@ -33,7 +31,6 @@
                                 label="邮箱"
                                 required
                         ></v-text-field>
-
                         <v-text-field
                                 :type="'password'"
                                 v-model="password"
@@ -42,7 +39,6 @@
                                 label="密码"
                                 required
                         ></v-text-field>
-
                         <v-btn
                                 :disabled="!valid_login"
                                 width="100%"
@@ -53,46 +49,7 @@
                             登录
                         </v-btn>
                     </v-form>
-                    <!--<a-form-item>
-                        <a-input
-                                size="large"
-                                type="text"
-                                placeholder="邮箱"
-                                v-decorator="[
-                'username',
-                {rules: [{ required: true, message: '请输入邮箱地址' }], validateTrigger: 'blur'}
-              ]"
-                        >
-                            <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                        </a-input>
-                    </a-form-item>
-
-                    <a-form-item>
-                        <a-input
-                                size="large"
-                                type="password"
-                                autocomplete="false"
-                                placeholder="密码"
-                                v-decorator="[
-                'password',
-                {rules: [{ required: true, message: '请输入密码' }], validateTrigger: 'blur'}
-              ]"
-                        >
-                            <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                        </a-input>
-                    </a-form-item>
-                    <a-form-item style="margin-top:24px">
-                        <v-btn
-                                large
-                                color="primary"
-                                class="login-button"
-                                :loading="loginLoading"
-                                @click="handlelogin()"
-                        >确定
-                        </v-btn>
-                    </a-form-item>-->
                 </a-tab-pane>
-
                 <a-tab-pane key="tab2" tab="注册新账号">
                     <v-form
                             v-model="valid_register"
@@ -119,7 +76,6 @@
                                 label="用户名"
                                 required
                         ></v-text-field>
-
                         <v-text-field
                                 :type="'password'"
                                 v-model="registerPassword"
@@ -128,7 +84,6 @@
                                 label="密码"
                                 required
                         ></v-text-field>
-
                         <v-text-field
                                 :type="'password'"
                                 v-model="registerPasswordConfirm"
@@ -137,8 +92,6 @@
                                 label="密码"
                                 required
                         ></v-text-field>
-
-
                         <v-btn
                                 :disabled="!valid_register"
                                 width="100%"
@@ -149,69 +102,6 @@
                             注册
                         </v-btn>
                     </v-form>
-                    <!--<a-form-item>
-                        <a-input
-                                size="large"
-                                type="email"
-                                placeholder="邮箱"
-                                v-decorator="[
-              'registerUserMail', 
-              {rules: [{ required: true, type: 'email', message: '请输入邮箱' }], validateTrigger: 'blur'}]">
-                            <a-icon slot="prefix" type="mail" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                        </a-input>
-                    </a-form-item>
-                    <a-form-item>
-                        <a-input
-                                size="large"
-                                placeholder="用户名"
-                                v-decorator="[
-              'registerUsername', 
-              {rules: [{ required: true, message: '请输入用户名' }], validateTrigger: 'blur'}]">
-                            <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                        </a-input>
-                    </a-form-item>
-                    <a-form-item>
-                        <a-input
-                                size="large"
-                                placeholder="手机号"
-                                v-decorator="[
-              'registerPhoneNumber', 
-              {rules: [{ required: true, message: '请输入手机号' }], validateTrigger: 'blur'}]">
-                            <a-icon slot="prefix" type="book" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                        </a-input>
-                    </a-form-item>
-                    <a-form-item>
-                        <a-input
-                                size="large"
-                                type="password"
-                                placeholder="密码"
-                                v-decorator="[
-                'registerPassword', 
-                {rules: [{ required: true, message: '请输入密码' }, { validator: this.handlePassword }], validateTrigger: 'blur'}]">
-                            <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                        </a-input>
-                    </a-form-item>
-                    <a-form-item>
-                        <a-input
-                                size="large"
-                                type="password"
-                                placeholder="确认密码"
-                                v-decorator="[
-                'registerPasswordconfirm', 
-                {rules: [{ required: true, message: '请输入密码' }, { validator: this.handlePasswordCheck }], validateTrigger: 'blur'}]">
-                            <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-                        </a-input>
-                    </a-form-item>
-                    <a-form-item style="margin-top:24px">
-                        <v-btn
-                                large
-                                color="primary"
-                                class="login-button"
-                                :loading="registerLoading"
-                                @click="handleRegister()"
-                        >确定
-                        </v-btn>
-                    </a-form-item>-->
                 </a-tab-pane>
             </a-tabs>
         </a-form>
@@ -232,20 +122,6 @@
                 loginLoading: false,
                 registerLoading: false,
                 form: this.$form.createForm(this),
-                colors: [
-                    'indigo',
-                    'warning',
-                    'pink darken-2',
-                    'red lighten-1',
-                    'deep-purple accent-4',
-                ],
-                slides: [
-                    'First',
-                    'Second',
-                    'Third',
-                    'Fourth',
-                    'Fifth',
-                ],
                 valid_login: false,
                 valid_register: false,
                 password: '',
@@ -300,87 +176,7 @@
             handleTabClick(key) {
                 this.customActiveKey = key
             },
-            /*handleUsernameOrEmail(rule, value, callback) {
-                const {state} = this
-                const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
-                if (regex.test(value)) {
-                    callback()
-                } else {
-                    callback(new Error('请输入有效用户名或邮箱'))
-                }
-                callback()
-            },
-            checkEmail(rule, value, callback) {
-                const re = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
-                if (re.test(value)) {
-                    callback();
-                } else {
-                    callback(new Error('请输入有效邮箱'));
-                }
-                callback()
-            },
-            handlePassword(rule, value, callback) {
-                if (value.length < 6) {
-                    callback(new Error('密码长度至少6位'))
-                }
-                callback()
-            },
-            handlePasswordCheck(rule, value, callback) {
-                const password = this.form.getFieldValue('registerPassword')
-                if (value === undefined) {
-                    callback(new Error('请输入密码'))
-                }
-                if (value && password && value.trim() !== password.trim()) {
-                    callback(new Error('两次密码不一致'))
-                }
-                callback()
-            },
-            handlelogin() {
-                const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password'] : ['registerUsername', 'registerUserMail', 'registerPassword', 'registerPasswordconfirm']
-                this.form.validateFields(validateFieldsKey, {force: true}, async (err, values) => {
-                    if (!err) {
-                        this.loginLoading = true
-                        const data = {
-                            email: this.form.getFieldValue("username"),
-                            password: this.form.getFieldValue("password")
-                        }
-                        await this.login(data)
-                        this.loginLoading = false
-                    }
-                })
-            },
-
-            handleRegister() {
-                const {form: {validateFields}} = this
-                const validateFieldsKey = this.customActiveKey === 'tab1' ? ['username', 'password'] : ['registerUsername', 'registerPhoneNumber', 'registerUserMail', 'registerPassword', 'registerPasswordconfirm']
-                validateFields(validateFieldsKey, {force: true}, async (err, values) => {
-                    if (!err) {
-                        this.registerLoading = true
-                        const data = {
-                            email: this.form.getFieldValue('registerUserMail'),
-                            password: this.form.getFieldValue('registerPassword'),
-                            phoneNumber: this.form.getFieldValue('registerPhoneNumber'),
-                            userName: this.form.getFieldValue('registerUsername'),
-                            credit: 100,
-                            userType: 1
-                        }
-                        await this.register(data).then((res) => {
-                            if (res.success) {
-                                message.success('注册成功')
-                            } else {
-                                message.success(res.content)
-                            }
-                            this.customActiveKey = 'tab1'
-                            this.form.setFieldsValue({
-                                'registerUserMail': '',
-                                'registerPassword': '',
-                                'registerPasswordconfirm': ''
-                            })
-                        })
-                        this.registerLoading = false
-                    }
-                });
-            },*/
+            //vuetify的表单操作
             reset() {
                 this.$refs.v_form_login.reset()
                 this.$refs.v_form_register.reset()

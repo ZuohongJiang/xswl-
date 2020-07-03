@@ -237,7 +237,6 @@
             ]),
             ...mapActions([
                 'getHotelListByManagerId',
-                // 'getAllOrders',
                 'getManageHotelsOrders',
                 'getHotelOrders',
                 'getHotelCoupon',
@@ -249,24 +248,11 @@
                 'executeOrder',
                 'delHotel'
             ]),
-            // addHotel() {
-            //     this.set_addHotelModalVisible(true)
-            // },
             showHotelInfo(record) {
                 this.set_activeHotelId(record.id);
                 this.getHotelById();
                 this.set_updateHotelInfoModalVisible(true)
-                // console.log("????")
-                //  this.set_updateHotelInfoModalVisible(true)
-                // this.set_updateHotelInfo(record.id).then(this.set_updateHotelInfoModalVisible(true))
             },
-            // set_updateHotelInfo(id){
-            //     return new Promise(async (res,rej)=>{
-            //         await this.getHotelById(id)
-            //         console.log("async");
-            //         res("getHotel!");
-            //     })
-            // },
             addRoom(record) {
                 this.set_activeHotelId(record.id)
                 this.set_addRoomModalVisible(true)
@@ -288,9 +274,10 @@
             deleteHotel(record) {
                 this.delHotel(record.id)
             },
-            deleteOrder(record) {
+/*            deleteOrder(record) {
                 this.deleteOrderRecord(record.id)
-            },
+            },*/
+            //初始化当前管理员管理的酒店id列表
             initHotelIdList() {
                 let tempArray = [];
                 for (let i = 0; i < this.manageHotelList.length; i++) {
@@ -308,7 +295,6 @@
                     alert("订单已执行");
                     return;
                 } else {
-                    console.log("else success?");
                     this.executeOrder(record.id);
                     record.orderState = "已执行";
                 }

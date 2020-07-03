@@ -51,8 +51,6 @@ const hotel = {
             state.myOrderedHotelList = data
         },
         set_managerId: function (state, data) {
-            /*            console.log("in set_manager ?")
-                        console.log(data);*/
             state.managerId = data
         },
         set_manageHotelList: function (state, data) {
@@ -133,6 +131,7 @@ const hotel = {
                 }
             }
         },
+        //获取用户在该酒店的订单列表
         getUserThisHotelOrders: async ({state, commit}) => {
             const data={
                 hotelId:state.currentHotelId,
@@ -167,6 +166,7 @@ const hotel = {
                 commit('set_orderMatchCouponList', res)
             }
         },
+        //获取当前用户的曾预订酒店列表
         getMyOrderedHotelList:async ({commit})=>{
             const res=await getUserOrdersAPI({userId:user.state.userId})
             if(res){
