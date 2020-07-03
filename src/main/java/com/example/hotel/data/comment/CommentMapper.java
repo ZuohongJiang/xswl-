@@ -1,7 +1,6 @@
 package com.example.hotel.data.comment;
 
 import com.example.hotel.po.Comment;
-import com.example.hotel.vo.CommentVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
