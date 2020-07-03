@@ -131,7 +131,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseVO deleteOrder(int orderid){
-        orderMapper.annulOrder(orderid);
+        Order order = orderMapper.getOrderById(orderid);
+        hotelService.updateRoomInfo(order.getRoomId(), (-order.getRoomNum()));
         orderMapper.deleteOrder(orderid);
         return ResponseVO.buildSuccess(true);
     }

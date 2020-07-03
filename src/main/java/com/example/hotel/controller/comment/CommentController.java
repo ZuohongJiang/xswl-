@@ -2,7 +2,6 @@ package com.example.hotel.controller.comment;
 
 
 import com.example.hotel.bl.comment.CommentService;
-import com.example.hotel.blImpl.comment.CommentServiceImpl;
 import com.example.hotel.vo.CommentVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
