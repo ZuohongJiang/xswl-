@@ -166,7 +166,7 @@
                                                                 <v-card-subtitle class="mb-n3">
                                                                     {{hotel.address?hotel.address:'暂无地址'}}
                                                                 </v-card-subtitle>
-                                                                <v-row class="ml-6">
+                                                                <v-row class="ml-5">
                                                                     <v-rating
                                                                             v-model="hotel.hotelStar"
                                                                             background-color="gray darken-1"
@@ -175,8 +175,9 @@
                                                                             half-increments
                                                                             readonly
                                                                             size="20"
+                                                                            class="ml-n1"
                                                                     ></v-rating>
-                                                                    <span class="text--lighten-2 caption">({{ hotel.rate.toFixed(1) }}分)</span>
+                                                                    <span class="ml-1 mt-n1 text--lighten-2 overline">评分:{{ hotel.rate.toFixed(1) }}</span>
                                                                 </v-row>
                                                                 <v-divider></v-divider>
                                                                 <v-card-actions>
