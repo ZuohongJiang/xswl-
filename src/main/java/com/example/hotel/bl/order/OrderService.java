@@ -63,9 +63,8 @@ public interface OrderService {
     ResponseVO deleteOrder(int orderid);
 
     /**
-     *
+     *将订单状态设为已执行
      * @param orderid
-     * 将订单状态设为已执行
      * @return
      */
 
@@ -77,5 +76,12 @@ public interface OrderService {
      * @return
      */
     List<Order> getManageHotelsOrders(int[] hotelIdList);
+
+    /**
+     *将订单状态设为已评论
+     * @param orderid
+     * @return
+     */
+    void commentOrder(int orderid);
 }
 

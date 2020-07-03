@@ -142,4 +142,13 @@ public class HotelServiceImpl implements HotelService {
         return hotelMapper.selectHotelsByManagerId(managerId);
     }
 
+    @Override
+    public void updateHotelRate(Integer hotelId,double rate){
+        hotelMapper.updateHotelRate(hotelId,rate);
+    }
+
+    @Override
+    public Double selectHotelRate(Integer hotelId){
+        return hotelMapper.selectHotelRate(hotelId);
+    }
 }

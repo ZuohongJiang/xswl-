@@ -131,4 +131,8 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.executeOrder(orderId);
         return ResponseVO.buildSuccess(true);
     }
+    @Override
+    public void commentOrder(int orderid){
+        orderMapper.commentOrder(orderid);
+    }
 }
