@@ -17,12 +17,6 @@
                                     :dataSource="managerList"
                                     bordered
                             >
-                    <span slot="price" slot-scope="text">
-                        <span>￥{{ text }}</span>
-                    </span>
-                                <span slot="action" slot-scope="text,record">
-                        <v-btn color="danger" @click="order(record)">删除用户</v-btn>
-                    </span>
                             </a-table>
                         </a-tab-pane>
                         <a-tab-pane tab="管理酒店" key="2">
