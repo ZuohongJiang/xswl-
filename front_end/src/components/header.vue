@@ -69,7 +69,8 @@ export default {
             'userInfo'
         ])
     },
-    mounted() {
+    async mounted() {
+        await this.getUserInfo()
         if (this.$route.name == 'hotelList' || this.$route.name == 'hotelDetail') {
             this.current = ['1']
         }else if(this.$route.name == 'userInfo') {
@@ -85,6 +86,7 @@ export default {
 
         ]),
         ...mapActions([
+            'getUserInfo',
             'logout'
         ]),
         selectMenu(v){
@@ -95,9 +97,12 @@ export default {
         },
         jumpToUserInfo() {
             this.$router.push({ name: 'userInfo', params: { userId: this.userId } })
+            if(this.userInfo.userType=='Client')
+                this.current=['2']
         },
         jumpToHome() {
-
+            this.$router.push({name:'hotelList'})
+            this.current=['1']
         }
     }
 }
