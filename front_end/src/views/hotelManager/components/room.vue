@@ -8,11 +8,12 @@
                 @cancel="cancel"
         >
             <a-table
+                    rowKey="id"
                     :columns="columns"
                     :dataSource="roomList"
                     bordered>
                 <span slot="action" slot-scope="text, record">
-                    <a-button type="primary" @click="detail(record)">查看详情</a-button>
+                    <a-button type="primary" style="font-color:white" @click="detail(record)">查看详情</a-button>
                     <a-divider type="vertical"></a-divider>
                     <a-button @click="edit(record)">编辑</a-button>
                     <a-divider type="vertical"></a-divider>
@@ -119,10 +120,8 @@
                 this.set_currentRoom(record)
                 this.set_editRoomModalVisible(true)
                 this.set_roomVisible(false)
-
             },
             cancelDelRoom(){
-
             },
             confirmDelRoom(roomId){
                 this.deleteRoom(roomId)

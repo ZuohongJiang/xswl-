@@ -28,8 +28,8 @@
         <div class="logout">
             <a-dropdown placement="bottomCenter">
                 <div class="user">
-                    <v-avatar color="grey" size="36">
-                        <span class="white--text subtitle-1 mx-auto">67</span>
+                    <v-avatar outlined color="grey" size="36">
+                        <v-img v-bind:src="require('../../src/assets/avatar.jpg')"></v-img>
                     </v-avatar>
                     <span style="font-size: 14px">{{ userInfo.userName }}</span>
                     <a-icon style="margin-left: 3px; font-size: 16px" type="down"></a-icon>
@@ -69,7 +69,8 @@ export default {
             'userInfo'
         ])
     },
-    mounted() {
+    async mounted() {
+        await this.getUserInfo()
         if (this.$route.name == 'hotelList' || this.$route.name == 'hotelDetail') {
             this.current = ['1']
         }else if(this.$route.name == 'userInfo') {
@@ -85,6 +86,7 @@ export default {
 
         ]),
         ...mapActions([
+            'getUserInfo',
             'logout'
         ]),
         selectMenu(v){
@@ -95,9 +97,12 @@ export default {
         },
         jumpToUserInfo() {
             this.$router.push({ name: 'userInfo', params: { userId: this.userId } })
+            if(this.userInfo.userType=='Client')
+                this.current=['2']
         },
         jumpToHome() {
-
+            this.$router.push({name:'hotelList'})
+            this.current=['1']
         }
     }
 }

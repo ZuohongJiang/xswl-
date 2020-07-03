@@ -10,6 +10,7 @@
                     <a-tag color="red" v-if="this.orderDetail.orderState=='已撤销'">{{ this.orderDetail.orderState }}</a-tag>
                     <a-tag color="blue" v-if="this.orderDetail.orderState=='已预订'">{{ this.orderDetail.orderState }}</a-tag>
                     <a-tag color="green" v-if="this.orderDetail.orderState=='已执行'">{{ this.orderDetail.orderState }}</a-tag>
+                    <a-tag color="grey" v-if="this.orderDetail.orderState=='已评价'">{{ this.orderDetail.orderState }}</a-tag>
                     总金额 <font style="font-size:80%;color:rgb(0, 134, 246);margin: 0px -1%;">￥</font>
                     <font style="font-size:25px;color:rgb(0, 134, 246);margin-left:0%">{{this.orderDetail.price}}</font>
                 </a-col>
@@ -72,6 +73,7 @@
             cancel(){
                 this.set_orderDetailVisible(false)
             },
+            //点击复制功能
             copy(){
                 var _input=document.createElement("input")
                 _input.value=this.orderDetail.phoneNumber

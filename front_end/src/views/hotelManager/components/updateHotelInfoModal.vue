@@ -102,15 +102,6 @@
 
         },
         watch:{
-            // updateHotelInfoModalVisible:function (val,oldVal) {
-            //     console.log(val)
-            //     console.log(oldVal)
-            //     if(val===true){
-            //         console.log("in?");
-            //         console.log(this.activeHotelInfo);
-            //         this.preSetValue();
-            //     }
-            // }
             activeHotelInfo:function (val,oldVal) {
                 this.preSetValue();
     }
@@ -126,10 +117,9 @@
             cancel() {
                 this.set_updateHotelInfoModalVisible(false)
             },
-            changeStar(v){
-
-            },
+            changeStar(v){},
             changeBizRegion(v){},
+            //复制旧信息
             preSetValue(){
                 setTimeout(() => {
                     this.form.setFieldsValue({

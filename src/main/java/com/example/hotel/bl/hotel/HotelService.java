@@ -59,4 +59,17 @@ public interface HotelService {
      */
     List<HotelVO> retrieveHotelsByManagerId(Integer managerId);
 
+    /**
+     * 更新指定酒店评分
+     * @param hotelId,rate
+     * @return
+     */
+    void updateHotelRate(Integer hotelId,double rate);
+
+    /**
+     * 获取指定酒店评分
+     * @param hotelId,rate
+     * @return
+     */
+    Double selectHotelRate(Integer hotelId);
 }

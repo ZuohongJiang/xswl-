@@ -17,13 +17,13 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @PostMapping("addComment")
+    @PostMapping("/addComment")
     public ResponseVO addComment(@RequestBody CommentVO commentVO){
         return commentService.addComment(commentVO);
     }
 
-    @GetMapping("getHotelComments")
-    public ResponseVO getHotelComments(@PathVariable Integer hotelId){
+    @GetMapping("/getHotelComments")
+    public ResponseVO getHotelComments(@RequestParam Integer hotelId){
         return ResponseVO.buildSuccess(commentService.getHotelComments(hotelId));
     }
 }

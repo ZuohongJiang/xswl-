@@ -51,8 +51,6 @@ const hotel = {
             state.myOrderedHotelList = data
         },
         set_managerId: function (state, data) {
-            /*            console.log("in set_manager ?")
-                        console.log(data);*/
             state.managerId = data
         },
         set_manageHotelList: function (state, data) {
@@ -133,6 +131,7 @@ const hotel = {
                 }
             }
         },
+        //获取用户在该酒店的订单列表
         getUserThisHotelOrders: async ({state, commit}) => {
             const data={
                 hotelId:state.currentHotelId,
@@ -150,7 +149,6 @@ const hotel = {
                 dispatch('getUserThisHotelOrders')
                 message.success('预定成功')
                 commit('set_orderModalVisible', false)
-               // dispatch('getUserThisHotelOrders')
             }
         },
         getOrderMatchCoupons: async ({state, commit}, data) => {
@@ -168,6 +166,7 @@ const hotel = {
                 commit('set_orderMatchCouponList', res)
             }
         },
+        //获取当前用户的曾预订酒店列表
         getMyOrderedHotelList:async ({commit})=>{
             const res=await getUserOrdersAPI({userId:user.state.userId})
             if(res){
@@ -180,7 +179,9 @@ const hotel = {
         addComment:async ({commit},data) =>{
           const res = await addCommentAPI(data)
             if(res){
-                message.success("评价成功")
+                message.success("评价成功！")
+            }else{
+                message.error("该订单已评价！")
             }
         }
     }

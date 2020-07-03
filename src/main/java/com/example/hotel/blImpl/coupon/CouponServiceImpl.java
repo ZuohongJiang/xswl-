@@ -78,43 +78,12 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public List<Coupon> getHotelAllCoupon(Integer hotelId) {
         List<Coupon> hotelCoupons = couponMapper.selectByHotelId(hotelId);
-//        for(int j=0;j<hotelCoupons.size();j++)
-////        for(int i=0;i<hotelCoupons.size()-1;i++){
-////            if(hotelCoupons.get(i).getCouponType()<hotelCoupons.get(i-1).getCouponType()){
-////                Coupon temp=hotelCoupons.get(i);
-////                hotelCoupons.set(i,hotelCoupons.get(i+1));
-////                hotelCoupons.set(i+1,temp);
-////            }
-////        }
-//        List <Coupon> res=new ArrayList<>();
-//        for(int i=0;i<hotelCoupons.size();i++){
-//            if(hotelCoupons.get(i).getCouponType()==2){
-//                res.add(hotelCoupons.get(i));
-//            }
-//        }
-//        for(int i=0;i<hotelCoupons.size();i++){
-//            if(hotelCoupons.get(i).getCouponType()==3){
-//                res.add(hotelCoupons.get(i));
-//            }
-//        }
-//        for(int i=0;i<hotelCoupons.size();i++){
-//            if(hotelCoupons.get(i).getCouponType()==4){
-//                res.add(hotelCoupons.get(i));
-//            }
-//        }
         return hotelCoupons;
     }
     public List<Coupon> getHotelOrderedCoupon(Integer hotelId) {
         List<Coupon> hotelCoupons = couponMapper.selectByHotelId(hotelId);
-//        for(int j=0;j<hotelCoupons.size();j++)
-////        for(int i=0;i<hotelCoupons.size()-1;i++){
-////            if(hotelCoupons.get(i).getCouponType()<hotelCoupons.get(i-1).getCouponType()){
-////                Coupon temp=hotelCoupons.get(i);
-////                hotelCoupons.set(i,hotelCoupons.get(i+1));
-////                hotelCoupons.set(i+1,temp);
-////            }
-////        }
         List <Coupon> res=new ArrayList<>();
+        //朴素排序功能
         for(int i=0;i<hotelCoupons.size();i++){
             if(hotelCoupons.get(i).getCouponType()==2){
                 res.add(hotelCoupons.get(i));
@@ -135,6 +104,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public CouponVO addHotelTargetMoneyCoupon(HotelTargetMoneyCouponVO couponVO) {
+        //vo->po 优惠类型转化
         Coupon coupon = new Coupon();
         coupon.setCouponName(couponVO.getName());
         coupon.setDescription(couponVO.getDescription());
@@ -171,9 +141,6 @@ public class CouponServiceImpl implements CouponService {
         coupon.setEndTime(couponEndDateTime);
         int result = couponMapper.insertCoupon(coupon);
         couponVO.setId(result);
-        //6/11
-        //coupon.setStartTime(couponVO.getStartTime());
-        //coupon.setEndTime(couponVO.getEndTime());
         return couponVO;
     }
 
@@ -204,8 +171,7 @@ public class CouponServiceImpl implements CouponService {
     public ResponseVO annulCoupon(Integer id){
         Coupon coupon = couponMapper.selectByCouponId(id);
         couponMapper.annulCoupon(id);
-        couponMapper.deleteCancelled();
-        //hotelService.updateRoomInfo(order.getHotelId(), order.getRoomType(), (-order.getRoomNum()));
+        couponMapper.deleteCancelled(); //从数据库里彻底删除标记为不可用的优惠
         return ResponseVO.buildSuccess(true);
     }
 

@@ -11,11 +11,33 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 30/06/2020 03:36:06
+ Date: 03/07/2020 02:31:09
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for comment
+-- ----------------------------
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NULL DEFAULT NULL,
+  `hotelId` int(11) NULL DEFAULT NULL,
+  `orderId` int(11) NULL DEFAULT NULL,
+  `createDate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `commentContent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `rate` double NULL DEFAULT NULL,
+  `userName` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of comment
+-- ----------------------------
+INSERT INTO `comment` VALUES (1, 6, 3, 22, '2020-07-02', 'qerqrqerqre', 5, '测试名');
+INSERT INTO `comment` VALUES (2, 6, 1, 22, '2020-07-02', 'qerqrqerqre', 5, '测试名');
 
 -- ----------------------------
 -- Table structure for coupon
@@ -35,7 +57,7 @@ CREATE TABLE `coupon`  (
   `end_time` datetime(0) NULL DEFAULT NULL,
   `discount_money` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 55 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 106 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of coupon
@@ -61,7 +83,7 @@ CREATE TABLE `hotel`  (
   `rate` double NULL DEFAULT NULL,
   `manager_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of hotel
@@ -92,7 +114,7 @@ CREATE TABLE `orderlist`  (
   `phoneNumber` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `orderState` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of orderlist
@@ -120,7 +142,7 @@ CREATE TABLE `room`  (
   `roomType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `detail` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of room
@@ -144,7 +166,7 @@ CREATE TABLE `user`  (
   `credit` double(255, 0) NULL DEFAULT NULL,
   `usertype` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 65 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
@@ -153,19 +175,4 @@ INSERT INTO `user` VALUES (4, '1012681@qq.com', '123456', '测试一号', '12345
 INSERT INTO `user` VALUES (5, '123@qq.com', '123456', '测试二号', '12345678911', 100, 'Client');
 INSERT INTO `user` VALUES (6, '333@qq.com', '123456', '测试名', '99912345678', 99, 'Admin');
 
--- ----------------------------
--- Table structure for comment
--- ----------------------------
-DROP TABLE IF EXISTS `comment`;
-CREATE TABLE `hotel`.`comment` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `orderId` INT NOT NULL,
-  `userId` INT NOT NULL,
-  `hotelId` INT NOT NULL,
-  `createDate` VARCHAR(255) NOT NULL,
-  `commentContent` VARCHAR(1000) CHARACTER SET 'utf8' NOT NULL,
-  `rate` DOUBLE NOT NULL,
-  `userName` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`, `orderId`))
-ENGINE = InnoDB;
 SET FOREIGN_KEY_CHECKS = 1;

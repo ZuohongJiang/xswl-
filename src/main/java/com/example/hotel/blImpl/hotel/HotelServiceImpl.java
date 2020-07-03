@@ -44,7 +44,7 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public void addHotel(HotelVO hotelVO) throws ServiceException {
         User manager = accountService.getUserInfo(hotelVO.getManagerId());
-        if(manager == null || !manager.getUserType().equals(UserType.Admin)){
+        if(manager == null || !manager.getUserType().equals(UserType.Admin)){  //判断权限
             throw new ServiceException("管理员不存在或者无权限！创建酒店失败！");
         }
         Hotel hotel = new Hotel();
@@ -52,7 +52,7 @@ public class HotelServiceImpl implements HotelService {
         hotel.setAddress(hotelVO.getAddress());
         hotel.setHotelName(hotelVO.getName());
         hotel.setPhoneNum(hotelVO.getPhoneNum());
-//        hotel.setManagerId(hotelVO.getManagerId());
+//        hotel.setManagerId(hotelVO.getManagerId());  前端表单不填managerId，初始为null
         hotel.setRate(hotelVO.getRate());
         hotel.setBizRegion(BizRegion.valueOf(hotelVO.getBizRegion()));
         hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
@@ -103,6 +103,7 @@ public class HotelServiceImpl implements HotelService {
         HotelVO hotelVO = hotelMapper.selectById(hotelId);
         if(hotelVO==null)return null;
         List<HotelRoom> rooms = roomService.retrieveHotelRoomInfo(hotelId);
+        //po->vo 房间类型转化
         List<RoomVO> roomVOS = rooms.stream().map(r -> {
             RoomVO roomVO = new RoomVO();
             roomVO.setId(r.getId());
@@ -114,6 +115,7 @@ public class HotelServiceImpl implements HotelService {
             return roomVO;
         }).collect(Collectors.toList());
         hotelVO.setRooms(roomVOS);
+        //po->vo 评价类型转化
         List<Comment> comments = commentService.getHotelComments(hotelId);
         List<CommentVO> commentVOS = comments.stream().map(c -> {
             CommentVO commentVO =new CommentVO();
@@ -142,4 +144,13 @@ public class HotelServiceImpl implements HotelService {
         return hotelMapper.selectHotelsByManagerId(managerId);
     }
 
+    @Override
+    public void updateHotelRate(Integer hotelId,double rate){
+        hotelMapper.updateHotelRate(hotelId,rate);
+    }
+
+    @Override
+    public Double selectHotelRate(Integer hotelId){
+        return hotelMapper.selectHotelRate(hotelId);
+    }
 }

@@ -21,7 +21,9 @@
                                 <v-col cols="4">
                                     <v-card-text class="mt-7 ml-n3" style="font-size:17px">
                                         <div>地址：{{currentHotelInfo.address?currentHotelInfo.address:'暂无'}}</div>
-                                        <div>评分：{{currentHotelInfo.rate.toFixed(1)}}分</div>
+                                        <div>评分：{{typeof(currentHotelInfo.rate)=='undefined'?
+                                            currentHotelInfo.rate:currentHotelInfo.rate.toFixed(1)}}分
+                                        </div>
                                         <v-row class="my-n3">
                                             <v-col cols="3" class="mr-0 pr-0">星级：</v-col>
                                             <v-col cols="9" class="ml-n5 pl-0">
@@ -47,16 +49,21 @@
                     </div>
                     <a-divider></a-divider>
                     <a-tabs>
-                        <a-tab-pane tab="房间信息" key="1" >
+                        <a-tab-pane tab="房间信息" key="1">
                             <RoomList :rooms="currentHotelInfo.rooms"></RoomList>
                         </a-tab-pane>
 
                         <a-tab-pane tab="酒店评价" key="3">
-                            <CommentList :comments="currentHotelInfo.comments"></CommentList>
+                            <div v-if="currentHotelInfo.comments!=undefined">
+                                <CommentList :comments="currentHotelInfo.comments"
+                                v-if="currentHotelInfo.comments.length>0"></CommentList>
+                                <a-empty v-else><span slot="description"> 暂无评论 </span></a-empty>
+                            </div>
+                            <a-empty v-else><span slot="description"> 暂无评论 </span></a-empty>
                         </a-tab-pane>
                         <a-tab-pane tab="以往订单" key="2">
                             <a-table
-                                    rowKey="{record=>record.id}"
+                                    rowKey="id"
                                     :columns="zzz"
                                     :dataSource="userThisHotelOrders"
                                     bordered
@@ -73,7 +80,7 @@
                         <a-tag color="red" v-if="text=='已撤销'">{{ text }}</a-tag>
                         <a-tag color="blue" v-if="text=='已预订'">{{ text }}</a-tag>
                         <a-tag color="green" v-if="text=='已执行'">{{ text }}</a-tag>
-                                    <a-tag color="grey" v-if="text==已评价">{{ text }}</a-tag>
+                                    <a-tag color="grey" v-if="text=='已评价'">{{ text }}</a-tag>
                     </span>
                             </a-table>
                         </a-tab-pane>
@@ -108,18 +115,19 @@
         },
         {
             title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {text: '已执行', value: '已执行'},{text: '已评价', value: '已评价'}],
+            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'},
+                {text: '已执行', value: '已执行'}, {text: '已评价', value: '已评价'}],
             onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState',
             scopedSlots: {customRender: 'orderState'}
         },
         {
-             title: '入住日期',
-             dataIndex:'checkInDate'
-         },
+            title: '入住日期',
+            dataIndex: 'checkInDate'
+        },
         {
             title: '入住日期',
-            dataIndex:'checkOutDate'
+            dataIndex: 'checkOutDate'
         },
 
     ];
@@ -142,7 +150,7 @@
         mounted() {
             this.set_currentHotelId(Number(this.$route.params.hotelId))
             this.getHotelById()
-            this.getUserThisHotelOrders(Number(this.$route.params.hotelId),Number(this.$route.params.userId))
+            this.getUserThisHotelOrders(Number(this.$route.params.hotelId), Number(this.$route.params.userId))
         },
         beforeRouteUpdate(to, from, next) {
             this.set_currentHotelId(Number(to.params.hotelId))

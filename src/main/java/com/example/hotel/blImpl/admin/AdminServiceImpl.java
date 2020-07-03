@@ -30,8 +30,8 @@ public class AdminServiceImpl implements AdminService {
         user.setEmail(userForm.getEmail());
         user.setPassword(userForm.getPassword());
         user.setUserType(UserType.HotelManager);
-        System.out.println(accountMapper.getAccountByName(user.getEmail())!=null);
-        if(accountMapper.getAccountByName(user.getEmail())!=null)
+        /*System.out.println(accountMapper.getAccountByName(user.getEmail())!=null);*/
+        if(accountMapper.getAccountByName(user.getEmail())!=null) //判断邮箱是否注册过
             throw new ServerException(ACCOUNT_EXIST);
         try {
             adminMapper.addManager(user);

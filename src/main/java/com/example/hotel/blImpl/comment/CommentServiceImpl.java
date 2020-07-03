@@ -2,8 +2,8 @@ package com.example.hotel.blImpl.comment;
 
 import com.example.hotel.bl.comment.CommentService;
 import com.example.hotel.data.comment.CommentMapper;
-import com.example.hotel.data.hotel.HotelMapper;
-import com.example.hotel.data.order.OrderMapper;
+import com.example.hotel.bl.hotel.HotelService;
+import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.po.Comment;
 import com.example.hotel.vo.ResponseVO;
 import com.example.hotel.vo.CommentVO;
@@ -23,9 +23,9 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     CommentMapper commentMapper;
     @Autowired
-    HotelMapper hotelMapper;
+    HotelService hotelService;
     @Autowired
-    OrderMapper orderMapper;
+    OrderService orderService;
     @Override public ResponseVO addComment(CommentVO commentVO){
         try{
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -33,13 +33,14 @@ public class CommentServiceImpl implements CommentService {
         String curdate = sf.format(date);
         commentVO.setCreateDate(curdate);
         Comment comment=new Comment();
+        //vo->po 评价类型转化
         BeanUtils.copyProperties(commentVO, comment);
         commentMapper.addComment(comment);
-        orderMapper.commentOrder(commentVO.getOrderId());
+        orderService.commentOrder(commentVO.getOrderId());
         Integer recordNums = commentMapper.getHotelCommentsNums(commentVO.getHotelId());
-        Double rate = hotelMapper.selectHotelRate(commentVO.getHotelId());
+        Double rate = hotelService.selectHotelRate(commentVO.getHotelId());
         rate = ((recordNums-1)*rate + commentVO.getRate())/(recordNums);
-        hotelMapper.updateHotelRate(commentVO.getHotelId(),rate);
+        hotelService.updateHotelRate(commentVO.getHotelId(),rate);
     } catch (Exception e){
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ADD_ERROR);

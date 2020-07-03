@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 public class MultiRoomCouponStrategyImpl implements CouponMatchStrategy {
     @Override
     public boolean isMatch(OrderVO orderVO, Coupon coupon) {
+        //先判断空指针，再判断可用时间
         if (orderVO.getRoomNum() == null) return false;
         LocalDate orderCheckInDate = LocalDate.parse(orderVO.getCheckInDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                 , orderCheckOutDate = LocalDate.parse(orderVO.getCheckOutDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));

@@ -12,6 +12,7 @@
                                 </v-btn>
                             </div>
                             <a-table
+                                    rowKey="id"
                                     :columns="columns1"
                                     :dataSource="managerList"
                                     bordered
@@ -32,6 +33,7 @@
                                 </v-btn>
                             </div>
                             <a-table
+                                    rowKey="id"
                                     :columns="columns2"
                                     :dataSource="hotelList"
                                     bordered
@@ -39,7 +41,14 @@
                     <span slot="action" slot-scope="record">
                         <v-btn color="primary" small @click="showHotelManagerInfo(record)">酒店工作人员信息</v-btn>
                         <a-divider type="vertical"></a-divider>
-                        <v-btn color="error" small @click="deleteHotel(record)">删除酒店</v-btn>
+                        <a-popconfirm
+                                title="你确定删除该酒店吗？"
+                                @confirm="deleteHotel(record)"
+                                @cancel="cancelDeleteHotel"
+                                okText="确定"
+                                cancelText="取消">
+                        <v-btn color="error" small>删除酒店</v-btn>
+                        </a-popconfirm>
                     </span>
                             </a-table>
                         </a-tab-pane>
@@ -83,14 +92,6 @@
             title: '信用值',
             dataIndex: 'credit',
         },
-        /*    {   title: '用户类型',
-                dataIndex: 'userType',
-            },*/
-        /*     {
-               title: '操作',
-               key: 'action',
-               scopedSlots: { customRender: 'action' },
-             },*/
     ];
     const columns2 = [
         {
@@ -159,9 +160,6 @@
         },
         watch: {
             activeUserInfo: function (val, oldVal) {
-                // console.log(val);
-                // console.log("here is managerUser");
-                // console.log(oldVal);
             }
         },
         methods: {
@@ -185,6 +183,7 @@
             addManager() {
                 this.set_addManagerModalVisible(true)
             },
+            //获取要展示详情的manager的信息
             showHotelManagerInfo(record) {
                 this.set_hotelManagerInfoModalVisible(true)
                 let managerIdList = this.managerList.map(e => {
@@ -200,6 +199,7 @@
             deleteHotel(record) {
                 this.delHotel(record.id)
             },
+            cancelDeleteHotel(record){}
         }
     }
 </script>

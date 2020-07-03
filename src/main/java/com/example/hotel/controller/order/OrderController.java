@@ -60,8 +60,16 @@ public class OrderController {
         return orderService.executeOrder(orderId);
     }
 
-    @GetMapping("/{hotelIdList}/getManageHotelsOrders")
-    public ResponseVO retrieveManageHotelsOrders(@PathVariable int[] hotelIdList){
+    /**
+     * @Description: 获取列表中所有酒店下的全部订单
+     * @Params: hotelId列表
+     * @returns: orderList
+     * @Author: Li Yongshao
+     * @date: 2020/7/2
+     */
+    @GetMapping("/getManageHotelsOrders")
+    public ResponseVO retrieveManageHotelsOrders(@RequestParam int[] hotelIdList){
+        //注意要用@RequestParam接受，且无法接受空列表(已在前端加入判断解决http报错)
         return ResponseVO.buildSuccess(orderService.getManageHotelsOrders(hotelIdList));
     }
 

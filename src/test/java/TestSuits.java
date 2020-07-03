@@ -16,6 +16,7 @@ import org.junit.runners.Suite;
         AccountTests.class,
         OrderTests.class,
         CouponTests.class,
+        CommentTests.class,
         MockMvcTests.class
 })
 public class TestSuits {

@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -219,7 +221,25 @@ public class MockMvcTests extends AbstractBaseTest {
 
     @Test
     public void test21() throws Exception {
-        HotelTargetMoneyCouponVO o1=new HotelTargetMoneyCouponVO();
+        testGET("/api/order/1/6/getUserThisHotelOrders", null);
+    }
+
+    @Test
+    public void test22() throws Exception {
+        testGET("/api/order/21/executeOrder", null);
+    }
+
+    @Test
+    public void test23() throws Exception {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("hotelIdList", "1");
+        params.add("hotelIdList", "6");
+        testGET("/api/order/getManageHotelsOrders", params);
+    }
+
+    @Test
+    public void test24() throws Exception {
+        HotelTargetMoneyCouponVO o1 = new HotelTargetMoneyCouponVO();
         o1.setDescription("test");
         o1.setHotelId(1);
         o1.setType(3);
@@ -233,8 +253,8 @@ public class MockMvcTests extends AbstractBaseTest {
     }
 
     @Test
-    public void test22() throws Exception {
-        HotelTargetMoneyCouponVO o1=new HotelTargetMoneyCouponVO();
+    public void test25() throws Exception {
+        HotelTargetMoneyCouponVO o1 = new HotelTargetMoneyCouponVO();
         o1.setDescription("test");
         o1.setHotelId(1);
         o1.setType(4);
@@ -248,8 +268,8 @@ public class MockMvcTests extends AbstractBaseTest {
     }
 
     @Test
-    public void test23() throws Exception {
-        HotelTargetMoneyCouponVO o1=new HotelTargetMoneyCouponVO();
+    public void test26() throws Exception {
+        HotelTargetMoneyCouponVO o1 = new HotelTargetMoneyCouponVO();
         o1.setDescription("test");
         o1.setHotelId(1);
         o1.setType(2);
@@ -264,26 +284,26 @@ public class MockMvcTests extends AbstractBaseTest {
     }
 
     @Test
-    public void test24() throws Exception {
+    public void test27() throws Exception {
         Map<String, String> params = new HashMap<>();
         params.put("hotelId", "1");
         testGET("/api/coupon/hotelAllCoupons", params);
     }
 
     @Test
-    public void test25() throws Exception {
+    public void test28() throws Exception {
         Map<String, String> params = new HashMap<>();
         params.put("hotelId", "1");
         testGET("/api/coupon/hotelOrderedCoupons", params);
     }
 
     @Test
-    public void test26() throws Exception {
+    public void test29() throws Exception {
         testGET("/api/coupon/37/annulCoupon", null);
     }
 
     @Test
-    public void test27() throws Exception {
+    public void test30() throws Exception {
         Map<String, String> params = new HashMap<>();
         params.put("userId", "6");
         params.put("hotelId", "1");
@@ -292,6 +312,26 @@ public class MockMvcTests extends AbstractBaseTest {
         params.put("checkIn", "2020-06-15");
         params.put("checkOut", "2020-06-20");
         testGET("/api/coupon/orderMatchCoupons", params);
+    }
+
+    @Test
+    public void test31() throws Exception {
+        Map<String, String> params = new HashMap<>();
+        params.put("hotelId","3");
+        testGET("/api/comment/getHotelComments", params);
+    }
+
+    @Test
+    public void test32() throws Exception {
+        CommentVO commentVO = new CommentVO();
+        commentVO.setRate(5.0);
+        commentVO.setCreateDate("2020-07-02");
+        commentVO.setCommentContent("this is test");
+        commentVO.setHotelId(3);
+        commentVO.setOrderId(21);
+        commentVO.setUserId(6);
+        commentVO.setUserName("测试评论");
+        testPOST("/api/comment/addComment", commentVO);
     }
 
     /**
@@ -309,14 +349,22 @@ public class MockMvcTests extends AbstractBaseTest {
         resultActions.andDo(MockMvcResultHandlers.print());
     }
 
-    private void testGET(String url, Map<String, String> params) throws Exception {
+    /**
+     * @Description: 测试GET的复用辅助方法
+     * @Author: Li Yongshao
+     * @date: 2020/6/30
+     */
+    private void testGET(String url, Object params) throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(url)
                 .contentType(MediaType.APPLICATION_JSON_UTF8);
         if (params != null) {
-            for (Map.Entry<String, String> entry : params.entrySet()
-            ) {
-                request.param(entry.getKey(), entry.getValue());
+            if (params instanceof HashMap) {
+                for (Map.Entry<String, String> entry : ((Map<String, String>) params).entrySet()
+                ) {
+                    request.param(entry.getKey(), entry.getValue());
+                }
             }
+            else request.params((MultiValueMap<String, String>) params);
         }
         ResultActions resultActions = mvc.perform(request);
         resultActions.andReturn().getRequest().setCharacterEncoding("UTF-8");

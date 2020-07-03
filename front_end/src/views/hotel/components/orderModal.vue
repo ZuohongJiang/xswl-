@@ -259,8 +259,6 @@
                     if (this.finalPrice < 0)
                         this.finalPrice = 0
                 }
-                //if(this.selectedItems==3){
-                //}
             },
             handleSubmit(e) {
                 e.preventDefault();
@@ -295,8 +293,10 @@
                     checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
                     checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
                 }
+                //总价变动可能会导致可用优惠列表变化
                 this.getOrderMatchCoupons(data)
             },
+            //防止退出预订窗口重新进入另一个房间的预订窗口后，总价不更新
             orderModalVisible(val) {
                 if (val)
                     if (this.totalPrice)

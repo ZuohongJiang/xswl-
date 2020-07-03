@@ -92,4 +92,38 @@ public class OrderTests extends HotelApplicationTests {
             }
         }
     }
+    /**
+     * @Description: 测试执行订单功能
+     * @Author: Li Yongshao
+     * @date: 2020/7/3
+     */
+    @Test
+    @Rollback
+    public void testExecuteOrder(){
+        orderService.executeOrder(21);
+        List<Order> orders= orderService.getAllOrders();
+        Assert.assertEquals("执行订单错误","已执行",orders.get(orders.size()-1).getOrderState());
+    }
+    /**
+     * @Description: 测试获取管理酒店下所有订单功能
+     * @Author: Li Yongshao
+     * @date: 2020/7/3
+     */
+    @Test
+    @Rollback
+    public void testGetAllManageHotelOrder(){
+        List<Order> orders=orderService.getManageHotelsOrders(new int[]{1,2});
+        Assert.assertSame("数量错误",9,orders.size());
+    }
+    /**
+     * @Description: 测试获取某用户在某酒店下的订单
+     * @Author: Li Yongshao
+     * @date: 2020/7/3
+     */
+    @Test
+    @Rollback
+    public void testGetUserThisHotelOrders(){
+        List<Order> orders=orderService.getUserThisHotelOrders(1,6);
+        Assert.assertSame("数量错误",8,orders.size());
+    }
 }

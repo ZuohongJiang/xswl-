@@ -5,7 +5,7 @@
         </div>
         <div class="list">
             <a-table
-                    rowKey="{record=>record.id}"
+                    rowKey="id"
                     :columns="columns"
                     :dataSource="rooms"
             >
@@ -92,6 +92,7 @@
                 'getUserInfo'
             ]),
             order(record) {
+                //获取用户信息，判断信用值是否允许预订
                 this.getUserInfo().then(()=>{
                     if(this.userInfo.credit>=0) {
                         this.set_currentOrderRoom(record)
