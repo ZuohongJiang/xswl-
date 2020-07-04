@@ -13,7 +13,7 @@
                                              :wrapper-col="{ span: 8, offset: 1  }">
                                     <a-input
                                             placeholder="请填写用户名"
-                                            v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }] }]"
+                                            v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }],initialValue: userInfo.userName}]"
                                             v-if="modify"
                                     />
                                     <span v-else>{{ userInfo.userName }}</span>
@@ -25,7 +25,7 @@
                                 <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
                                     <a-input
                                             placeholder="请填写手机号"
-                                            v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }] }]"
+                                            v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }],initialValue:userInfo.phoneNumber}]"
                                             v-if="modify"
                                     />
                                     <span v-else>{{ userInfo.phoneNumber}}</span>
@@ -241,12 +241,12 @@
                 });
             },
             modifyInfo() {
-                setTimeout(() => {
+                /*    setTimeout(() => {
                     this.form.setFieldsValue({
                         'userName': this.userInfo.userName,
                         'phoneNumber': this.userInfo.phoneNumber,
                     })
-                }, 0)
+                }, 0)*/
                 this.modify = true
             },
             modifyPassword() {
