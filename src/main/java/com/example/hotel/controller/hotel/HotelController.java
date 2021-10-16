@@ -1,5 +1,6 @@
 package com.example.hotel.controller.hotel;
 
+import com.example.hotel.bl.hotel.AvailableRoomService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.hotel.RoomService;
 import com.example.hotel.po.HotelRoom;
@@ -18,6 +19,8 @@ public class HotelController {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private AvailableRoomService availableRoomService;
 
     @PostMapping("/addHotel")
     public ResponseVO createHotel(@RequestBody HotelVO hotelVO) throws ServiceException {
@@ -63,5 +66,10 @@ public class HotelController {
     public ResponseVO deleteHotel(@RequestParam Integer hotelId){
         hotelService.deleteHotel(hotelId);
         return ResponseVO.buildSuccess(true);
+    }
+    @PostMapping("/availableRoom")
+    public ResponseVO addAvailableRoom(@RequestParam Integer roomId, @RequestParam Integer hotelId){
+        availableRoomService.addAvailableRoom(roomId, hotelId);
+        return  ResponseVO.buildSuccess(true);
     }
 }

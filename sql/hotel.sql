@@ -89,6 +89,9 @@ INSERT INTO `hotel` VALUES (1, '汉庭酒店', '欢迎您入住', NULL, 'XiDan',
 INSERT INTO `hotel` VALUES (2, '儒家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Three', 1829263819, 4.6, 2);
 INSERT INTO `hotel` VALUES (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区学则路268号', 'XueZeLu', 'Four', 1829553719, 4.8, 6);
 INSERT INTO `hotel` VALUES (4, '有间酒店', '客官这边请', '南京市鼓楼区新街口2号', 'XinJieKou', 'Five', 1735564519, 5.0, 1);
+INSERT INTO `hotel` VALUES (5, '桔子水晶', '欢迎您入住', NULL, 'XinJieKou', 'Four', 13377084245, 4.8, 5);
+INSERT INTO `hotel` VALUES (6, '中山大厦', '欢迎您入住', NULL, 'XinJieKou', 'Four', 13377084245, 4.7, 5);
+INSERT INTO `hotel` VALUES (7, '金陵饭店', '欢迎您入住', NULL, 'XinJieKou', 'Four', 13377084245, 4.9, 5);
 
 -- ----------------------------
 -- Table structure for orderlist
@@ -133,24 +136,29 @@ INSERT INTO `orderlist` VALUES (21, 6, 1, '汉庭酒店', '2020-06-15', '2020-06
 DROP TABLE IF EXISTS `room`;
 CREATE TABLE `room`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `price` double NULL DEFAULT NULL,
-  `curNum` int(11) NULL DEFAULT NULL,
   `total` int(11) NULL DEFAULT NULL,
   `hotel_id` int(11) NULL DEFAULT NULL,
   `roomType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `detail` varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of room
 -- ----------------------------
-INSERT INTO `room` VALUES (1, 599, 28, 30, 4, 'DoubleBed', '{\"area\":50,\"level\":\"8-16\",\"bedType\":\"两张1.8米床\",\"addBed\":true,\"facility\":\"<span style=\'color:green\'>测试</span>\"}\r\n\r\n ');
-INSERT INTO `room` VALUES (2, 199, 20, 20, 1, 'BigBed', '{\"area\":33.3,\"level\":5,\"bedType\":\"1.5米\",\"addBed\":false,\"facility\":\"便利设施： <span style=\'font-weight:bold\'>雨伞<span style=\'color:green\'>免费</span>、书桌、熨衣设备<span style=\'color:green\'>免费</span>、多种规格电源插座、空调<span style=\'color:green\'>免费</span>、洗衣机、衣柜/衣橱、闹钟、针线包<span style=\'color:green\'>免费</span>、220V电压插座、遮光窗帘、手动窗帘、床具:毯子或被子、沙发、开夜床、房间内高速上网、客房WIFI<span style=\'color:green\'>免费</span>、空气净化器、熨裤机、衣架、餐桌、空调-仅制冷、洗衣用品<span style=\'color:green\'>免费</span>、地毯</span><br/>媒体科技： <span style=\'font-weight:bold\'>国内长途电话<span style=\'color:green\'>免费</span>、国际长途电话、有线频道、卫星频道、液晶电视机、电话、智能门锁</span><br/>食品饮品： <span style=\'font-weight:bold\'>电热水壶、咖啡壶/茶壶<span style=\'color:green\'>免费</span>、瓶装水<span style=\'color:green\'>免费</span>、用餐区、软饮、水果、小食<br/>浴室： 拖鞋、浴室化妆放大镜、24小时热水、独立淋浴间、吹风机、独立卫生间</span>\"}');
-INSERT INTO `room` VALUES (3, 299, 29, 30, 1, 'DoubleBed', '{\"area\":27.5,\"level\":\"5-11\",\"bedType\":\"两张1.5米床\",\"addBed\":true,\"facility\":\"<span style=\'color:green\'>测试</span>\"}\r\n\r\n ');
-INSERT INTO `room` VALUES (4, 399, 8, 10, 1, 'Family', '{\"area\":15,\"level\":5,\"bedType\":\"两张1.5m床\",\"addBed\":false,\"facility\":\"便利措施:雨伞、书桌、多种规格电源插座、110V电压插座、空调、衣柜衣橱、220V电压插座、遮光窗帘、手动窗帘、备用床具、床具毯子或被子、国内长途电话、国际长途电话、有线频道、卫星频道、液晶电视机\"}');
-INSERT INTO `room` VALUES (5, 122, 7, 7, 1, 'BigBed', NULL);
-INSERT INTO `room` VALUES (6, 399, 10, 10, 2, 'Family', NULL);
+INSERT INTO `room` VALUES (1, 50, 1, 标间);
+INSERT INTO `room` VALUES (2, 50, 1, 大床);
+INSERT INTO `room` VALUES (3, 50, 2, 标间);
+INSERT INTO `room` VALUES (4, 50, 2, 大床);
+INSERT INTO `room` VALUES (5, 50, 3, 标间);
+INSERT INTO `room` VALUES (6, 50, 3, 大床);
+INSERT INTO `room` VALUES (7, 50, 4, 标间);
+INSERT INTO `room` VALUES (8, 50, 4, 大床);
+INSERT INTO `room` VALUES (9, 50, 5, 标间);
+INSERT INTO `room` VALUES (10, 50, 5, 大床);
+INSERT INTO `room` VALUES (11, 50, 6, 标间);
+INSERT INTO `room` VALUES (12, 50, 6, 大床);
+INSERT INTO `room` VALUES (13, 50, 7, 标间);
+INSERT INTO `room` VALUES (14, 50, 7, 大床);
 
 -- ----------------------------
 -- Table structure for user
@@ -176,3 +184,16 @@ INSERT INTO `user` VALUES (6, '333@qq.com', '123456', '测试名', '99912345678'
 INSERT INTO `user` VALUES (1, '111@qq.com', '123456', '有间酒店管理', '12345654321', 100, 'HotelManager');
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+DROP TABLE IF EXISTS `available_room`;
+CREATE TABLE `available_room` (
+`id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+`room_id` int NOT NULL,
+`date` int NOT NULL,
+`hotel_id` int NOT NULL,
+`num` int not NULL,
+`value` int not NULL,
+FOREIGN KEY(room_id) REFERENCES room(id),
+FOREIGN KEY(hotel_id) REFERENCES hotel(id)
+
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
