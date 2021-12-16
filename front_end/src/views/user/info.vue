@@ -1,3 +1,4 @@
+
 <template>
     <div class="info-wrapper">
         <v-hover>
@@ -30,9 +31,20 @@
                                     />
                                     <span v-else>{{ userInfo.phoneNumber}}</span>
                                 </a-form-item>
-                                <a-form-item label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+
+                                <a-form-item 
+                                    label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 6, offset: 1 }"
+                                >
                                     <span>{{ userInfo.credit }}</span>
+                                    <span>&nbsp;</span>
+                                          <a-tooltip placement="rightTop" trigger="click">
+                                            <template slot="title">
+                                            <span>撤销订单会扣除相应信用分，信用分低于60则不能预定酒店</span>
+                                            </template>
+                                            <a-icon type="question-circle" />
+                                        </a-tooltip>
                                 </a-form-item>
+                                
                                 <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }"
                                              v-if="modify_password">
                                     <a-input
@@ -63,10 +75,35 @@
                             </a-form>
                         </a-tab-pane>
                         <a-tab-pane tab="我的订单" key="2">
+                              <div>
+                                <div > 
+                                <a-radio-group 
+                                    default-value="全部" 
+                                    button-style="solid" 
+                                    @change = "onChangeRadioDisplay"
+                                >
+                                    <a-radio-button value="全部" class="radioStyle">
+                                    全部
+                                    </a-radio-button>
+                                    <a-radio-button value="已预订">
+                                    已预订
+                                    </a-radio-button>
+                                    <a-radio-button value="已评价">
+                                    已评价
+                                    </a-radio-button>
+                                    <a-radio-button value="已执行">
+                                    已执行
+                                    </a-radio-button>
+                                    <a-radio-button value="已撤销">
+                                    已撤销
+                                    </a-radio-button>
+                                </a-radio-group>
+                                </div>
+  </div>
                             <a-table
                                     rowKey="id"
                                     :columns="columns"
-                                    :dataSource="userOrderList"
+                                    :dataSource="orderList"
                                     bordered
                             >
                     <span slot="price" slot-scope="text">
@@ -77,13 +114,13 @@
                         <span v-if="text == 'DoubleBed'">双床房</span>
                         <span v-if="text == 'Family'">家庭房</span>
                     </span>
-                                <span slot="orderState" slot-scope="text">
+                    <span slot="orderState" slot-scope="text">
                         <a-tag color="red" v-if="text=='已撤销'">{{ text }}</a-tag>
                         <a-tag color="blue" v-if="text=='已预订'">{{ text }}</a-tag>
                         <a-tag color="green" v-if="text=='已执行'">{{ text }}</a-tag>
-                                    <a-tag color="grey" v-if="text=='已评价'">{{ text }}</a-tag>
+                        <a-tag color="grey" v-if="text=='已评价'">{{ text }}</a-tag>
                     </span>
-                                <span slot="action" slot-scope="record">
+                    <span slot="action" slot-scope="record">
                         <v-btn color="primary" small @click="showDetail(record)">查看</v-btn>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
                                     <a-popconfirm
@@ -130,8 +167,6 @@
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import OrderDetailModal from './components/orderDetailModal'
-
-
     const columns = [
         {
             title: '订单号',
@@ -152,11 +187,11 @@
         },
         {
             title: '状态',
-            filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {
-                text: '已执行',
-                value: '已执行'
-            }, {text: '已评价', value: '已评价'}],
-            onFilter: (value, record) => record.orderState.includes(value),
+            // filters: [{text: '已预订', value: '已预订'}, {text: '已撤销', value: '已撤销'}, {
+            //     text: '已执行',
+            //     value: '已执行'
+            // }, {text: '已评价', value: '已评价'}],
+            // onFilter: (value, record) => record.orderState.includes(value),
             dataIndex: 'orderState',
             scopedSlots: {customRender: 'orderState'}
         },
@@ -182,6 +217,7 @@
                 columns,
                 data: [],
                 form: this.$form.createForm(this, {name: 'coordinated'}),
+                orderList: []
             }
         },
         components: {
@@ -202,6 +238,7 @@
         async mounted() {
             await this.getUserInfo()
             await this.getUserOrders()
+            this.orderList = this.userOrderList
         },
         methods: {
             ...mapMutations([
@@ -306,6 +343,14 @@
             updateItemsPerPage(number) {
                 this.itemsPerPage = number
             },
+            onChangeRadioDisplay(e) {
+                console.log(this.userOrderList)
+                console.log(e.target.value)
+                this.orderList = [...this.userOrderList.filter(item => item.orderState == e.target.value)]
+                if (e.target.value == '全部'){
+                    this.orderList = this.userOrderList
+                }
+            }
 
         }
     }
@@ -320,6 +365,9 @@
             justify-content: space-between;
             margin-top: 20px
         }
+    }
+    .radioStyle {
+        margin-top: 0;
     }
 </style>
 <style lang="less">

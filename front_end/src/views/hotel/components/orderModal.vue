@@ -41,6 +41,7 @@
                     ]"
                         :placeholder="['入住日期','退房日期']"
                 />
+                <div v-if="nights !== 0">共<span>{{ nights }}</span>晚</div>
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="入住人数">
                 <a-select
@@ -110,7 +111,7 @@
             </a-form-item>
             <a-divider></a-divider>
             <h2 v-if="orderMatchCouponList.length>0">优惠</h2>
-            <a-radio-group v-model="checkedList" @change="onchange">
+            <!-- <a-radio-group v-model="checkedList" @change="onchange"> -->
                 <a-table
                         :columns="columns"
                         :dataSource="orderMatchCouponList"
@@ -118,13 +119,7 @@
                         bordered
                         v-if="orderMatchCouponList.length>0"
                 >
-                    <a-radio
-                            slot="id"
-                            slot-scope="record"
-                            :value="record"
-                            :itemscope="1"
-                    >
-                    </a-radio>
+
                     <span slot="couponType" slot-scope="text">
                         <a-tag color="blue">
                             <span v-if="text == '2'">多间优惠</span>
@@ -136,13 +131,12 @@
                         <span v-if="val===0">无</span>
                         <span v-else>{{val}}</span>
                     </span>
-                    <span slot="discountMoney" slot-scope="val" v-if="val!==0">
-                        <span v-if="val===0">无</span>
-                        <span v-else>{{val}}</span>
-                    </span>
+                        <span slot="discountMoney" slot-scope="val,record">
+                            <span v-if="val===0">{{Math.floor(totalPrice*(1 - record.discount) * 100) / 100}}</span>
+                            <span v-else>{{val}}</span>
+                        </span>
                 </a-table>
-            </a-radio-group>
-            <a-form-item v-bind="formItemLayout" label="结算后总价">
+            <a-form-item v-bind="formItemLayout" label="结算后总价" >
                 <span>￥{{ finalPrice }}</span>
             </a-form-item>
         </a-form>
@@ -153,11 +147,11 @@
 
     const moment = require('moment')
     const columns = [
-        {
-            title: '勾选',
-            dataIndex: 'id',
-            scopedSlots: {customRender: 'id'}
-        },
+        // {
+        //     title: '勾选',
+        //     dataIndex: 'id',
+        //     scopedSlots: {customRender: 'id'}
+        // },
         {
             title: '优惠类型',
             dataIndex: 'couponType',
@@ -198,6 +192,7 @@
                 checkedList: undefined,
                 finalPrice: '',
                 selectedItems: '0',
+                nights: 0,
             }
         },
         computed: {
@@ -211,6 +206,7 @@
             ]),
 
         },
+        
         beforeCreate() {
             this.form = this.$form.createForm(this, {name: 'orderModal'});
         },
@@ -236,29 +232,49 @@
                 if (this.totalPrice != '') {
                     this.totalPrice = this.form.getFieldValue('roomNum') * moment(v[1]).diff(moment(v[0]), 'day') * Number(this.currentOrderRoom.price)
                 }
+                this.nights = moment(v[1]).diff(moment(v[0]), 'day')
+                this.updateFinalPrice()
             },
             changePeopleNum(v) {
 
             },
-            changeRoomNum(v) {
+            async changeRoomNum(v) {
                 this.totalPrice = Number(v) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
+                await this.totalPrice2(v)
+                this.updateFinalPrice()
             },
-            onchange() {
-                this.finalPrice = this.totalPrice
-                if (this.checkedList) {
-                    //计算方法二选一：折扣或优惠金额
-                    let coupon = this.orderMatchCouponList.filter(item => {
-                        return item.id === this.checkedList
-                    })
-                    let discount = coupon[0].discount
-                    let discountMoney = coupon[0].discountMoney
-                    if (discount === 0)
-                        this.finalPrice -= discountMoney
-                    else
-                        this.finalPrice *= discount
-                    if (this.finalPrice < 0)
-                        this.finalPrice = 0
+            async totalPrice2(val) {
+                let data = {
+                    userId: this.userId,
+                    hotelId: this.currentHotelId,
+                    orderPrice: this.totalPrice,
+                    roomNum: val,
+                    checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                    checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
                 }
+                console.log(data)
+                //总价变动可能会导致可用优惠列表变化
+                await this.getOrderMatchCoupons(data)
+            },
+            updateFinalPrice() {
+                // while (!this.flag) {}
+                this.finalPrice = this.totalPrice
+                this.finalPrice --;
+                this.finalPrice ++;
+                var i;
+                console.log(this.orderMatchCouponList.length)
+                for(i = 0; i < this.orderMatchCouponList.length; i ++){
+                    if (this.orderMatchCouponList[i].discount != 0) {
+                        this.finalPrice *= this.orderMatchCouponList[i].discount;
+                    }
+                    if (this.orderMatchCouponList[i].discountMoney != 0) {
+                        this.finalPrice -= this.orderMatchCouponList[i].discountMoney;
+                    }
+                }
+                if (this.finalPrice < 0)
+                    this.finalPrice = 0
+                this.finalPrice = Math.floor(this.finalPrice * 100) / 100
+                return this.finalPrice
             },
             handleSubmit(e) {
                 e.preventDefault();
@@ -276,7 +292,7 @@
                             peopleNum: this.form.getFieldValue('peopleNum'),
                             haveChild: this.form.getFieldValue('haveChild'),
                             createDate: '',
-                            price: this.checkedList.length > 0 ? this.finalPrice : this.totalPrice
+                            price: this.finalPrice
                         }
                         this.addOrder(data)
                     }
@@ -284,18 +300,7 @@
             },
         },
         watch: {
-            totalPrice(val) {
-                let data = {
-                    userId: this.userId,
-                    hotelId: this.currentHotelId,
-                    orderPrice: this.totalPrice,
-                    roomNum: this.form.getFieldValue('roomNum'),
-                    checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
-                    checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
-                }
-                //总价变动可能会导致可用优惠列表变化
-                this.getOrderMatchCoupons(data)
-            },
+            
             //防止退出预订窗口重新进入另一个房间的预订窗口后，总价不更新
             orderModalVisible(val) {
                 if (val)

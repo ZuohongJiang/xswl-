@@ -1,222 +1,218 @@
 <template>
     <div class="hotelList">
-        <v-row>
-            <v-col cols="2">
-                <v-hover>
-                    <template v-slot="{ hover }">
-                        <v-sheet
-                                :elevation="hover?24:8"
-                                class="mx-auto"
-                                width="250"
-                        >
-                            <v-list>
+        <div class="hotel-list-left">
+            <v-combobox
+                    v-model="searchVal"
+                    :items="hotelList"
+                    item-text="name"
+                    item-value="name"
+                    clearable
+                    outlined
+                    label="搜索酒店"
+                    @change="changeList"
+            ></v-combobox>
+            <v-hover>
+                <template v-slot="{ hover }">
+                    <v-sheet
+                            :elevation="hover?24:8"
+                            class="mx-auto"
+                    >
+                        <v-list>
+                            <v-list-item>
+                                <v-list-item-title>
+                                    <v-icon>mdi-filter</v-icon>
+                                    筛选功能
+                                </v-list-item-title>
+                            </v-list-item>
+                            <v-divider></v-divider>
+                            <v-list-group
+                                    prepend-icon="local_mall"
+                            >
+                                <template v-slot:activator>
+                                    <v-list-item-title>筛选商圈</v-list-item-title>
+                                </template>
                                 <v-list-item>
-                                    <v-list-item-title>
-                                        <v-icon>mdi-filter</v-icon>
-                                        筛选功能
-                                    </v-list-item-title>
+                                    <v-select
+                                            v-model="bizRegion"
+                                            @change="changeBizRegion"
+                                            :items="['无','西单','新街口','夫子庙','奥体中心','江宁万达','学则路']"
+                                            label="选择商圈"
+                                            solo
+                                            class="mt-3 mb-n3"
+                                    ></v-select>
                                 </v-list-item>
-                                <v-divider></v-divider>
-                                <v-list-group
-                                        prepend-icon="local_mall"
-                                >
-                                    <template v-slot:activator>
-                                        <v-list-item-title>筛选商圈</v-list-item-title>
-                                    </template>
-                                    <v-list-item>
-                                        <v-select
-                                                v-model="bizRegion"
-                                                @change="changeBizRegion"
-                                                :items="['无','西单','新街口','夫子庙','奥体中心','江宁万达','学则路']"
-                                                label="选择商圈"
-                                                solo
-                                                class="mt-3 mb-n3"
-                                        ></v-select>
-                                    </v-list-item>
-                                </v-list-group>
-                                <v-list-group
-                                        prepend-icon="star"
-                                >
-                                    <template v-slot:activator>
-                                        <v-list-item-title>筛选星级</v-list-item-title>
-                                    </template>
-                                    <v-list-item>
-                                        <v-rating
-                                                v-model="f_star"
-                                                background-color="gray darken-1"
-                                                color="yellow accent-4"
-                                                dense
-                                                class="mx-auto"
-                                                clearable
-                                                @input="changeStar($event,f_star)">
-                                        </v-rating>
-                                    </v-list-item>
-                                </v-list-group>
-                                <v-list-group
-                                        prepend-icon="mdi-message-draw"
-                                >
-                                    <template v-slot:activator>
-                                        <v-list-item-title>筛选评分</v-list-item-title>
-                                    </template>
-                                    <v-list-item>
-                                        <v-row>
-                                            <v-col cols="6">
-                                                <v-text-field label="最低评分" v-model="lowerStar"
-                                                              @change="changeLowerStar">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="6">
-                                                <v-text-field label="最高评分" v-model="upperStar"
-                                                              @change="changeUpperStar">
-                                                </v-text-field>
-                                            </v-col>
-                                        </v-row>
-                                    </v-list-item>
-                                </v-list-group>
-                                <v-list-group
-                                        prepend-icon="mdi-check-decagram"
-                                >
-                                    <template v-slot:activator>
-                                        <v-list-item-title>筛选订单</v-list-item-title>
-                                    </template>
-                                    <v-list-item>
-                                        <v-row class="mx-auto">
-                                            <v-checkbox v-model="checkOrdered" label="仅查看预定过的"
-                                                        @change="changeCheckOrdered"></v-checkbox>
-                                        </v-row>
-                                    </v-list-item>
-                                </v-list-group>
-                                <v-divider></v-divider>
+                            </v-list-group>
+                            <v-list-group
+                                    prepend-icon="star"
+                            >
+                                <template v-slot:activator>
+                                    <v-list-item-title>筛选星级</v-list-item-title>
+                                </template>
                                 <v-list-item>
-                                    <v-list-item-title>
-                                        <v-icon>mdi-sort</v-icon>
-                                        排序功能
-                                    </v-list-item-title>
+                                    <v-rating
+                                            v-model="f_star"
+                                            background-color="gray darken-1"
+                                            color="yellow accent-4"
+                                            dense
+                                            class="mx-auto"
+                                            clearable
+                                            @input="changeStar($event,f_star)">
+                                    </v-rating>
                                 </v-list-item>
-                                <v-divider></v-divider>
-                                <v-list-group
-                                        prepend-icon="mdi-sort-descending"
-                                >
-                                    <template v-slot:activator>
-                                        <v-list-item-title>降序排序</v-list-item-title>
-                                    </template>
-                                    <v-list-item>
-                                        <v-row class="mx-auto">
-                                            <v-select
-                                                    v-model="selectVal"
-                                                    :items="selectOpts"
-                                                    item-text="text"
-                                                    item-value="val"
-                                                    chips
-                                                    label="选择属性"
-                                                    multiple
-                                                    solo
-                                                    class="mt-3 mb-n3"
-                                                    @change="changeList"
-                                            ></v-select>
-                                        </v-row>
-                                    </v-list-item>
-                                </v-list-group>
-                            </v-list>
-                        </v-sheet>
-                    </template>
-                </v-hover>
-            </v-col>
-            <v-col cols="10">
-                <a-layout-content style="margin: 0 16px">
-                    <a-spin :spinning="hotelListLoading">
-                        <v-row>
-                            <v-col cols="10">
-                                <a-empty v-if="hotelList.length==0">
-                                    <span slot="description"> 暂无符合条件的酒店 </span>
-                                </a-empty>
-                                <v-container fluid>
+                            </v-list-group>
+                            <v-list-group
+                                    prepend-icon="mdi-message-draw"
+                            >
+                                <template v-slot:activator>
+                                    <v-list-item-title>筛选评分</v-list-item-title>
+                                </template>
+                                <v-list-item>
                                     <v-row>
-                                        <v-col
-                                                v-for="hotel in hotelList"
-                                                :key="hotel.index"
-                                                cols="3">
-                                            <v-hover>
-                                                <template v-slot="{ hover }">
-                                                    <v-badge
-                                                            :value="hover&&myOrderedHotelList.indexOf(hotel.id)!=-1"
-                                                            color="orange"
-                                                            content="我预定过">
-                                                        <v-badge
-                                                                :value="myOrderedHotelList.indexOf(hotel.id)!=-1"
-                                                                bordered
-                                                                top
-                                                                color="orange"
-                                                                dot
-                                                                offset-x="13"
-                                                                offset-y="13"
-                                                        >
-                                                            <v-card
-                                                                    :elevation="hover?12:6"
-                                                                    class="mx-auto"
-                                                                    max-width="210"
-                                                            >
-                                                                <v-img
-                                                                        v-bind:src="require('../../assets/house.jpg')"
-                                                                        height="300px"
-                                                                ></v-img>
-                                                                <v-card-title class="font-weight-black text--secondary">
-                                                                    {{hotel.name}}
-                                                                </v-card-title>
-                                                                <v-card-subtitle class="mb-n3">
-                                                                    {{hotel.address?hotel.address:'暂无地址'}}
-                                                                </v-card-subtitle>
-                                                                <v-row class="ml-5">
-                                                                    <v-rating
-                                                                            v-model="hotel.hotelStar"
-                                                                            background-color="gray darken-1"
-                                                                            color="yellow accent-4"
-                                                                            dense
-                                                                            half-increments
-                                                                            readonly
-                                                                            size="20"
-                                                                            class="ml-n1"
-                                                                    ></v-rating>
-                                                                    <span class="ml-1 mt-n1 text--lighten-2 overline">评分:{{ hotel.rate.toFixed(1) }}</span>
-                                                                </v-row>
-                                                                <v-divider></v-divider>
-                                                                <v-card-actions>
-                                                                    <v-btn
-                                                                            color="blue"
-                                                                            text
-                                                                            class="mx-auto"
-                                                                            @click="jumpToDetails(hotel.id)"
-                                                                    >
-                                                                        查看更多
-                                                                    </v-btn>
-
-                                                                </v-card-actions>
-                                                            </v-card>
-                                                        </v-badge>
-                                                    </v-badge>
-                                                </template>
-                                            </v-hover>
+                                        <v-col cols="6">
+                                            <v-text-field label="最低评分" v-model="lowerStar"
+                                                          @change="changeLowerStar">
+                                            </v-text-field>
+                                        </v-col>
+                                        <v-col cols="6">
+                                            <v-text-field label="最高评分" v-model="upperStar"
+                                                          @change="changeUpperStar">
+                                            </v-text-field>
                                         </v-col>
                                     </v-row>
-                                </v-container>
-                            </v-col>
-                            <v-col cols="2">
-                                <v-combobox
-                                        v-model="searchVal"
-                                        :items="hotelList"
-                                        item-text="name"
-                                        item-value="name"
-                                        clearable
-                                        outlined
-                                        label="搜索酒店"
-                                        @change="changeList"
-                                ></v-combobox>
-                            </v-col>
-                        </v-row>
-                    </a-spin>
-                </a-layout-content>
-            </v-col>
-        </v-row>
+                                </v-list-item>
+                            </v-list-group>
+                            <v-list-group
+                                    prepend-icon="mdi-check-decagram"
+                            >
+                                <template v-slot:activator>
+                                    <v-list-item-title>筛选订单</v-list-item-title>
+                                </template>
+                                <v-list-item>
+                                    <v-row class="mx-auto">
+                                        <v-checkbox v-model="checkOrdered" label="仅查看预定过的"
+                                                    @change="changeCheckOrdered"></v-checkbox>
+                                    </v-row>
+                                </v-list-item>
+                            </v-list-group>
+                            <v-divider></v-divider>
+                            <v-list-item>
+                                <v-list-item-title>
+                                    <v-icon>mdi-sort</v-icon>
+                                    排序功能
+                                </v-list-item-title>
+                            </v-list-item>
+                            <v-divider></v-divider>
+                            <v-list-group
+                                    prepend-icon="mdi-sort-descending"
+                            >
+                                <template v-slot:activator>
+                                    <v-list-item-title>降序排序</v-list-item-title>
+                                </template>
+                                <v-list-item>
+                                    <v-row class="mx-auto">
+                                        <v-select
+                                                v-model="selectVal"
+                                                :items="selectOpts"
+                                                item-text="text"
+                                                item-value="val"
+                                                chips
+                                                label="选择属性"
+                                                multiple
+                                                solo
+                                                class="mt-3 mb-n3"
+                                                @change="changeList"
+                                        ></v-select>
+                                    </v-row>
+                                </v-list-item>
+                            </v-list-group>
+                        </v-list>
+                    </v-sheet>
+                </template>
+            </v-hover>
+        </div>
+        <div class="hotel-list-right">
+            <a-spin :spinning="hotelListLoading">
+                <div v-if="hotelList.length==0">
+
+                    <a-empty v-if="!hotelListLoading">
+                        <span slot="description"> 暂无符合条件的酒店 </span>
+                    </a-empty>
+                </div>
+                <v-container fluid v-else class="hotel-cards">
+                    <v-row>
+                        <v-col
+                        v-for="hotel in hotelList"
+                                :key="hotel.index"
+                            xl="3" lg="4" md="4" sm="6"
+                        >
+                            <v-hover
+                            >
+                                <template v-slot="{ hover }">
+                                    <v-badge
+                                            :value="hover&&myOrderedHotelList.indexOf(hotel.id)!=-1"
+                                            color="orange"
+                                            style="width: 100%;"
+                                            content="我预定过">
+                                        <v-badge
+                                                :value="myOrderedHotelList.indexOf(hotel.id)!=-1"
+                                                bordered
+                                                top
+                                                color="orange"
+                                                dot
+                                                offset-x="13"
+                                                offset-y="13"
+                                                style="width: 100%;"
+                                        >
+                                            <v-card
+                                                    :elevation="hover?12:6"
+                                                    class="mx-auto"
+                                            >
+                                                <v-img
+                                                        v-bind:src="require('../../assets/house.jpg')"
+                                                        height="300px"
+                                                        @click="jumpToDetails(hotel.id)"
+                                                ></v-img>
+                                                <v-card-title class="font-weight-black text--secondary">
+                                                    {{hotel.name}}
+                                                </v-card-title>
+                                                <v-card-subtitle class="mb-n3">
+                                                    {{hotel.address?hotel.address:'暂无地址'}}
+                                                </v-card-subtitle>
+                                                <v-row class="ml-5">
+                                                    <v-rating
+                                                            v-model="hotel.hotelStar"
+                                                            background-color="gray darken-1"
+                                                            color="yellow accent-4"
+                                                            dense
+                                                            half-increments
+                                                            readonly
+                                                            size="20"
+                                                            class="ml-n1"
+                                                    ></v-rating>
+                                                    <span class="ml-1 mt-n1 text--lighten-2 overline">评分:{{ hotel.rate.toFixed(1) }}</span>
+                                                </v-row>
+                                                <v-divider></v-divider>
+                                                <v-card-actions>
+                                                    <v-btn
+                                                            color="blue"
+                                                            text
+                                                            class="mx-auto"
+                                                            @click="jumpToDetails(hotel.id)"
+                                                    >
+                                                        查看更多
+                                                    </v-btn>
+            
+                                                </v-card-actions>
+                                            </v-card>
+                                        </v-badge>
+                                    </v-badge>
+                                </template>
+                            </v-hover>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </a-spin>
+        </div>
     </div>
 </template>
 <script>
@@ -380,10 +376,23 @@
         }
     }
 </script>
+<style scoped>
+.hotel-list-left {
+    width: 250px;
+    margin-right: 20px;
+    padding-top: 24px;
+    flex-shrink: 0;
+}
+.hotel-list-right {
+    width: calc(100% - 270px);
+}
+</style>
 <style scoped lang="less">
     .hotelList {
         text-align: center;
         padding: 50px 0;
+        display: flex;
+        flex-direction: row;
 
         .emptyBox {
             height: 0;
