@@ -26,5 +26,8 @@ public interface HotelMapper {
 
     Double selectHotelRate(@Param("id") Integer id);
 
-    int updateHotelRate(@Param("id") Integer id,@Param("rate") Double rate);
+    Integer selectHotelCommentsCount(@Param("id") Integer id);
+
+    int updateHotelRate(@Param("id") Integer id,@Param("rate") double rate);
+
 }

@@ -35,12 +35,12 @@ public class CommentServiceImpl implements CommentService {
         Comment comment=new Comment();
         //vo->po 评价类型转化
         BeanUtils.copyProperties(commentVO, comment);
-        commentMapper.addComment(comment);
-        orderService.commentOrder(commentVO.getOrderId());
         Integer recordNums = commentMapper.getHotelCommentsNums(commentVO.getHotelId());
         Double rate = hotelService.selectHotelRate(commentVO.getHotelId());
-        rate = ((recordNums-1)*rate + commentVO.getRate())/(recordNums);
+        rate = ((recordNums)*rate + commentVO.getRate())/(recordNums + 1);
         hotelService.updateHotelRate(commentVO.getHotelId(),rate);
+        commentMapper.addComment(comment);
+        orderService.commentOrder(commentVO.getOrderId());
     } catch (Exception e){
             System.out.println(e.getMessage());
             return ResponseVO.buildFailure(ADD_ERROR);

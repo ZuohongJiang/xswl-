@@ -8,10 +8,10 @@
     </insert>
 
     <select id="selectAllHotel" resultMap="Hotel">
-        select * from Hotel
+        select id id, hotelName hotelName, address address, bizRegion bizRegion, hotelStar hotelStar, rate rate, commentsCount commentsCount from Hotel order by commentsCount desc
     </select>
     <select id="selectById" resultMap="Hotel">
-        select * from Hotel where id=#{id}
+        select id id, hotelName hotelName, address address, bizRegion bizRegion, hotelStar hotelStar, rate rate, commentsCount commentsCount from Hotel where id=#{id}
     </select>
 
     <update id="updateHotelInfo" parameterType="com.example.hotel.po.Hotel">
@@ -24,15 +24,19 @@
     </delete>
 
     <select id="selectHotelsByManagerId" resultMap="Hotel">
-        select * from Hotel where manager_id=#{managerId}
+        select id id, hotelName hotelName, address address, bizRegion bizRegion, hotelStar hotelStar, rate rate, commentsCount commentsCount from Hotel where manager_id=#{managerId}
     </select>
 
     <select id="selectHotelRate" resultType="java.lang.Double">
         select rate from Hotel where id=#{id}
     </select>
 
+    <select id="selectHotelCommentsCount" resultType="java.lang.Integer">
+        select commentsCount from Hotel where id=#{id}
+    </select>
+
     <update id="updateHotelRate">
-        update Hotel set rate=#{rate} where id=#{id}
+        update Hotel set rate=#{rate}, commentsCount = commentsCount + 1 where id=#{id}
     </update>
     <resultMap id="Hotel" type="com.example.hotel.vo.HotelVO">
         <id column="id" property="id"></id>
@@ -42,8 +46,9 @@
         <result column="hotelStar" property="hotelStar"></result>
         <result column="hotelName" property="name"></result>
         <result column="phoneNum" property="phoneNum"></result>
-        <result column="rate" property="rate"></result>
         <result column="manager_id" property="managerId"></result>
+        <result column="commentsCount" property="commentsCount"></result>
+        <result column="rate" property="rate"></result>
 
     </resultMap>
 

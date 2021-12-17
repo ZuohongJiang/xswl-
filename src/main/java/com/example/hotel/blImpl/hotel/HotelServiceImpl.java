@@ -53,7 +53,7 @@ public class HotelServiceImpl implements HotelService {
         hotel.setHotelName(hotelVO.getName());
         hotel.setPhoneNum(hotelVO.getPhoneNum());
 //        hotel.setManagerId(hotelVO.getManagerId());  前端表单不填managerId，初始为null
-        hotel.setRate(hotelVO.getRate());
+
         hotel.setBizRegion(BizRegion.valueOf(hotelVO.getBizRegion()));
         hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
         hotelMapper.insertHotel(hotel);
@@ -72,7 +72,7 @@ public class HotelServiceImpl implements HotelService {
         hotel.setHotelName(hotelVO.getName());
         hotel.setPhoneNum(hotelVO.getPhoneNum());
         hotel.setManagerId(hotelVO.getManagerId());
-        hotel.setRate(hotelVO.getRate());
+
         hotel.setBizRegion(BizRegion.valueOf(hotelVO.getBizRegion()));
         hotel.setHotelStar(HotelStar.valueOf(hotelVO.getHotelStar()));
         hotelMapper.updateHotelInfo(hotel);
@@ -146,11 +146,15 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public void updateHotelRate(Integer hotelId,double rate){
-        hotelMapper.updateHotelRate(hotelId,rate);
+        hotelMapper.updateHotelRate(hotelId, rate);
     }
 
     @Override
     public Double selectHotelRate(Integer hotelId){
         return hotelMapper.selectHotelRate(hotelId);
     }
+
+    @Override
+    public Integer selectHotelCommentsCount(Integer hotelId){
+        return hotelMapper.selectHotelCommentsCount(hotelId);    }
 }

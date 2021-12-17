@@ -72,4 +72,11 @@ public interface HotelService {
      * @return
      */
     Double selectHotelRate(Integer hotelId);
+
+    /**
+     * 获取指定酒店评价数量
+     * @param hotelId
+     * @return
+     */
+    Integer selectHotelCommentsCount(Integer hotelId);
 }

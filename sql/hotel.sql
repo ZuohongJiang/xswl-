@@ -26,6 +26,41 @@ SET FOREIGN_KEY_CHECKS = 0;
 /*!40101 SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES = @@SQL_NOTES, SQL_NOTES = 0 */;
 
+DROP TABLE IF EXISTS `hotel`;
+CREATE TABLE `hotel`
+(
+    `id`               int                                                     NOT NULL AUTO_INCREMENT,
+    `hotelName`        varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+    `hotelDescription` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `address`          varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `bizRegion`        varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `hotelStar`        varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `phoneNum`         varchar(11)                                             DEFAULT NULL,
+    `manager_id`       int                                                     DEFAULT NULL,
+    `rate`        double                                                  DEFAULT 0,
+    `commentsCount`    int                                                     DEFAULT 0,
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 22
+  DEFAULT CHARSET = utf8mb3
+  ROW_FORMAT = DYNAMIC;
+
+DROP TABLE IF EXISTS `room`;
+CREATE TABLE `room`
+(
+    `id`       int NOT NULL AUTO_INCREMENT,
+    `price`    double                                                   DEFAULT NULL,
+    `curNum`   int                                                      DEFAULT NULL,
+    `total`    int                                                      DEFAULT NULL,
+    `hotel_id` int                                                      DEFAULT NULL,
+    `roomType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci   DEFAULT NULL,
+    `detail`   varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 48
+  DEFAULT CHARSET = utf8mb3
+  ROW_FORMAT = DYNAMIC;
+
 DROP TABLE IF EXISTS `available_room`;
 CREATE TABLE `available_room`
 (
@@ -37,9 +72,7 @@ CREATE TABLE `available_room`
     `value`    int NOT NULL,
     PRIMARY KEY (`id`),
     KEY `room_id` (`room_id`),
-    KEY `hotel_id` (`hotel_id`),
-    CONSTRAINT `available_room_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`),
-    CONSTRAINT `available_room_ibfk_2` FOREIGN KEY (`hotel_id`) REFERENCES `hotel` (`id`)
+    KEY `hotel_id` (`hotel_id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 33
   DEFAULT CHARSET = utf8mb3
@@ -84,23 +117,6 @@ CREATE TABLE `coupon`
   DEFAULT CHARSET = utf8mb3
   ROW_FORMAT = DYNAMIC;
 
-DROP TABLE IF EXISTS `hotel`;
-CREATE TABLE `hotel`
-(
-    `id`               int                                                     NOT NULL AUTO_INCREMENT,
-    `hotelName`        varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-    `hotelDescription` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `address`          varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `bizRegion`        varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `hotelStar`        varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    `phoneNum`         varchar(11)                                             DEFAULT NULL,
-    `rate`             double                                                  DEFAULT NULL,
-    `manager_id`       int                                                     DEFAULT NULL,
-    PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 22
-  DEFAULT CHARSET = utf8mb3
-  ROW_FORMAT = DYNAMIC;
 
 DROP TABLE IF EXISTS `orderlist`;
 CREATE TABLE `orderlist`
@@ -127,21 +143,7 @@ CREATE TABLE `orderlist`
   DEFAULT CHARSET = utf8mb3
   ROW_FORMAT = DYNAMIC;
 
-DROP TABLE IF EXISTS `room`;
-CREATE TABLE `room`
-(
-    `id`       int NOT NULL AUTO_INCREMENT,
-    `price`    double                                                   DEFAULT NULL,
-    `curNum`   int                                                      DEFAULT NULL,
-    `total`    int                                                      DEFAULT NULL,
-    `hotel_id` int                                                      DEFAULT NULL,
-    `roomType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci   DEFAULT NULL,
-    `detail`   varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-    PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 48
-  DEFAULT CHARSET = utf8mb3
-  ROW_FORMAT = DYNAMIC;
+
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
@@ -161,7 +163,8 @@ CREATE TABLE `user`
 
 INSERT INTO `comment` (`id`, `userId`, `hotelId`, `orderId`, `createDate`, `commentContent`, `rate`, `userName`)
 VALUES (1, 6, 3, 22, '2020-07-02', 'qerqrqerqre', 5, '测试名'),
-       (2, 6, 1, 22, '2020-07-02', 'qerqrqerqre', 5, '测试名');
+
+       (2, 2, 1, 5, '2021-12-10', 'Test comment1', 4.5, 'Johnscript');
 
 INSERT INTO `coupon` (`id`, `description`, `hotelId`, `couponType`, `couponName`, `target_roomNum`, `target_money`,
                       `discount`, `status`, `start_time`, `end_time`, `discount_money`)
@@ -178,20 +181,26 @@ VALUES (55, '一次性预定两件及以上房间打8折', 1, 2, '多间优惠',
        (65, '一次性预定三间及以上房间打七折', 20, 2, '多间优惠', 3, 0, 0.7, 1, '2021-11-10 00:00:00', '2021-12-31 00:00:00', 0),
        (66, '满800-100', 21, 3, '满减优惠', 1, 800, 0, 1, '2021-11-10 00:00:00', '2021-12-31 00:00:00', 100);
 
-INSERT INTO `hotel` (`id`, `hotelName`, `hotelDescription`, `address`, `bizRegion`, `hotelStar`, `phoneNum`, `rate`,
+INSERT INTO `hotel` (`id`, `hotelName`, `hotelDescription`, `address`, `bizRegion`, `hotelStar`, `phoneNum`,
                      `manager_id`)
-VALUES (1, '汉庭酒店', '欢迎您入住', '南京市西单', 'XiDan', 'Five', '1829373819', 4.8, 33),
-       (2, '儒家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Three', '1829263819', 4.6, 33),
-       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区学则路268号', 'XueZeLu', 'Four', '1829553719', 4.8, 33),
-       (4, '有间酒店', '客官这边请', '南京市鼓楼区新街口2号', 'XinJieKou', 'Five', '1735564519', 5, 33),
-       (19, '亚朵酒店', '高品质酒店', '南京市秦淮区夫子庙', 'FuZiMiao', 'Four', '18491718494', 5, 33),
-       (20, '四季酒店', '高品质酒店', '南京市奥体中心', 'AoTiZhongXin', 'Four', '18491718494', 4.6, 33),
-       (21, '桔子酒店', '高品质酒店', '南京市新街口', 'XinJieKou', 'Four', '18491718494', 4.7, 33);
+VALUES (1, '汉庭酒店', '欢迎您入住', '南京市西单', 'XiDan', 'Five', '1829373819',  33),
+       (2, '儒家酒店', '欢迎您入住', '南京市鼓楼区珠江路268号', 'XiDan', 'Three', '1829263819', 33),
+       (3, '桂圆酒店', '欢迎您入住', '南京市栖霞区学则路268号', 'XueZeLu', 'Four', '1829553719', 33),
+       (4, '有间酒店', '客官这边请', '南京市鼓楼区新街口2号', 'XinJieKou', 'Five', '1735564519', 33),
+       (19, '亚朵酒店', '高品质酒店', '南京市秦淮区夫子庙', 'FuZiMiao', 'Four', '18491718494', 33),
+       (20, '四季酒店', '高品质酒店', '南京市奥体中心', 'AoTiZhongXin', 'Four', '18491718494', 33),
+       (21, '桔子酒店', '高品质酒店', '南京市新街口', 'XinJieKou', 'Four', '18491718494', 33);
+
+UPDATE `hotel` SET rate = 4.5, commentsCount = 1 WHERE id = 1;
 
 INSERT INTO `orderlist` (`id`, `userId`, `hotelId`, `hotelName`, `checkInDate`, `checkOutDate`, `roomId`, `roomType`,
                          `roomNum`, `peopleNum`, `haveChild`, `createDate`, `price`, `clientName`, `phoneNumber`,
                          `orderState`)
 VALUES (1, 6, 1, '汉庭', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '已撤销'),
+       (2, 2, 1, '汉庭酒店', '2021-12-01', '2021-12-03', NULL, 'Family', 1, 1, '0', '2021-11-30', 648, 'Jinx', NULL, '已执行'),
+       (3, 2, 1, '汉庭酒店', '2021-12-01', '2021-12-03', NULL, 'Family', 1, 1, '0', '2021-11-30', 648, 'Vi', NULL, '已执行'),
+       (4, 2, 1, '汉庭酒店', '2021-12-01', '2021-12-03', NULL, 'Family', 1, 1, '0', '2021-11-30', 648, 'Ekko', NULL, '已执行'),
+       (5, 2, 1, '汉庭酒店', '2021-12-01', '2021-12-03', NULL, 'Family', 1, 1, '0', '2021-11-30', 648, 'Viktor', NULL, '已评价'),
        (14, 6, 1, '汉庭酒店', '2020-04-20', '2020-04-22', NULL, 'Family', 1, 1, '0', '2020-04-20', 798, NULL, NULL, '已撤销'),
        (15, 6, 1, '汉庭酒店', '2020-04-21', '2020-04-22', NULL, 'DoubleBed', 1, 1, '0', '2020-04-20', 199, NULL, NULL,
         '已撤销'),
@@ -208,6 +217,7 @@ VALUES (1, 6, 1, '汉庭', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
         '已预订'),
        (31, 1, 20, '四季酒店', '2021-12-12', '2021-12-13', 43, 'Family', 1, 2, '0', '2021-11-10', 833, '有间酒店管理',
         '12345654321', '已预订');
+
 
 INSERT INTO `room` (`id`, `price`, `curNum`, `total`, `hotel_id`, `roomType`, `detail`)
 VALUES (1, 599, 28, 30, 4, 'DoubleBed',
@@ -239,6 +249,7 @@ VALUES (1, 599, 28, 30, 4, 'DoubleBed',
 
 INSERT INTO `user` (`id`, `email`, `password`, `username`, `phonenumber`, `credit`, `usertype`)
 VALUES (1, '111@qq.com', '123456', '有间酒店管理', '12345654321', 100, 'HotelManager'),
+       (2, '1273641590@qq.com', '123456', 'Johnscript', '13377084245', 100, 'Client'),
        (4, '1012681@qq.com', '123456', '测试一号', '12345678919', 100, 'Client'),
        (5, '123@qq.com', '123456', '测试二号', '12345678911', 100, 'Client'),
        (6, '333@qq.com', '123456', '测试名', '99912345678', 100, 'Admin'),

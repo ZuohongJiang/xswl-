@@ -13,11 +13,16 @@ public class HotelVO {
     private String address;
     private String bizRegion;
     private String hotelStar;
-    private Double rate;
+
     private String description;
     private String phoneNum;
     private Integer managerId;
 
+
+    private Integer commentsCount; // 用于列表展示页面提供酒店评论数
+
+
+    private Double rate; // 所有评论分数之和
     private List<RoomVO> rooms;
     private List<CommentVO> comments;
 
@@ -53,13 +58,6 @@ public class HotelVO {
         this.bizRegion = bizRegion;
     }
 
-    public Double getRate() {
-        return rate;
-    }
-
-    public void setRate(Double rate) {
-        this.rate = rate;
-    }
 
     public String getHotelStar() {
         return hotelStar;
@@ -103,5 +101,21 @@ public class HotelVO {
 
     public void setManagerId(Integer managerId) {
         this.managerId = managerId;
+    }
+
+    public Integer getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(Integer commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
     }
 }

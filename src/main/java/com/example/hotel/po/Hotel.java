@@ -12,7 +12,11 @@ public class Hotel {
      */
     private BizRegion bizRegion;
     private HotelStar hotelStar;
+
+
+
     private Double rate;
+    private Integer commentsCount;
     private String description;
     private String phoneNum;
     /**
@@ -60,13 +64,7 @@ public class Hotel {
         this.hotelStar = hotelStar;
     }
 
-    public Double getRate() {
-        return rate;
-    }
 
-    public void setRate(Double rate) {
-        this.rate = rate;
-    }
 
     public String getDescription() {
         return description;
@@ -90,6 +88,22 @@ public class Hotel {
 
     public void setManagerId(Integer managerId) {
         this.managerId = managerId;
+    }
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
+    }
+
+    public Integer getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(Integer commentsCount) {
+        this.commentsCount = commentsCount;
     }
 }
 

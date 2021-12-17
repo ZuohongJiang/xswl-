@@ -180,7 +180,7 @@
                                                 </v-card-subtitle>
                                                 <v-row class="ml-5">
                                                     <v-rating
-                                                            v-model="hotel.hotelStar"
+                                                            v-model="hotel.rate"
                                                             background-color="gray darken-1"
                                                             color="yellow accent-4"
                                                             dense
