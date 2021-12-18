@@ -48,6 +48,11 @@ const routes = [
                 name: 'manageUser',
                 component: () => import('@/views/admin/manageUser')
             },
+            {
+                path: '/user/orderDetail/:orderId',
+                name: 'orderDetail',
+                component: () => import('@/views/user/components/orderDetail')
+            }
         ]
     },
 ]

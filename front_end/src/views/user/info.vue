@@ -100,6 +100,8 @@
                                 </a-radio-group>
                                 </div>
   </div>
+
+
                             <a-table
                                     rowKey="id"
                                     :columns="columns"
@@ -121,7 +123,9 @@
                         <a-tag color="grey" v-if="text=='已评价'">{{ text }}</a-tag>
                     </span>
                     <span slot="action" slot-scope="record">
-                        <v-btn color="primary" small @click="showDetail(record)">查看</v-btn>
+                        <v-btn color="primary" small @click="showDetail(record.id)">查看详情
+                            
+                        </v-btn>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
                                     <a-popconfirm
                                             title="你确定撤销该订单吗？"
@@ -296,9 +300,10 @@
             confirmCancelOrder(orderId) {
                 this.cancelOrder(orderId)
             },
-            showDetail(record) {
-                this.set_orderDetail(record)
-                this.set_orderDetailVisible(true)
+            showDetail(orderId) {
+                //this.set_orderDetail(record)
+                //this.set_orderDetailVisible(true)
+                this.$router.push({name:'orderDetail', params: {orderId: orderId}})
             },
             beginComment(record) {
                 this.dialog = true;
