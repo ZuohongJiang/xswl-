@@ -56,8 +56,9 @@
         }
     }
 
-    .ant-card-hoverable:hover {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4)
+    .v-card {
+        box-shadow: 0 2px 10px #fff;
+        border-radius: 199px;
     }
 
 </style>

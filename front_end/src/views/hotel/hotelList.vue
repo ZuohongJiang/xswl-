@@ -165,7 +165,7 @@
                                         >
                                             <v-card
                                                     :elevation="hover?12:6"
-                                                    class="mx-auto"
+                                                    class="mx-auto hotel-card"
                                             >
                                                 <v-img
                                                         v-bind:src="require('../../assets/house.jpg')"
@@ -386,6 +386,9 @@
 .hotel-list-right {
     width: calc(100% - 270px);
 }
+    .hotel-card:hover {
+        transform: scale(0.95);
+    }
 </style>
 <style scoped lang="less">
     .hotelList {
@@ -412,6 +415,7 @@
             position: relative;
             height: 188px;
         }
+
     }
 </style>
 <style>
