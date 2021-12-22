@@ -380,14 +380,14 @@
 .hotel-list-left {
     width: 250px;
     margin-right: 20px;
-    padding-top: 24px;
+    padding-top: 15px;
     flex-shrink: 0;
 }
 .hotel-list-right {
     width: calc(100% - 270px);
 }
     .hotel-card:hover {
-        transform: scale(0.95);
+        transform: scale(1.03);
     }
 </style>
 <style scoped lang="less">

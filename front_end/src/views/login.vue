@@ -201,10 +201,22 @@
                     credit: 100,
                     userType: 0
                 }
-                this.register(data).then(() => {
+                const loginData = {
+                    email: this.registerEmail,
+                    password: this.registerPassword
+                }
+                console.log(loginData)
+                this.register(data).then((res) => {
                     this.customActiveKey = 'tab1'
                     this.reset()
                     this.registerLoading = false
+                    if (res) {
+                        message.success('注册成功!')
+                        this.loginLoading = true
+                        this.login(loginData).then((res) => {
+                            this.loginLoading = false
+                        })
+                    }
                 })
             }
         }

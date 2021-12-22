@@ -51,6 +51,7 @@ service.interceptors.request.use((config) => {
 service.interceptors.response.use((response) => {
   switch (response.status) {
     case 200:
+      console.log(response)
       if(response.data.success && response.data.success){
         return response.data.content
       }

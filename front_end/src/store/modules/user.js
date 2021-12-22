@@ -78,6 +78,7 @@ const user = {
         //处理登录相关的方法
         login: async ({dispatch, commit}, userData) => {
             const res = await loginAPI(userData)
+            console.log(res)
             if (res) {
                 setToken(res.id)
                 commit('set_userId', res.id)
@@ -88,9 +89,12 @@ const user = {
         },
         register: async ({commit}, data) => {
             const res = await registerAPI(data)
+            console.log(res)
             if (res) {
-                message.success('注册成功')
+                // message.success('注册成功')
+                return true
             }
+            return false
         },
         getUserInfo({state, commit}) {
             return new Promise((resolve, reject) => {
