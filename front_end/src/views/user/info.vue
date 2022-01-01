@@ -32,7 +32,7 @@
                                     <span v-else>{{ userInfo.phoneNumber}}</span>
                                 </a-form-item>
 
-                                <a-form-item 
+                                <a-form-item
                                     label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 6, offset: 1 }"
                                 >
                                     <span>{{ userInfo.credit }}</span>
@@ -44,7 +44,7 @@
                                             <a-icon type="question-circle" />
                                         </a-tooltip>
                                 </a-form-item>
-                                
+
                                 <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }"
                                              v-if="modify_password">
                                     <a-input
@@ -76,10 +76,10 @@
                         </a-tab-pane>
                         <a-tab-pane tab="我的订单" key="2">
                               <div>
-                                <div > 
-                                <a-radio-group 
-                                    default-value="全部" 
-                                    button-style="solid" 
+                                <div >
+                                <a-radio-group
+                                    default-value="全部"
+                                    button-style="solid"
                                     @change = "onChangeRadioDisplay"
                                 >
                                     <a-radio-button value="全部" class="radioStyle">
@@ -335,7 +335,8 @@
                     this.rating = 0;
                     this.content = '';
                     this.comment = {};
-                    location.reload();
+                    //location.reload();
+                    this.$router.push({name:'orderDetail', params: {orderId: this.comorderId}})
                 }
             },
             cancelCancelOrder(){},

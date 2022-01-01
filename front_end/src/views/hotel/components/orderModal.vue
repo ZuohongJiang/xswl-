@@ -114,7 +114,7 @@
             <!-- <a-radio-group v-model="checkedList" @change="onchange"> -->
                 <a-table
                         :columns="columns"
-                        :dataSource="orderMatchCouponList"
+                        :dataSource="getAddKeyList"
                         :showHeader="true"
                         bordered
                         v-if="orderMatchCouponList.length>0"
@@ -131,7 +131,7 @@
                         <span v-if="val===0">无</span>
                         <span v-else>{{val}}</span>
                     </span>
-                        <span slot="discountMoney" slot-scope="val,record">
+                        <span slot="discountMoney" slot-scope="val, record">
                             <span v-if="val===0">{{Math.floor(totalPrice*(1 - record.discount) * 100) / 100}}</span>
                             <span v-else>{{val}}</span>
                         </span>
@@ -204,7 +204,9 @@
                 'userId',
                 'orderMatchCouponList'
             ]),
-
+            getAddKeyList() {
+                return this.orderMatchCouponList.slice(0).map(val => val={...val, key:val.id})
+            }
         },
         
         beforeCreate() {

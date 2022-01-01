@@ -12,10 +12,10 @@
                                         <v-list-item-content class="button">{{comment.userName}}</v-list-item-content>
                                 <v-list-item-content>
                                     <v-row class="my-n5">
-                                        <v-col cols="1" >
+                                        <v-col cols="1" class="mr-4">
                                             评分：{{comment.rate}} 分
                                         </v-col>
-                                        <v-col cols="1" class="my-n2 ml-2">
+                                        <v-col cols="1" class="my-n2 ml-4">
                                             <div class="overline">{{comment.createDate}}</div>
                                         </v-col>
                                     </v-row>
