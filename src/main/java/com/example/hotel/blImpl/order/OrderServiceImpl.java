@@ -150,4 +150,15 @@ public class OrderServiceImpl implements OrderService {
     public void commentOrder(int orderid){
         orderMapper.commentOrder(orderid);
     }
+
+    /**
+     * @description: 获取指定order所有信息
+     * @param orderId
+     * @return
+     */
+    @Override
+    public ResponseVO getOrderDetail(int orderId){
+        Order order = orderMapper.getOrderById(orderId);
+        return ResponseVO.buildSuccess();
+    }
 }

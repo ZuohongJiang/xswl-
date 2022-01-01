@@ -23,6 +23,7 @@ public class OrderVO {
     private String clientName;
     private String phoneNumber;
     private String orderState;
+    private String comment;
 
     public Integer getId() {
         return id;
@@ -150,5 +151,13 @@ public class OrderVO {
 
     public void setOrderState(String orderState) {
         this.orderState = orderState;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
