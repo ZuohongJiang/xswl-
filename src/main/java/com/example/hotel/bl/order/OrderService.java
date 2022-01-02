@@ -83,5 +83,7 @@ public interface OrderService {
      * @return
      */
     void commentOrder(int orderid);
+
+    ResponseVO getOrderDetail(int orderId);
 }
 

@@ -59,7 +59,7 @@
                                 v-model="registerEmail"
                                 outlined
                                 :rules="emailRules"
-                                label="邮箱"
+                                label="邮箱，注意这是登录的唯一凭证"
                                 required
                         ></v-text-field>
                         <v-text-field
@@ -81,7 +81,7 @@
                                 v-model="registerPassword"
                                 outlined
                                 :rules="passwordRules"
-                                label="密码"
+                                label="密码(6-11个字符)"
                                 required
                         ></v-text-field>
                         <v-text-field
@@ -89,7 +89,7 @@
                                 v-model="registerPasswordConfirm"
                                 outlined
                                 :rules="needRules.concat(passwordConfirmationRule)"
-                                label="密码"
+                                label="确认密码"
                                 required
                         ></v-text-field>
                         <v-btn

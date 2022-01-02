@@ -15,6 +15,73 @@
                 <template v-slot="{ hover }">
                     <v-sheet
                             :elevation="hover?24:8"
+                            class="mx-auto mb-6"
+                    >
+                        <v-list>
+                            <v-list-item>
+                                <v-list-item-title>
+                                    <v-icon>mdi-filter</v-icon>
+                                    安排行程
+                                </v-list-item-title>
+                            </v-list-item>
+                            <v-divider></v-divider>
+                            <v-list-group
+                                    prepend-icon="mdi-calendar"
+                            >
+                                <template v-slot:activator>
+                                    <v-list-item-title>入住时间</v-list-item-title>
+                                </template>
+                                <v-menu
+                                        v-model="menu"
+                                        :close-on-content-click="false"
+                                        :return-value.sync="dates"
+                                        transition="scale-transition"
+                                        offset-y
+                                        min-width="auto"
+                                >
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-text-field
+                                                v-model="dateRangeText"
+                                                label="选择日期"
+                                                readonly
+                                                class="mx-3"
+                                                v-bind="attrs"
+                                                v-on="on"
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker
+                                            v-model="dates"
+                                            :allowed-dates="allowedDates"
+                                            no-title
+                                            range
+                                            locale="zh-cn"
+                                    >
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                                text
+                                                color="primary"
+                                                @click="menu = false"
+                                        >
+                                            取消
+                                        </v-btn>
+                                        <v-btn
+                                                text
+                                                color="primary"
+                                                @click="selectDatesOK"
+                                        >
+                                            确定
+                                        </v-btn>
+                                    </v-date-picker>
+                                </v-menu>
+                            </v-list-group>
+                        </v-list>
+                    </v-sheet>
+                </template>
+            </v-hover>
+            <v-hover>
+                <template v-slot="{ hover }">
+                    <v-sheet
+                            :elevation="hover?24:8"
                             class="mx-auto"
                     >
                         <v-list>
@@ -133,7 +200,6 @@
         <div class="hotel-list-right">
             <a-spin :spinning="hotelListLoading">
                 <div v-if="hotelList.length==0">
-
                     <a-empty v-if="!hotelListLoading">
                         <span slot="description"> 暂无符合条件的酒店 </span>
                     </a-empty>
@@ -141,7 +207,7 @@
                 <v-container fluid v-else class="hotel-cards">
                     <v-row>
                         <v-col
-                        v-for="hotel in hotelList"
+                        v-for="hotel in getPageList"
                                 :key="hotel.index"
                             xl="3" lg="4" md="4" sm="6"
                         >
@@ -211,6 +277,10 @@
                         </v-col>
                     </v-row>
                 </v-container>
+                <v-pagination
+                    v-model="pageIndex"
+                    :length="getPageNum"
+                />
             </a-spin>
         </div>
     </div>
@@ -223,6 +293,7 @@
         components: {},
         data() {
             return {
+                pageIndex : 1,
                 emptyBox: [{name: 'box1'}, {name: 'box2'}, {name: 'box3'}],
                 saveList: [], //保存获取到的原始酒店列表
                 filterOp: {}, //保存筛选选项。下面是具体参数以及列表
@@ -233,7 +304,9 @@
                 checkOrdered: false,
                 f_star: 0,
                 selectOpts: [{'text': '按星级', 'val': 'hotelStar'}, {'text': '按评分', 'val': 'rate'}],
-                selectVal: []
+                selectVal: [],
+                menu: false,
+                dates: []
             }
         },
         async mounted() {
@@ -246,7 +319,34 @@
                 'hotelList',
                 'hotelListLoading',
                 'myOrderedHotelList'
-            ])
+            ]),
+            dateRangeText () {
+                let dates = this.dates.slice(0)
+                dates.sort((a, b)=>{
+                    return new Date(a) - new Date(b)
+                })
+                if (dates.length > 1) {
+                    let dateText = dates[0].split("-")[0]
+                    dates = dates.map(val => val.slice(val.indexOf("-") + 1))
+                    dateText += "-" + dates.join(" ~ ")
+                    let days = Math.abs(Date.parse(this.dates[1]) - Date.parse(this.dates[0]))
+                    days = Math.floor(days / (24 * 3600 * 1000)) + 1
+                    dateText += "，共" + days + "天"
+                    return dateText
+                } else {
+                    return dates.join(" ~ ")
+                }
+            },
+            getPageList () {
+                let beginIndex = (this.pageIndex - 1) * 6
+                let endIndex = Math.min(beginIndex + 6, this.hotelList.length)
+                return this.hotelList.slice(beginIndex, endIndex)
+            },
+            getPageNum () {
+                if (this.hotelList === undefined)
+                    return 1
+                return Math.ceil(this.hotelList.length / 6);
+            }
         },
         methods: {
             ...mapMutations([
@@ -258,6 +358,11 @@
                 'getHotelList',
                 'getMyOrderedHotelList'
             ]),
+            allowedDates: val => new Date(val) >= new Date(Date.now() - 24*60*60*1000),
+            selectDatesOK() {
+              this.menu = false
+              //TODO
+            },
             //处理筛选选项改变的方法
             changeBizRegion() {
                 const reg = {

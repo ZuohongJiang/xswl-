@@ -73,4 +73,13 @@ public class OrderController {
         return ResponseVO.buildSuccess(orderService.getManageHotelsOrders(hotelIdList));
     }
 
+    /**
+     * @Description: 获取指定订单详细信息
+     * @param orderId
+     * @return
+     */
+    @GetMapping("/getOrderDetail")
+    public ResponseVO retrieveOrderDetail(@RequestParam int orderId){
+        return ResponseVO.buildSuccess(orderService.getOrderDetail(orderId));
+    }
 }
