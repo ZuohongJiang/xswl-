@@ -17,28 +17,46 @@
        </h1>
        <div class ="cont_mid">
            <p>
-               <span>酒店名称：</span>
-               <em>{{orderDetail.hotelName}}</em>
+               <span class="ltar s12 itemListTitle">酒店名称：</span>
+               <em class="itemList s14">
+                   <b>{{orderDetail.hotelName}}
+                   </b>
+                   </em>
            </p>
            <p>
-               <span>地址：</span>
-               <em>{{orderDetail.address}}</em>
+               <span class="ltar s12 itemListTitle">地址：</span>
+               <em class="itemList s12">
+                   <b>{{orderDetail.address}}
+                   </b>
+                   </em>
            </p>
            <p>
-               <span>电话：</span>
-               <em>{{orderDetail.hotelPhone}}</em>
+               <span class="ltar s12 itemListTitle">电话：</span>
+               <em class="itemList s12">
+                   <b>
+                       {{orderDetail.hotelPhone}}
+                   </b></em>
            </p>
            <p>
-               <span>订单状态：</span>
-               <em>{{orderDetail.orderState}}</em>
+               <span class="ltar s12 itemListTitle">订单状态：</span>
+               <em class="itemList s12">
+                   <b>{{orderDetail.orderState}}</b>
+                   </em>
            </p>
            <p>
-               <span>预定时间：</span>
-               <em>{{orderDetail.createDate}}</em>
+               <span class="ltar s12 itemListTitle">预定时间：</span>
+               <em class="itemList s12">
+                   <b>{{orderDetail.createDate}}
+                   </b>
+                   </em>
            </p>
            <p>
-               <span>订单号：</span>
-               <em>{{orderDetail.id}}</em>
+               <span class="ltar s12 itemListTitle">订单号：</span>
+               <em class="itemList s12">
+                   <b>
+                       {{orderDetail.id}}
+                   </b>
+                   </em>
            </p>
 
        </div>
@@ -47,22 +65,22 @@
        </h1>
        <div class ="cont_mid">
            <p>
-               <span class = "itemListTitle">房型：
+               <span class="ltar s12 itemListTitle">房型：
                </span>
-               <em class = "itemList">{{orderDetail.roomType}}</em>
-               <em class = "itemList">
+               <em class = "itemList s12 padLeft60"><b>{{orderDetail.roomType}}</b></em>
+               <em class = "itemList s12">
                    <b>住客人数：
                        <i>{{orderDetail.peopleNum}}</i>
                    </b>
                </em>
            </p>
            <p>
-               <span class = "itemListTitle">早餐信息：
+               <span class="ltar s12 itemListTitle">早餐信息：
                </span>
-               <em class="itemList"></em>
+               <em class="itemList"><b></b></em>
            </p>
            <p>
-               <span class="itemListTitle">
+               <span class="ltar s12 itemListTitle">
                    入住人：
                </span>
                <em class="itemList">
@@ -70,7 +88,7 @@
                </em>
            </p>
            <p>
-               <span class="itemListTitle">入离日期：
+               <span class="ltar s12 itemListTitle">入离日期：
                </span> 
                <em class="itemList">
                    <b>入住 <span>
@@ -83,11 +101,12 @@
                </em>
            </p>
            <p>
-               <span class="itemListTitle">订单总价：
-                   <em class="itemList">
-                       {{orderDetail.price}}
-                   </em>
+               <span class="ltar s12 itemListTitle">订单总价：
                </span>
+                   <em class="itemList redColor s14"><b>
+                       {{orderDetail.price}}
+                       </b>
+                   </em>
            </p>
        </div>
        <h1 class ="cont_top">
@@ -95,30 +114,34 @@
        </h1>
        <div class ="cont_mid">
            <p>
-               <span class="itemListTitle">
+               <span class="ltar s12 itemListTitle">
                联系人：
                </span>
-           </p>
-           <em>
+                <em class="itemList s12">
+               <b>
                {{orderDetail.clientName}}
-           </em>
+               </b>
+                </em>
+           </p>
            <p>
-               <span class="itemListTitle">
+               <span class="ltar s12 itemListTitle">
                手机号码：
                </span>
            </p>
-           <em>
+           <em class="itemList s12">
+               <b>
                {{orderDetail.phoneNumber}}
+               </b>
            </em>
            <p>
-               <span class="itemListTitle">
+               <span class="ltar s12 itemListTitle">
                邮箱：
                </span>
            </p>
            <em>
            </em>
            <p>
-               <span class="itemListTitle">
+               <span class="ltar s12 itemListTitle">
                其他要求：
                </span>
            </p>
@@ -143,6 +166,17 @@
 </template>
 
 <style>
+body {
+    font-size: 12px;
+    font-family: arial,"microsoft yahei",simsun,sans-self;
+    overflow-y: scroll;
+}
+em, i{
+    font-style:normal;
+}
+b{
+    font-weight: bold;
+}
 .of{
     overflow: hidden;
 }
@@ -151,6 +185,9 @@
 }
 .rfloat{
     float:right;
+}
+.ltar{
+    text-align: right;
 }
 .cont_top {
     height: 37px;
@@ -176,8 +213,31 @@
     height: auto;
     margin: 0 auto;
 }
+.cont_mid p{
+    color: #333;
+    padding: 5px 0;
+}
 .cont_mid p span{
     color: gray;
+}
+.cont_mid .itemListTitle{
+    width: 75px;
+    display: inline-block;
+    vertical-align: top;
+}
+.cont_mid .itemList{
+    max-width: 410px;
+    display: inline-block;
+    margin-left: 9px;
+}
+.cont_mid .redColor{
+    color: #f60;
+}
+.cont_mid .itemList i{
+    padding-right: 5px;
+}
+.cont_mid .padLeft60{
+    padding-right: 60px;
 }
 .mid_page{
     width: 990px;
@@ -185,6 +245,9 @@
 }
 .s12{
     font-size: 12px;
+}
+.s14{
+    font-size: 14px;
 }
 .s16{
     font-size: 16px;
