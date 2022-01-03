@@ -19,4 +19,6 @@ public interface CommentService {
      * @return
      */
     List<Comment> getHotelComments(Integer hotelId);
+
+
 }

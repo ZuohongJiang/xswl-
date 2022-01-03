@@ -78,8 +78,8 @@ public class OrderController {
      * @param orderId
      * @return
      */
-    @GetMapping("/getOrderDetail")
-    public ResponseVO retrieveOrderDetail(@RequestParam int orderId){
-        return ResponseVO.buildSuccess(orderService.getOrderDetail(orderId));
+    @GetMapping("/{orderId}/orderDetail")
+    public ResponseVO retrieveOrderDetail(@PathVariable int orderId){
+        return orderService.getOrderDetail(orderId);
     }
 }

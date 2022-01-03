@@ -48,6 +48,12 @@ export function getUserOrdersAPI(data) {
         method: 'GET',
     })
 }
+export function getOrderDetailAPI(orderId){
+    return axios({
+        url: `${api.orderPre}/${orderId}/orderDetail`,
+        method: 'GET',
+    })
+}
 export function cancelOrderAPI(orderId) {
     return axios({
         url: `${api.orderPre}/${orderId}/annulOrder`,

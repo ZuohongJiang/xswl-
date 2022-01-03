@@ -14,6 +14,7 @@ import {
 import {
     getUserOrdersAPI,
     cancelOrderAPI,
+    getOrderDetailAPI,
     getUserThisHotelOrdersAPI,
 } from '@/api/order'
 import {updateUserPasswordAPI} from "../../api/user";
@@ -162,6 +163,11 @@ const user = {
             } else {
                 message.error('撤销失败')
             }
+        },
+        
+        getOrderDetail: async ({commit}, orderId) => {
+            const res = await getOrderDetailAPI(orderId);
+            commit('set_orderDetail', res);
         },
 
         //登出

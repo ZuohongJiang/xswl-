@@ -233,7 +233,7 @@
                 'userInfo',
                 'userOrderList',
                 'orderDetailVisible',
-                'recordDetail'
+        
             ]),
             filteredKeys() {
                 return this.keys.filter(key => key !== `Name`)

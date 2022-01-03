@@ -1,11 +1,15 @@
 package com.example.hotel.blImpl.order;
 
+import com.alibaba.fastjson.JSONObject;
+import com.example.hotel.bl.comment.CommentService;
 import com.example.hotel.bl.hotel.HotelService;
 import com.example.hotel.bl.order.OrderService;
 import com.example.hotel.bl.user.AccountService;
 import com.example.hotel.data.order.OrderMapper;
+import com.example.hotel.po.Hotel;
 import com.example.hotel.po.Order;
 import com.example.hotel.po.User;
+import com.example.hotel.vo.HotelVO;
 import com.example.hotel.vo.OrderVO;
 import com.example.hotel.vo.ResponseVO;
 import org.springframework.beans.BeanUtils;
@@ -18,6 +22,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 /**
  * @Author: chenyizong
@@ -36,6 +41,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     AccountService accountService;
 
+    @Autowired
+    CommentService commentService;
     @Override
     public ResponseVO addOrder(OrderVO orderVO) {
         int reserveRoomNum = orderVO.getRoomNum();
@@ -159,6 +166,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseVO getOrderDetail(int orderId){
         Order order = orderMapper.getOrderById(orderId);
-        return ResponseVO.buildSuccess();
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(order);
+        HotelVO hotel = hotelService.retrieveHotelDetails(order.getHotelId());
+        jsonObject.put("address", hotel.getAddress());
+        jsonObject.put("hotelPhone", hotel.getPhoneNum());
+
+        return ResponseVO.buildSuccess(jsonObject);
     }
 }
