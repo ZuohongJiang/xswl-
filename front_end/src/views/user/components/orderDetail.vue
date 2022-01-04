@@ -85,7 +85,7 @@
                    入住人：
                </span>
                <em class="itemList">
-                   <b></b>
+                   <b>{{orderDetail.clientName}}</b>
                </em>
            </p>
            <p>
@@ -96,7 +96,7 @@
                        <span class="resetColor">{{orderDetail.checkInDate}};</span>
                        <span class="resetColor">离店:</span>
                        <span class="resetColor">{{orderDetail.checkOutDate}}</span>
-                       
+                       <span class="resetColor"> 共{{days}}晚</span>
                    </b>
                </em>
            </p>
@@ -302,6 +302,11 @@ import {mapGetters,mapMutations,mapActions} from 'vuex'
 
 export default {
   name: "orderDetail",
+  data(){
+      return {
+          days: 1,
+      }
+  },
   computed:{
       ...mapGetters(
           [
@@ -338,7 +343,13 @@ export default {
       ]),
       ...mapActions([
           'getOrderDetail'
-          ])
+          ]),
+      getDays(date1, date2){
+        var d1 = new Date(date1);
+        var d2 = new Date(date2);
+        var days = (d2.getTime() - d1.getTime()) / (1000 * 3600 * 24);
+        return days;
+      }
   },
   watch:{
       $route(to, from){
@@ -352,6 +363,7 @@ export default {
     mounted(){
 
         this.getOrderDetail(this.$route.params.orderId);
+        this.days = this.getDays(this.orderDetail.checkInDate, this.orderDetail.checkOutDate);
         // console.log(this.$store);
     }
 }

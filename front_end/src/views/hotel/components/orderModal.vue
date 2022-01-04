@@ -11,7 +11,7 @@
             <a-form-item v-bind="formItemLayout" label="房型信息">
                 <span>{{ currentOrderRoom.roomType }}</span>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="入住人姓名">
+            <!-- <a-form-item v-bind="formItemLayout" label="入住人姓名">
                 <a-input
                         v-decorator="[
                         'clientName',
@@ -26,7 +26,7 @@
                         { rules: [{required: true, message: '请填写入住人联系手机', }] }
                     ]"
                 />
-            </a-form-item>
+            </a-form-item> -->
 
             <a-form-item v-bind="formItemLayout" label="入住日期">
                 <a-range-picker
