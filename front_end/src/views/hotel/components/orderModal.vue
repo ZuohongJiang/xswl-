@@ -11,7 +11,7 @@
             <a-form-item v-bind="formItemLayout" label="房型信息">
                 <span>{{ currentOrderRoom.roomType }}</span>
             </a-form-item>
-            <a-form-item v-bind="formItemLayout" label="入住人姓名">
+            <!-- <a-form-item v-bind="formItemLayout" label="入住人姓名">
                 <a-input
                         v-decorator="[
                         'clientName',
@@ -26,7 +26,7 @@
                         { rules: [{required: true, message: '请填写入住人联系手机', }] }
                     ]"
                 />
-            </a-form-item>
+            </a-form-item> -->
 
             <a-form-item v-bind="formItemLayout" label="入住日期">
                 <a-range-picker
@@ -241,13 +241,14 @@
                             userId: Number(this.userId),
                             checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
                             checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
-                            roomType: this.currentOrderRoom.roomType == '大床房' ? 'BigBed' : this.currentOrderRoom.roomType == '双床房' ? 'DoubleBed' : 'Family',
+                            roomType: this.currentOrderRoom.roomType,
                             roomId: this.currentOrderRoom.id,
                             roomNum: this.form.getFieldValue('roomNum'),
                             peopleNum: this.form.getFieldValue('peopleNum'),
                             haveChild: this.form.getFieldValue('haveChild'),
                             createDate: '',
-                            price: this.finalPrice
+                            price: this.finalPrice,
+                            totalPrice: this.totalPrice
                         }
                         this.$router.push({name:"orderConfirm", params:{data: data}})
                     }
@@ -312,7 +313,7 @@
                             userId: Number(this.userId),
                             checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
                             checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
-                            roomType: this.currentOrderRoom.roomType == '大床房' ? 'BigBed' : this.currentOrderRoom.roomType == '双床房' ? 'DoubleBed' : 'Family',
+                            roomType: this.currentOrderRoom.roomType,
                             roomId: this.currentOrderRoom.id,
                             roomNum: this.form.getFieldValue('roomNum'),
                             peopleNum: this.form.getFieldValue('peopleNum'),

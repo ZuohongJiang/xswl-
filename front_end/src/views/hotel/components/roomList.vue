@@ -1,5 +1,6 @@
 <template>
     <div class="room-list">
+        
         <div class="filter">
 
         </div>
@@ -8,9 +9,13 @@
                     rowKey="id"
                     :columns="columns"
                     :dataSource="rooms"
-            >
+            >   
+                <span slot="pic" slot-scope="id">
+                    <v-img class="smallPic" v-bind:src="getHotelPicUrl(id)">
+                    </v-img>
+                </span>
                 <span slot="price" slot-scope="text">
-                    <span>￥{{ text }}</span>
+                    <span class="price">￥{{ text }}</span>
                 </span>
                 <span slot="action" slot-scope="record">
                     <v-btn color="primary" @click="showDetail(record)">查看详情</v-btn>
@@ -23,6 +28,16 @@
         <RoomModal></RoomModal>
     </div>
 </template>
+<style>
+.smallPic{
+    width: 50px;
+    height: 50px;
+}
+.price{
+    color: #FF6600;
+    font-weight: bold;
+}
+</style>
 <script>
     import {mapGetters, mapActions, mapMutations} from 'vuex'
     import OrderModal from './orderModal'
@@ -30,7 +45,11 @@
     import RoomModal from '../../hotelManager/components/roomModal'
 
     const columns = [
-
+        {
+            title: '小图',
+            dataIndex: 'id',
+            scopedSlots: {customRender: 'pic'}
+        },
         {
             title: '房型',
             dataIndex: 'roomType',
@@ -42,12 +61,13 @@
             dataIndex: 'price',
             scopedSlots: {customRender: 'price'}
         },
-      
+    
         {
             title: '操作',
             key: 'action',
             scopedSlots: {customRender: 'action'},
         },
+     
     ];
     export default {
         name: 'roomList',
@@ -97,7 +117,7 @@
                 })
             },
             showDetail(record) {
-
+                console.log(record)
                 if (!record.detail) {
                     message.error('暂无更多详情')
                 } else {
@@ -106,6 +126,9 @@
                     this.set_roomDetail(record)
                     this.set_roomModalVisible(true)
                 }
+            },
+             getHotelPicUrl(id){
+                return require("../../../assets/room/" + id + ".jpg")
             }
         }
     }

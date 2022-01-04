@@ -18,7 +18,7 @@
         color: #2c3e50;
         width: 100%;
         padding: 20px 100px 144px;
-        background: #F6F6F6 url('assets/witewall_3.png') repeat 100%;
+        background: url('assets/witewall_3.png') repeat 100%;
         min-height: 800px
     }
 

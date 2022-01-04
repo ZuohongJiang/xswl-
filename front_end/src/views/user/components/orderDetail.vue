@@ -1,6 +1,21 @@
 <template>
+<div>
+<div class="nav">
+    <a-breadcrumb>
+    <a-breadcrumb-item href="">
+      <a-icon type="home" />
+    </a-breadcrumb-item>
+    <a-breadcrumb-item href="">
+      <a-icon type="user" />
+      <span>我的订单</span>
+    </a-breadcrumb-item>
+    <a-breadcrumb-item>
+      订单详情
+    </a-breadcrumb-item>
+  </a-breadcrumb>
+</div>
 <section class="mid_page of">
-<div class="pageNav of">
+<!-- <div class="pageNav of">
     <h4 class="s12">
         <p class="lfloat">
             <em></em>
@@ -9,7 +24,7 @@
             {{orderDetail.hotelName}}
         </p>
     </h4>
-</div>
+</div> -->
 <section class="left_page lfloat">
    <div class = "content">
        <h1 class ="cont_top">
@@ -39,9 +54,10 @@
            </p>
            <p>
                <span class="ltar s12 itemListTitle">订单状态：</span>
-               <em class="itemList s12">
+               <em v-bind:class= "orderState" class="itemList s12 color">
                    <b>{{orderDetail.orderState}}</b>
                    </em>
+          
            </p>
            <p>
                <span class="ltar s12 itemListTitle">预定时间：</span>
@@ -77,26 +93,25 @@
            <p>
                <span class="ltar s12 itemListTitle">早餐信息：
                </span>
-               <em class="itemList"><b></b></em>
+               <em class="itemList"><b>不含餐饮</b></em>
            </p>
            <p>
                <span class="ltar s12 itemListTitle">
                    入住人：
                </span>
                <em class="itemList">
-                   <b></b>
+                   <b>{{orderDetail.clientName}}</b>
                </em>
            </p>
            <p>
                <span class="ltar s12 itemListTitle">入离日期：
                </span> 
                <em class="itemList">
-                   <b>入住 <span>
-                       {{orderDetail.checkInDate}}
-                       </span>
-                       离店
-                       {{orderDetail.checkOutDate}}
-                       <span></span> 
+                   <b>入住:
+                       <span class="resetColor">{{orderDetail.checkInDate}};</span>
+                       <span class="resetColor">离店:</span>
+                       <span class="resetColor">{{orderDetail.checkOutDate}}</span>
+                       <span class="resetColor"> 共{{days}}晚</span>
                    </b>
                </em>
            </p>
@@ -104,7 +119,7 @@
                <span class="ltar s12 itemListTitle">订单总价：
                </span>
                    <em class="itemList redColor s14"><b>
-                       {{orderDetail.price}}
+                       {{orderDetail.price}} CNY
                        </b>
                    </em>
            </p>
@@ -127,12 +142,12 @@
                <span class="ltar s12 itemListTitle">
                手机号码：
                </span>
+               <em class="itemList s12">
+                    <b>{{orderDetail.phoneNumber}}
+                    </b>
+               </em>
            </p>
-           <em class="itemList s12">
-               <b>
-               {{orderDetail.phoneNumber}}
-               </b>
-           </em>
+    
            <p>
                <span class="ltar s12 itemListTitle">
                邮箱：
@@ -140,18 +155,14 @@
            </p>
            <em>
            </em>
-           <p>
-               <span class="ltar s12 itemListTitle">
-               其他要求：
-               </span>
-           </p>
+
            
        </div>
        
    </div>
 </section>
 
-<aside class="right_page rfloat">
+<!-- <aside class="right_page rfloat">
     <div class="content">
         <div class="asideTitle">
             <h2 class="s16">
@@ -161,8 +172,9 @@
             </div>
         </div>
     </div>
-</aside>
+</aside> -->
 </section>
+</div>
 </template>
 
 <style>
@@ -177,6 +189,11 @@ em, i{
 b{
     font-weight: bold;
 }
+.nav{
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-bottom: 20px;
+}
 .of{
     overflow: hidden;
 }
@@ -186,8 +203,23 @@ b{
 .rfloat{
     float:right;
 }
+.reserved{
+    color: #1890ff;
+}
+.executed{
+    color: #52c41a;
+}
+.commented{
+    color: grey;
+}
+.annuled{
+    color: #f5222d;
+}
 .ltar{
     text-align: right;
+}
+.cont_mid p .resetColor{
+    color:#333
 }
 .cont_top {
     height: 37px;
@@ -197,7 +229,7 @@ b{
 }
 .left_page{
     padding: 17px 33px 0 33px;
-    width: 590px;
+    width: 890px;
     height: auto;
     background-color: #fff;
     border-width: 1px;
@@ -205,6 +237,7 @@ b{
     border-color: #e4dfdc;
 }
 .right_page{
+    background: #ada9a5;
     padding: 15px;
     width: 300px;
 }
@@ -290,12 +323,40 @@ import {mapGetters,mapMutations,mapActions} from 'vuex'
 
 export default {
   name: "orderDetail",
+  data(){
+      return {
+          days: 1,
+      }
+  },
   computed:{
       ...mapGetters(
           [
               'orderDetail'
           ]
-      )
+      ),
+      orderState: function(){
+          if (this.orderDetail.orderState==="已预订"){
+              return {
+                  reserved: true
+              }
+          }
+          else if(this.orderDetail.orderState==="已执行"){
+              return {
+                  executed: true
+              }
+          }
+          else if(this.orderDetail.orderState==="已撤销"){
+              return{
+                  annuled: true
+              }
+          }
+          else {
+              return{
+                  commented: true
+              }
+          }
+          
+      }
   },
   methods:{
       ...mapMutations([
@@ -303,7 +364,13 @@ export default {
       ]),
       ...mapActions([
           'getOrderDetail'
-          ])
+          ]),
+      getDays(date1, date2){
+        var d1 = new Date(date1);
+        var d2 = new Date(date2);
+        var days = (d2.getTime() - d1.getTime()) / (1000 * 3600 * 24);
+        return days;
+      }
   },
   watch:{
       $route(to, from){
@@ -317,6 +384,7 @@ export default {
     mounted(){
 
         this.getOrderDetail(this.$route.params.orderId);
+        this.days = this.getDays(this.orderDetail.checkInDate, this.orderDetail.checkOutDate);
         // console.log(this.$store);
     }
 }
