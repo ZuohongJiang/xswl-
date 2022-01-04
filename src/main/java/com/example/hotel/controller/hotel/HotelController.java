@@ -64,4 +64,5 @@ public class HotelController {
         hotelService.deleteHotel(hotelId);
         return ResponseVO.buildSuccess(true);
     }
+
 }

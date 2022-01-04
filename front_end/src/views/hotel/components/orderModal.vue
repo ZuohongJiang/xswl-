@@ -5,7 +5,7 @@
             cancelText="取消"
             okText="下单"
             @cancel="cancelOrder"
-            @ok="handleSubmit"
+            @ok="confirmOrder"
     >
         <a-form :form="form">
             <a-form-item v-bind="formItemLayout" label="房型信息">
@@ -142,6 +142,9 @@
         </a-form>
     </a-modal>
 </template>
+<style>
+</style>
+
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
 
@@ -227,8 +230,29 @@
             cancelOrder() {
                 this.set_orderModalVisible(false)
             },
-            confirmOrder() {
-
+            confirmOrder(e) {
+                console.log(e)
+                e.preventDefault();
+                this.form.validateFieldsAndScroll((err, values) => {
+                    if (!err) {
+                        const data = {
+                            hotelId: this.currentHotelId,
+                            hotelName: this.currentHotelInfo.name,
+                            userId: Number(this.userId),
+                            checkInDate: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
+                            checkOutDate: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
+                            roomType: this.currentOrderRoom.roomType == '大床房' ? 'BigBed' : this.currentOrderRoom.roomType == '双床房' ? 'DoubleBed' : 'Family',
+                            roomId: this.currentOrderRoom.id,
+                            roomNum: this.form.getFieldValue('roomNum'),
+                            peopleNum: this.form.getFieldValue('peopleNum'),
+                            haveChild: this.form.getFieldValue('haveChild'),
+                            createDate: '',
+                            price: this.finalPrice
+                        }
+                        this.$router.push({name:"orderConfirm", params:{data: data}})
+                    }
+                });
+             
             },
             changeDate(v) {
                 if (this.totalPrice != '') {
