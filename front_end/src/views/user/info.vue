@@ -35,14 +35,13 @@
                                 <a-form-item
                                     label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 6, offset: 1 }"
                                 >
-                                    <span>{{ userInfo.credit }}</span>
-                                    <span>&nbsp;</span>
-                                          <a-tooltip placement="rightTop" trigger="click">
-                                            <template slot="title">
-                                            <span>撤销订单会扣除相应信用分，信用分低于60则不能预定酒店</span>
-                                            </template>
-                                            <a-icon type="question-circle" />
-                                        </a-tooltip>
+                                    <span>{{ userInfo.credit }}&nbsp;</span>
+                                    <a-tooltip placement="rightTop" trigger="hover">
+                                      <template slot="title">
+                                      <span>撤销订单会扣除相应信用分，信用分低于60则不能预定酒店</span>
+                                      </template>
+                                      <a-icon type="question-circle" />
+                                    </a-tooltip>
                                 </a-form-item>
 
                                 <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }"

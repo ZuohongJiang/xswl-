@@ -56,7 +56,6 @@ CREATE TABLE `room`
     `hotel_id` int                                                      DEFAULT NULL,
     `roomType` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci   DEFAULT NULL,
     `detail`   varchar(2000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 48
@@ -87,15 +86,15 @@ CREATE TABLE `comment`
     `userId`         int                                                           DEFAULT NULL,
     `hotelId`        int                                                           DEFAULT NULL,
     `orderId`        int                                                           DEFAULT NULL,
-    `createDate`     varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-    `commentContent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+    `createDate`     varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+    `commentContent` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
     `rate`           double                                                        DEFAULT NULL,
-    `userName`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+    `userName`       varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci
+  DEFAULT CHARSET = utf8mb3
+--  COLLATE = utf8 COLLATE utf8_general_ci
   ROW_FORMAT = DYNAMIC;
 
 DROP TABLE IF EXISTS `coupon`;
@@ -186,7 +185,7 @@ VALUES (55, '一次性预定两件及以上房间打8折', 1, 2, '多间优惠',
 INSERT INTO `hotel` (`id`, `hotelName`, `hotelDescription`, `address`, `bizRegion`, `hotelStar`, `phoneNum`,
                      `manager_id`, `lowestPrice`)
 VALUES (1, '全季南京新街口王府大街酒店', '全季酒店成立于2010年，隶属华住集团，中国领先的中档酒店品牌。目前已覆盖中国31个省级行政区，开业已超过1100家。 从东方智慧中汲取人文精神，从当代生活中提炼价值内涵，全季通过亲朋服务创造优质体验，在东方土地上，让更多人感受东方的自然得体，为4亿中产人群提升旅途生活品质。',
-        '江苏省南京市秦淮区王府大街63号-19(江苏省南京市秦淮区王府大街63号-19)', 'XinJieKou', 'Three', '025-57711555',  33, 199),
+        '江苏省南京市秦淮区王府大街63号-19', 'XinJieKou', 'Three', '025-57711555',  33, 199),
        (2, '桔子南京新街口张府园地铁站酒店', '桔子南京新街口酒店（2017年重新装修）坐落于具有历史悠久的明朝古巷张府园巷内，离繁华的新街口商业街步行约8分钟，距夫子庙约5分钟车程，紧邻地铁张府园站（50米），交通便利，地理位置得天独厚，出行方便；除此之外，酒店更是闹中取静，能保证您安静睡眠！作为知名设计师酒店品牌旗下酒店，桔子南京新街口酒店由桔子集团专属设计师团队以“梦回金陵”为设计理念精心打造。',
        '南京市秦淮区中山南路288号', 'XinJieKou', 'Three', '025-66628850', 33, 313),
        (3, '南京金鹰珠江壹号国际酒店', '南京金鹰珠江壹号国际酒店地处南京新街口商圈内，傲居城市中轴中山路与珠江路黄金交汇点，城市CBD中央，省市政府两大政务中心聚集地，紧邻南京大学、东南大学两大著名学府，距总统府、玄武湖等主要景点约5分钟车程；同时酒店与地铁1号线及金鹰国际购物中心（珠江路店）紧密直连，购物中心汇聚众多国际一线名品、G-Mart超市、亲子乐园、特色餐饮等。',

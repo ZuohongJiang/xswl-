@@ -1,7 +1,7 @@
 <template>
     <div class="hotelList">
         <div class="hotel-list-left">
-            <v-combobox
+<!--            <v-combobox
                     v-model="searchVal"
                     :items="hotelList"
                     item-text="name"
@@ -10,7 +10,31 @@
                     outlined
                     label="搜索酒店"
                     @change="changeList"
-            ></v-combobox>
+                    hide-no-data
+            ></v-combobox>-->
+          <div v-on:keyup.enter="changeList" class="mt-3 mb-3">
+              <v-menu offset-y>
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                      outlined
+                      hide-details
+                      label="搜索酒店"
+                      append-icon="search"
+                      v-model="searchVal"
+                      autocomplete="off"
+                      v-on="on"
+                      ref="changeList"
+                  ></v-text-field>
+                </template>
+                <v-list v-if="searchVal && hotelList.filter(hotel => hotel.name.match(searchVal)).length > 0 " class="border-list" dense>
+                  <v-list-item v-for="(hotel, index) in hotelList.filter(hotel => hotel.name.match(searchVal))"
+                               :key="index"
+                               @click="changeSearchVal(hotel.name)">
+                    <v-list-item-title class="text-sm-body-1" v-html="highLightTitle(hotel.name)" style="white-space: nowrap"></v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </div>
             <v-hover>
                 <template v-slot="{ hover }">
                     <v-sheet
@@ -21,7 +45,7 @@
                             <v-list-item>
                                 <v-list-item-title>
                                     <v-icon>mdi-filter</v-icon>
-                                    安排行程
+                                    <span class="ml-8">安排行程</span>
                                 </v-list-item-title>
                             </v-list-item>
                             <v-divider></v-divider>
@@ -88,7 +112,7 @@
                             <v-list-item>
                                 <v-list-item-title>
                                     <v-icon>mdi-filter</v-icon>
-                                    筛选功能
+                                    <span class="ml-8">筛选功能</span>
                                 </v-list-item-title>
                             </v-list-item>
                             <v-divider></v-divider>
@@ -96,7 +120,7 @@
                                     prepend-icon="local_mall"
                             >
                                 <template v-slot:activator>
-                                    <v-list-item-title>筛选商圈</v-list-item-title>
+                                    <v-list-item-title>商圈</v-list-item-title>
                                 </template>
                                 <v-list-item>
                                     <v-select
@@ -113,7 +137,7 @@
                                     prepend-icon="star"
                             >
                                 <template v-slot:activator>
-                                    <v-list-item-title>筛选星级</v-list-item-title>
+                                    <v-list-item-title>星级</v-list-item-title>
                                 </template>
                                 <v-list-item>
                                     <v-rating
@@ -131,7 +155,7 @@
                                     prepend-icon="mdi-message-draw"
                             >
                                 <template v-slot:activator>
-                                    <v-list-item-title>筛选评分</v-list-item-title>
+                                    <v-list-item-title>评分</v-list-item-title>
                                 </template>
                                 <v-list-item>
                                     <v-row>
@@ -152,12 +176,12 @@
                                     prepend-icon="mdi-check-decagram"
                             >
                                 <template v-slot:activator>
-                                    <v-list-item-title>筛选订单</v-list-item-title>
+                                    <v-list-item-title>订单</v-list-item-title>
                                 </template>
                                 <v-list-item>
                                     <v-row class="mx-auto">
-                                        <v-checkbox v-model="checkOrdered" label="仅查看预定过的"
-                                                    @change="changeCheckOrdered"></v-checkbox>
+                                        <v-switch v-model="checkOrdered" label="仅查看预定过的"
+                                                    @change="changeCheckOrdered"></v-switch>
                                     </v-row>
                                 </v-list-item>
                             </v-list-group>
@@ -165,19 +189,30 @@
                             <v-list-item>
                                 <v-list-item-title>
                                     <v-icon>mdi-sort</v-icon>
-                                    排序功能
+                                    <span class="ml-8">排序功能</span>
                                 </v-list-item-title>
                             </v-list-item>
                             <v-divider></v-divider>
-                            <v-list-group
+                            <v-list-item-group
                                     prepend-icon="mdi-sort-descending"
                             >
-                                <template v-slot:activator>
-                                    <v-list-item-title>降序排序</v-list-item-title>
-                                </template>
+<!--                                <template v-slot:activator>-->
+<!--                                    <v-list-item-title>排序</v-list-item-title>-->
+<!--                                </template>-->
                                 <v-list-item>
-                                    <v-row class="mx-auto">
-                                        <v-select
+                                    <v-switch v-model="selectVal"
+                                              label="评分优先"
+                                              value="rate"
+                                              @change="changeList">
+                                    </v-switch>
+                                </v-list-item>
+                                <v-list-item>
+                                      <v-switch v-model="selectVal"
+                                                  label="星级优先"
+                                                  value="hotelStar"
+                                                  @change="changeList">
+                                      </v-switch>
+<!--                                        <v-select
                                                 v-model="selectVal"
                                                 :items="selectOpts"
                                                 item-text="text"
@@ -188,10 +223,9 @@
                                                 solo
                                                 class="mt-3 mb-n3"
                                                 @change="changeList"
-                                        ></v-select>
-                                    </v-row>
+                                        ></v-select>-->
                                 </v-list-item>
-                            </v-list-group>
+                            </v-list-item-group>
                         </v-list>
                     </v-sheet>
                 </template>
@@ -231,31 +265,39 @@
                                         >
                                             <v-card
                                                     :elevation="hover?12:6"
-                                                    class="mx-auto hotel-card"
+                                                    class="hotel-card"
                                             >
                                                 <v-img
                                                         v-bind:src="getHotelPicUrl(hotel.id)"
                                                         height="300px"
                                                         @click="jumpToDetails(hotel.id)"
                                                 ></v-img>
-                                                <v-card-title class="font-weight-black text--secondary">
+                                                <v-row align="center" dense class="mb-n7">
+                                                  <v-card-title class="font-weight-black text--secondary">
                                                     {{hotel.name}}
-                                                </v-card-title>
-                                                <v-card-subtitle class="mb-n3">
-                                                    {{hotel.address?hotel.address:'暂无地址'}}
-                                                </v-card-subtitle>
-                                                <v-row class="ml-5">
-                                                    <v-rating
-                                                            v-model="hotel.rate"
-                                                            background-color="gray darken-1"
-                                                            color="yellow accent-4"
-                                                            dense
-                                                            half-increments
-                                                            readonly
-                                                            size="20"
-                                                            class="ml-n1"
-                                                    ></v-rating>
-                                                    <span class="ml-1 mt-n1 text--lighten-2 overline">评分:{{ hotel.rate.toFixed(1) }}</span>
+                                                  </v-card-title>
+                                                  <v-rating
+                                                      v-model="hotel.hotelStar"
+                                                      :length="hotel.hotelStar"
+                                                      background-color="gray darken-1"
+                                                      color="yellow accent-4"
+                                                      dense
+                                                      readonly
+                                                      small
+                                                      class="ml-n1"
+                                                  ></v-rating>
+                                                </v-row>
+                                                <v-card-text class="ml-n1 mb-n2 text-no-wrap">
+                                                  {{hotel.address?hotel.address:'暂无地址'}}
+                                                </v-card-text>
+                                                <v-row align="center" dense>
+                                                  <v-chip class="ml-3 mb-2" color="blue" text-color="white">
+                                                    <span class="text--lighten-2 overline">{{ hotel.rate.toFixed(1) }}</span>
+                                                  </v-chip>
+                                                  <span class="ml-3 blue-grey--text">{{hotel.commentsCount}}条评论</span>
+                                                </v-row>
+                                                <v-row class="mt-6 mb-3 mr-3" dense style="position:relative">
+                                                  <span class="text-h5 blue--text" style="position: absolute; bottom: 0; right: 5px">{{hotel.lowestPrice}}￥起</span>
                                                 </v-row>
                                                 <v-divider></v-divider>
                                                 <v-card-actions>
@@ -303,7 +345,7 @@
                 searchVal: undefined,
                 checkOrdered: false,
                 f_star: 0,
-                selectOpts: [{'text': '按星级', 'val': 'hotelStar'}, {'text': '按评分', 'val': 'rate'}],
+                selectOpts: [{'text': '星级优先', 'val': 'hotelStar'}, {'text': '评分优先', 'val': 'rate'}],
                 selectVal: [],
                 menu: false,
                 dates: []
@@ -346,7 +388,7 @@
                 if (this.hotelList === undefined)
                     return 1
                 return Math.ceil(this.hotelList.length / 6);
-            }
+            },
         },
         methods: {
             ...mapMutations([
@@ -359,9 +401,18 @@
                 'getMyOrderedHotelList'
             ]),
             allowedDates: val => new Date(val) >= new Date(Date.now() - 24*60*60*1000),
+
+            highLightTitle(str) {
+              let values = str.split(this.searchVal);
+              return values.join('<span class="grey white--text">' + this.searchVal + '</span>');
+            },
+
             selectDatesOK() {
               this.menu = false
               //TODO
+            },
+            changeSearchVal(val) {
+              this.searchVal = val;
             },
             //处理筛选选项改变的方法
             changeBizRegion() {
@@ -468,6 +519,7 @@
             },
             //变更时@onChange的绑定方法
             changeList() {
+              console.log("123")
                 let pureSearch = this.solveSearchVal() //先获取搜索框匹配的列表
                 let filterResult = this.solveFilter(pureSearch) //处理筛选
                 if (this.selectVal.length !== 0) //处理排序
@@ -501,7 +553,6 @@
 </style>
 <style scoped lang="less">
     .hotelList {
-        text-align: center;
         padding: 50px 0;
         display: flex;
         flex-direction: row;

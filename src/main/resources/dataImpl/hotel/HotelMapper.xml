@@ -8,7 +8,7 @@
     </insert>
 
     <select id="selectAllHotel" resultMap="Hotel">
-        select id id, hotelName hotelName, address address, bizRegion bizRegion, hotelStar hotelStar, rate rate, commentsCount commentsCount from Hotel order by commentsCount desc
+        select * from Hotel order by commentsCount desc
     </select>
     <select id="selectById" resultMap="Hotel">
         <!--select id id, hotelName hotelName, address address, bizRegion bizRegion, hotelStar hotelStar, rate rate, commentsCount commentsCount from Hotel where id=#{id} -->
