@@ -104,10 +104,10 @@
                 </a-select>
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="房间单价">
-                <span>{{ currentOrderRoom.price }}</span>
+                <span class="ImpPrice">￥{{ currentOrderRoom.price }}</span>
             </a-form-item>
             <a-form-item v-bind="formItemLayout" label="总价">
-                <span>￥{{ totalPrice }}</span>
+                <span class="normalPrice">￥{{ totalPrice }}</span>
             </a-form-item>
             <a-divider></a-divider>
             <h2 v-if="orderMatchCouponList.length>0">优惠</h2>
@@ -137,12 +137,19 @@
                         </span>
                 </a-table>
             <a-form-item v-bind="formItemLayout" label="结算后总价" >
-                <span>￥{{ finalPrice }}</span>
+                <span class="ImpPrice">￥{{ finalPrice }}</span>
             </a-form-item>
         </a-form>
     </a-modal>
 </template>
 <style>
+.ImpPrice{
+    color: #FF6600;
+    font-weight: bold;
+}
+.normalPrice{
+    font-weight: bold;
+}
 </style>
 
 <script>

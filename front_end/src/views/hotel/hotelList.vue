@@ -41,7 +41,7 @@
                             :elevation="hover?24:8"
                             class="mx-auto mb-6"
                     >
-                        <v-list>
+                        <!-- <v-list>
                             <v-list-item>
                                 <v-list-item-title>
                                     <v-icon>mdi-filter</v-icon>
@@ -98,7 +98,7 @@
                                     </v-date-picker>
                                 </v-menu>
                             </v-list-group>
-                        </v-list>
+                        </v-list> -->
                     </v-sheet>
                 </template>
             </v-hover>
