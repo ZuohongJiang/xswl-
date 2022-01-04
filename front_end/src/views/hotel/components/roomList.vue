@@ -15,7 +15,7 @@
                     </v-img>
                 </span>
                 <span slot="price" slot-scope="text">
-                    <span>￥{{ text }}</span>
+                    <span class="price">￥{{ text }}</span>
                 </span>
                 <span slot="action" slot-scope="record">
                     <v-btn color="primary" @click="showDetail(record)">查看详情</v-btn>
@@ -32,6 +32,10 @@
 .smallPic{
     width: 50px;
     height: 50px;
+}
+.price{
+    color: #FF6600;
+    font-weight: bold;
 }
 </style>
 <script>

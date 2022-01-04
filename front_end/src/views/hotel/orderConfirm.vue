@@ -1,147 +1,169 @@
 <template>
-    <div class="IntOrder_main">
-        <section class="m_wp">
-            <section class="left_wp Lfll">
-                <div class="cont">
-                    <h1 class="cont_top Lpl10 Lfz14">
-                        预订信息
-                    <span class="Ldib subTitle Lfz12 noPpIntro" style="display: none;">
-                    </span>
-                    </h1>
-                    <div id="orderEleInfo" class="cont_mid Lpt20 Lpl20 Lposr">
-                        <p class="Lfz12 timeInput Lfwb">
-                            <span>入住时间：</span>
-                            <span class="checkInTime Lposr">{{checkInDate}}</span>
-                            <span class="middlefs">至</span>
-                            <span class="leaveTime Lposr">{{checkOutDate}}</span>
-                            <span class="middlefs">共<em class="dayCount">{{days}}</em>晚</span>
-                        </p>
-                        <p class="roomNum Lfwb Lfz12">
-                            <span>房间数量：</span>
-                            <span class="Lposr roomCounts activetextS"> <em>{{roomNum}} </em>间</span>
-                        </p>
-                    </div>
-                    <h1 class="cont_top Lpl10 Lfz14 Lmt30"> 入住信息</h1>
-                    <div class="cont_mid Lpt20 Lpl10 guestCheckIn">
-                        <div class="LoginGuest">
-                            <p class="roomNum Lfwb Lfz12 repadl">
-                                <label class="sWidth Ltar Ldib">
-                                    <span class="guestIcon Lfz12 Ldib">*</span>
-                                    <span class="Ltar">入住人：</span>
-                                </label>
-                                <span class="guestCheckInName">
-                                    <input id="lastName" placeholder="姓Last name" type="text" class="reWidth reMarginRight firstName">
-                                </span>   
-                                <span class="guestCheckInLastName">
-                                    <input id="firstName" placeholder="名First name" type="text" class="reWidth lastName">
-                                </span>
+    <div>
+        <div class="nav">
+        <a-steps :current="1" size="small">
+        <a-step>
+        <!-- <span slot="title">Finished</span> -->
+        <template slot="title">
+            预订
+        </template>
+        <span slot="description">选择入住时间与房型</span>
+        </a-step>
+        <a-step title="确认订单" description="确认订单并填写入住人">
+             <a-icon slot="icon" type="solution" />
+        </a-step>
+        <a-step title="完成预订">
+             <a-icon slot="icon" type="smile-o" />
+        </a-step>
+        </a-steps>
+        </div>
+        <div class="IntOrder_main">
+            <section class="m_wp">
+                <section class="left_wp Lfll">
+                    <div class="cont">
+                        <h1 class="cont_top Lpl10 Lfz14">
+                            预订信息
+                        <span class="Ldib subTitle Lfz12 noPpIntro" style="display: none;">
+                        </span>
+                        </h1>
+                        <div id="orderEleInfo" class="cont_mid Lpt20 Lpl20 Lposr">
+                            <p class="Lfz12 timeInput Lfwb">
+                                <span>入住时间：</span>
+                                <span class="checkInTime Lposr">{{checkInDate}}</span>
+                                <span class="middlefs">至</span>
+                                <span class="leaveTime Lposr">{{checkOutDate}}</span>
+                                <span class="middlefs">共<em class="dayCount">{{days}}</em>晚</span>
                             </p>
-                            <p class="roomNum Lfwb Lfz12 repadl">
-                                <label class="sWidth Ltar Ldib">
-                                    <span class="guestIcon Lfz12 Ldib">*</span>
-                                    <span class="Ltar">手机号码：</span>
-                                </label>
-                                <span class="guestCheckInTel">
-                                    <input id="phoneNum" maxlength="11" type="text" class="reWidth">
-                                </span>
-                            </p>
-                            <p class="roomNum Lfwb Lfz12 repadl">
-                                <label class="sWidth Ltar Ldib">
-                                    <span class="Ltar">常用邮箱：</span>
-                                </label>
-                                <span class="guestCheckEmeil">
-                                    <input id="email" type="text" class="reWidth">
-                                </span>
-                                <span class="inputPrompt">订单提交后，我们会将预订信息发送至您的邮箱</span>
+                            <p class="roomNum Lfwb Lfz12">
+                                <span>房间数量：</span>
+                                <span class="Lposr roomCounts activetextS"> <em>{{roomNum}} </em>间</span>
                             </p>
                         </div>
-                        <p class="useCoupon Lfz12">
-                                <a class="Lfwb otherRest">
-                                    <span class="Lml30 Lmr5">其他要求</span>
-                                    <i class="Ldib"></i>
-                                </a>
-                        </p>
-                        <div class="CouponItem RestCont" style="display: none;">
-                            <p class="Lfz12 minorStyle"> 酒店会尽力满足您的需求，祝您入住愉快！</p>
-                            <p class="otherReq">
-                                <a class="Lfz12 Ldib Ltal first" id="noSmoke">
-                                    <!-- 激活状态加上 .selectActive--><i class="select Ldib Lmr5 selectActive"></i>尽量无烟
-                                </a><a class="Lfz12 Ldib Ltal" id="yQuiet">
-                                    <!-- 激活状态加上 .selectActive--><i class="select Ldib selectActive"></i>尽量安静
-                                </a>
-                            </p>
+                        <h1 class="cont_top Lpl10 Lfz14 Lmt30"> 入住信息</h1>
+                        <div class="cont_mid Lpt20 Lpl10 guestCheckIn">
+                            <div class="LoginGuest">
+                                <p class="roomNum Lfwb Lfz12 repadl">
+                                    <label class="sWidth Ltar Ldib">
+                                        <span class="guestIcon Lfz12 Ldib">*</span>
+                                        <span class="Ltar">入住人：</span>
+                                    </label>
+                                    <span class="guestCheckInName">
+                                        <input id="name" placeholder="姓名" type="text" class="reWidth reMarginRight firstName">
+                                    </span>   
+                                    <!-- <span class="guestCheckInLastName">
+                                        <input id="firstName" placeholder="名First name" type="text" class="reWidth lastName">
+                                    </span> -->
+                                </p>
+                                <p class="roomNum Lfwb Lfz12 repadl">
+                                    <label class="sWidth Ltar Ldib">
+                                        <span class="guestIcon Lfz12 Ldib">*</span>
+                                        <span class="Ltar">手机号码：</span>
+                                    </label>
+                                    <span class="guestCheckInTel">
+                                        <input id="phoneNum" maxlength="11" type="text" class="reWidth">
+                                    </span>
+                                </p>
+                                <p class="roomNum Lfwb Lfz12 repadl">
+                                    <label class="sWidth Ltar Ldib">
+                                        <span class="Ltar">常用邮箱：</span>
+                                    </label>
+                                    <span class="guestCheckEmeil">
+                                        <input id="email" type="text" class="reWidth">
+                                    </span>
+                                    <!-- <span class="inputPrompt">订单提交后，我们会将预订信息发送至您的邮箱</span> -->
+                                </p>
+                            </div>
+                            <!-- <p class="useCoupon Lfz12">
+                                    <a class="Lfwb otherRest">
+                                        <span class="Lml30 Lmr5">其他要求</span>
+                                        <i class="Ldib"></i>
+                                    </a>
+                            </p> -->
+                            <!-- <div class="CouponItem RestCont" style="display: none;">
+                                <p class="Lfz12 minorStyle"> 酒店会尽力满足您的需求，祝您入住愉快！</p>
+                                <p class="otherReq">
+                                    <a class="Lfz12 Ldib Ltal first" id="noSmoke">
+                                        <i class="select Ldib Lmr5 selectActive"></i>尽量无烟
+                                    </a>
+                                    <a class="Lfz12 Ldib Ltal" id="yQuiet">
+                                        <i class="select Ldib selectActive"></i>尽量安静
+                                    </a>
+                                </p>
+                            </div> -->
+                            <!-- <p class="tipsInfo Lfz12 minorStyle Ldn">预订过程中可能少量酒店存在价格调整情况，请以成功提交订单时价为准。</p> -->
                         </div>
-                        <p class="tipsInfo Lfz12 minorStyle Ldn">预订过程中可能少量酒店存在价格调整情况，请以成功提交订单时价为准。</p>
-                    </div>
-                    <div class="cont_mid">
-                        <p class="greenServe checkSelect Ldb Lmt20 Lmb20">
-                            <input type="checkbox" id="male" class="">
-                            <label for="male">同意 </label><span class="saleACancel">《销售及取消政策》 </span>
-                        </p>
-                    </div>
-                    <div class="contCount Ltar Lpt10 Lpb10">
-                        <p class="roomPrice Ldb" id="roomPrice"><em>房费</em><span>CNY <b>{{price}} </b></span><i></i></p>
+                        <!-- <div class="cont_mid">
+                            <p class="greenServe checkSelect Ldb Lmt20 Lmb20">
+                                <input type="checkbox" id="male" class="">
+                                <label for="male">同意 </label><span class="saleACancel">《销售及取消政策》 </span>
+                            </p>
+                        </div> -->
+                        <div class="contCount Ltar Lpt10 Lpb10">
+                            <p class="roomPrice Ldb" id="roomPrice"><em>房费</em><span>CNY <b style="font-weight: bold">{{totalPrice}} </b></span><i></i></p>
 
-                        <p class="Ldn show" id="otherPrice"><em>税+服务费</em><span class="serverFee">CNY <b>0.00 </b></span><i></i></p>
-                    </div>
-                    <div class="orderSubmit Lcfx Lcfx Lposr">
-                        <div id="checkEveryPrice" class="ckEryDyPriceCont Lposa" style="display: none;">
-                            <table><tbody><tr><td><p class="Ldb Lfll Lfz12 Ltac everyPriceColor everyDate" taxamount="0" id="2022/01/04">01月04日(周二)</p><p class="Ldb Lfll Lfz12 Ltac"><em class="everyPriceColor CurrencyCode">CNY</em><i class="everyPriceFz Price">320</i></p></td></tr></tbody></table>
+                            <p class="Ldn show" id="otherPrice"><em>优惠</em><span class="serverFee">CNY <b style="font-weight: bold">-{{discount}} </b></span><i></i></p>
                         </div>
-                        <div class="Ltac">
-                            <p class="Ltal allCount cleartac">
-                                <span class="Lfz14 Lpr5 orderCountPrice Lfwb"> 订单总价</span><em class="Lfz14 orderCountRmb"> <b>CNY</b><i>{{price}}</i></em>
-                                <span class="everyDayPricewp"><i class="everyDayPrice Lml40 ">每日房价</i></span>
-                            </p>
-                            <p class="Ltal allCount "><em class="changeStyle orderCountOther"> <b>  </b><span class="changeStyle"></span></em><i class="blankWidth Ldib"></i></p><a href="javascript:;" class="Lfz16 Ltac Ldb Lmt5 Lmb10 submitOrderBtn"> 提交订单</a>
-                        </div>
-                    </div>
-                </div>
-             
-            </section>
-            <aside class="right_wp Lflr">
-                <div class="cont">
-                <!-- 酒店图片-->
-                <div id="hotelInfo" class="Ldb hotelHref">
-                    <!-- 酒店床型-->
-                    <div class="asideImg"><img src="https://img.huazhu.com/cos/ppms/39cd1463-fe52-4b86-95d4-6270e78d3847/2021-12-26-22-40-32-673.JPG" style="width: 310px; height: 200px;"></div>
-                    <!-- 酒店地址-->
-                    <div class="asideTitle">
-                        <h2 class="Lfz14 HotelName">{{hotelName}}</h2>
-                        <div class="hotelTypeWrap">
-                            <span class="hotelType">
-
+                        <div class="orderSubmit Lcfx Lcfx Lposr">
+                            <div id="checkEveryPrice" class="ckEryDyPriceCont Lposa" style="display: none;">
+                                <table><tbody><tr><td><p class="Ldb Lfll Lfz12 Ltac everyPriceColor everyDate" taxamount="0" id="2022/01/04">01月04日(周二)</p><p class="Ldb Lfll Lfz12 Ltac"><em class="everyPriceColor CurrencyCode">CNY</em><i class="everyPriceFz Price">320</i></p></td></tr></tbody></table>
+                            </div>
+                            <div class="Ltac">
+                                <p class="Ltal allCount cleartac">
+                                    <span class="Lfz14 Lpr5 orderCountPrice Lfwb"> 订单总价</span><em class="Lfz14 orderCountRmb"> <b>CNY</b><i>{{price}}</i></em>
                                 
-
-                            <em class="hotelStars"></em><em class="hotelStars"></em><em class="hotelStars"></em><em class="hotelStars"></em></span>
-                            <span class="infoShow">四星级</span>
+                                </p>
+                                <p class="Ltal allCount "><em class="changeStyle orderCountOther"> <b>  </b><span class="changeStyle"></span></em><i class="blankWidth Ldib"></i></p>
+                                <!-- <a href="javascript:;" class="Lfz16 Ltac Ldb Lmt5 Lmb10 submitOrderBtn"> 提交订单</a> -->
+                                <v-btn @click="handleSubmit()">提交订单</v-btn>
+                            </div>
                         </div>
-                        <p class="Lfz12 HotelAddress">闵行区淮虹路151弄7号T13</p>
                     </div>
-
-                </div>
-                <div id="roomInfoModel" class="asideTitle paddingTop15">
-                    <h2 class="Lfz16 RoomTypeName paddingBtm4">雅致大床房</h2>
-                    
-                    <p class="Lfz12 roomDescription">房间描述：<span>智能客房拥有智能音箱语音指令完成所有客房设备控制需求；房间配备大屏液晶电视支持手机投屏，流畅的宽带及无线网络、恒压热带雨林花洒、智能马桶、舒适金可儿零压床垫、全套精油洗护用品。</span></p>
-                    
-                </div>
-                <!-- 酒店公告-->
-                <div id="hotleInfoModel" class="asideTitle paddingTop15 clearBorder">
-                    <h2 class="Lfz16 paddingBtm4">酒店公告</h2>
-                    <div class="cont_item hotelNotices">
-                        <ol></ol>
-                    </div>
-                    <p class="Lfz12 saleAndCancelPolicy ">取消政策：<span>2022-01-04 17:00前支付，18:00前可免费取消；17:00后支付，支付后1小时内也可免费取消；支付后房间将为您保留整晚。</span></p>
-                    <p class="Lfz12 GuaranteePolicy  Ldn">担保政策：<span>支付后入住日18:00前可免费取消，18:00后未办理入住，酒店视情况有权取消订单，支付后房间整晚保留。</span></p>
-                    <p class="Lfz12 hotelTelphone">酒店电话：<span>021-58819118</span></p>
-                    <p class="Lfz12 notice_all">客服电话：4008-121-121</p>
-                </div>
-
-            </div>
-            </aside>
                 
-        </section>
+                </section>
+                <aside class="right_wp Lflr">
+                    <div class="cont">
+        
+                    <div id="hotelInfo" class="Ldb hotelHref">
+
+                        <div class="asideImg"><img src="https://img.huazhu.com/cos/ppms/39cd1463-fe52-4b86-95d4-6270e78d3847/2021-12-26-22-40-32-673.JPG" style="width: 310px; height: 200px;"></div>
+
+                        <div class="asideTitle">
+                            <h2 class="Lfz14 HotelName">{{hotelName}}</h2>
+                            <div class="hotelTypeWrap">
+                                <span class="hotelType">
+
+                                    
+
+                                <em class="hotelStars"></em><em class="hotelStars"></em><em class="hotelStars"></em><em class="hotelStars"></em></span>
+                                <span class="infoShow">四星级</span>
+                            </div>
+                            <p class="Lfz12 HotelAddress">闵行区淮虹路151弄7号T13</p>
+                        </div>
+
+                    </div>
+                    <div id="roomInfoModel" class="asideTitle paddingTop15">
+                        <h2 class="Lfz16 RoomTypeName paddingBtm4">雅致大床房</h2>
+                        
+                        <p class="Lfz12 roomDescription">房间描述：<span>智能客房拥有智能音箱语音指令完成所有客房设备控制需求；房间配备大屏液晶电视支持手机投屏，流畅的宽带及无线网络、恒压热带雨林花洒、智能马桶、舒适金可儿零压床垫、全套精油洗护用品。</span></p>
+                        
+                    </div>
+
+                    <div id="hotleInfoModel" class="asideTitle paddingTop15 clearBorder">
+                        <h2 class="Lfz16 paddingBtm4">酒店公告</h2>
+                        <div class="cont_item hotelNotices">
+                            <ol></ol>
+                        </div>
+                        <p class="Lfz12 saleAndCancelPolicy ">取消政策：<span>2022-01-04 17:00前支付，18:00前可免费取消；17:00后支付，支付后1小时内也可免费取消；支付后房间将为您保留整晚。</span></p>
+                        <p class="Lfz12 GuaranteePolicy  Ldn">担保政策：<span>支付后入住日18:00前可免费取消，18:00后未办理入住，酒店视情况有权取消订单，支付后房间整晚保留。</span></p>
+                        <p class="Lfz12 hotelTelphone">酒店电话：<span>021-58819118</span></p>
+                        <p class="Lfz12 notice_all">客服电话：4008-121-121</p>
+                    </div>
+
+                    </div>
+                </aside>
+                    
+            </section>
+        </div>
     </div>
 </template>
 
@@ -176,6 +198,9 @@ input, textarea, select, button {
 input, button {
     background-image: none;
 }
+.nav{
+    padding-top: 50px;
+}
 .Porder_main .m_wp .left_wp, .PNotLoginOrder_main .m_wp .left_wp, .IntOrder_main .m_wp .left_wp {
     display: inline;
 }
@@ -184,6 +209,7 @@ input, button {
     margin: 0 auto;
     background-color: #f7f6f5;
 }
+
 .IntOrder_main .m_wp .left_wp {
     border-color: #e4dfdc;
 }
@@ -625,8 +651,9 @@ export default {
           price: 0,
           days: 0,
           phoneNum:"",
-          firstName:"",
-          lastName:""
+          name: "",
+          totalPrice: 0,
+          discount: 0,
       }
   },
   computed:{
@@ -637,11 +664,42 @@ export default {
       )
   },
   methods:{
+       ...mapActions([
+                'addOrder',
+            ]),
       getDays(date1, date2){
         var d1 = new Date(date1);
         var d2 = new Date(date2);
         var days = (d2.getTime() - d1.getTime()) / (1000 * 3600 * 24);
         return days;
+      },
+      handleSubmit(){
+          var cName = document.getElementById("name").value
+          var pNum = document.getElementById("phoneNum").value;
+          var ema = document.getElementById("email").value;
+          
+          const temp = this.$route.params.data;
+          const data = {
+               hotelId: temp.hotelId,
+               hotelName: temp.hotelName,
+               userId: temp.userId,
+               checkInDate: temp.checkInDate,
+               checkOutDate: temp.checkOutDate,
+               roomType: temp.roomType,
+               roomId: temp.roomId,
+               roomNum: temp.roomNum,
+               peopleNum: temp.peopleNum,
+               haveChild: temp.haveChild,
+               createDate: '',
+               price: temp.price,
+               clientName: cName,
+               phoneNum: pNum,
+               email: ema
+          }
+          console.log(data);
+        //   this.addOrder(data);
+          this.$router.push({name:"orderSuccess", params:{data: data}});
+    
       }
   },
   watch:{
@@ -661,6 +719,8 @@ export default {
         this.hotelName = temp.hotelName;
         this.roomNum = temp.roomNum;
         this.price = temp.price;
+        this.totalPrice = temp.totalPrice;
+        this.discount = this.totalPrice - this.price;
         this.days = this.getDays(this.checkInDate, this.checkOutDate);
     }
 }

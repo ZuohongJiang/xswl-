@@ -57,7 +57,12 @@ const routes = [
                 path: '/hotel/orderConfirm',
                 name: 'orderConfirm',
                 component: () => import('@/views/hotel/orderConfirm')
-            }
+            },
+            {
+                path:'/hotel/orderSuccess',
+                name: 'orderSuccess',
+                component: () => import('@/views/hotel/orderSuccess')
+            } 
         ]
     },
 ]

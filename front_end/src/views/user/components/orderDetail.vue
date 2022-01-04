@@ -1,6 +1,21 @@
 <template>
+<div>
+<div class="nav">
+    <a-breadcrumb>
+    <a-breadcrumb-item href="">
+      <a-icon type="home" />
+    </a-breadcrumb-item>
+    <a-breadcrumb-item href="">
+      <a-icon type="user" />
+      <span>我的订单</span>
+    </a-breadcrumb-item>
+    <a-breadcrumb-item>
+      订单详情
+    </a-breadcrumb-item>
+  </a-breadcrumb>
+</div>
 <section class="mid_page of">
-<div class="pageNav of">
+<!-- <div class="pageNav of">
     <h4 class="s12">
         <p class="lfloat">
             <em></em>
@@ -9,7 +24,7 @@
             {{orderDetail.hotelName}}
         </p>
     </h4>
-</div>
+</div> -->
 <section class="left_page lfloat">
    <div class = "content">
        <h1 class ="cont_top">
@@ -159,6 +174,7 @@
     </div>
 </aside> -->
 </section>
+</div>
 </template>
 
 <style>
@@ -172,6 +188,11 @@ em, i{
 }
 b{
     font-weight: bold;
+}
+.nav{
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-bottom: 20px;
 }
 .of{
     overflow: hidden;
