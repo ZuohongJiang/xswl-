@@ -1,8 +1,9 @@
 <template>
         <a-card hoverable class="hotelCard ant-col-xs-7 ant-col-lg-5 ant-col-xxl-3">
-            <img
+            <v-img
                     alt="example"
-                    src="@/assets/cover.jpeg"
+                    v-bind:src="getHotelPicUrl(hotel.id)"
+                   
                     slot="cover"
                     referrerPolicy="no-referrer"
             />
@@ -33,6 +34,11 @@
                     return 4;
                 else if (this.hotel.hotelStar === 'Five')
                     return 5;
+            },
+            // 获取酒店对应的图片
+            getHotelPicUrl(id){
+
+                return require("../../assets/hotel/" + id + ".jpg")
             }
         }
     }

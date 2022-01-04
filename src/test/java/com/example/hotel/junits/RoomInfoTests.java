@@ -63,7 +63,7 @@ public class RoomInfoTests extends HotelApplicationTests {
         addHotelRoom.setTotal(13);
         addHotelRoom.setCurNum(13);
         addHotelRoom.setPrice(233);
-        addHotelRoom.setRoomType(RoomType.DoubleBed);
+        addHotelRoom.setRoomType("大床房");
         addHotelRoom.setDetail("test");
         roomService.insertRoomInfo(addHotelRoom);
         List<HotelRoom> hotelRooms = roomService.retrieveHotelRoomInfo(1);

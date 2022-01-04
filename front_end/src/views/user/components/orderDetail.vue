@@ -315,7 +315,7 @@ export default {
 //       this.getOrderDetail;
 //   },
     mounted(){
-        console.log(this.$route);
+
         this.getOrderDetail(this.$route.params.orderId);
         // console.log(this.$store);
     }

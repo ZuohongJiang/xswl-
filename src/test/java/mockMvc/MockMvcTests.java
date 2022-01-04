@@ -138,7 +138,7 @@ public class MockMvcTests extends AbstractBaseTest {
         addHotelRoom.setTotal(13);
         addHotelRoom.setCurNum(13);
         addHotelRoom.setPrice(233);
-        addHotelRoom.setRoomType(RoomType.DoubleBed);
+        addHotelRoom.setRoomType("大床房");
         addHotelRoom.setDetail("test");
         testPOST("/api/hotel/roomInfo", addHotelRoom);
     }

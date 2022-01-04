@@ -3,7 +3,7 @@ const api = {
     commentPre: '/api/comment'
 }
 export function addCommentAPI(data){
-    // console.log(data);
+
     return axios({
         url: `${api.commentPre}/addComment`,
         method: 'POST',

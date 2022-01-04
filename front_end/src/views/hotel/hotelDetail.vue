@@ -13,7 +13,7 @@
                                     <v-img
                                             class="white--text align-end ml-3"
                                             height="400px"
-                                            v-bind:src="require('../../assets/house.jpg')"
+                                            v-bind:src="getHotelPicUrl(currentHotelInfo.id)"
                                     >
                                         <v-card-title class="font-weight-thin ">{{currentHotelInfo.name}}</v-card-title>
                                     </v-img>
@@ -151,6 +151,7 @@
             this.set_currentHotelId(Number(this.$route.params.hotelId))
             this.getHotelById()
             this.getUserThisHotelOrders(Number(this.$route.params.hotelId), Number(this.$route.params.userId))
+       
         },
         beforeRouteUpdate(to, from, next) {
             this.set_currentHotelId(Number(to.params.hotelId))
@@ -173,6 +174,11 @@
                     return 4;
                 else if (this.currentHotelInfo.hotelStar === 'Five')
                     return 5;
+            },
+             // 获取酒店对应的图片
+            getHotelPicUrl(id){
+
+                return require("../../assets/hotel/" + id + ".jpg")
             }
         }
     }

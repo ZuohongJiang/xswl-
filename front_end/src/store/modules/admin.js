@@ -73,8 +73,7 @@ const admin = {
             return new Promise((resolve, reject) => {
                 getUserInfoAPI(state.activeUserId).then(response => {
                     const data = response;
-                    console.log("get_activeUserInfo");
-                    console.log(data);
+
                     commit('set_activeUserInfo', data);
                     commit('set_activeUserId', data.id);
                     resolve(data)

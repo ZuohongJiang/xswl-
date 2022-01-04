@@ -350,8 +350,7 @@
                 this.itemsPerPage = number
             },
             onChangeRadioDisplay(e) {
-                console.log(this.userOrderList)
-                console.log(e.target.value)
+
                 this.orderList = [...this.userOrderList.filter(item => item.orderState == e.target.value)]
                 if (e.target.value == '全部'){
                     this.orderList = this.userOrderList

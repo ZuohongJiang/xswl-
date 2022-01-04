@@ -24,6 +24,15 @@ public class Hotel {
      */
     private Integer managerId;
 
+    public Integer getLowestPrice() {
+        return lowestPrice;
+    }
+
+    public void setLowestPrice(Integer lowestPrice) {
+        this.lowestPrice = lowestPrice;
+    }
+
+    private Integer lowestPrice;
     public Integer getId() {
         return id;
     }

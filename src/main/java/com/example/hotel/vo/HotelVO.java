@@ -23,6 +23,16 @@ public class HotelVO {
 
 
     private Double rate; // 所有评论分数之和
+
+    public Integer getLowestPrice() {
+        return lowestPrice;
+    }
+
+    public void setLowestPrice(Integer lowestPrice) {
+        this.lowestPrice = lowestPrice;
+    }
+
+    private Integer lowestPrice;
     private List<RoomVO> rooms;
     private List<CommentVO> comments;
 

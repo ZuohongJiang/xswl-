@@ -231,7 +231,7 @@
                 this.set_orderModalVisible(false)
             },
             confirmOrder(e) {
-                console.log(e)
+
                 e.preventDefault();
                 this.form.validateFieldsAndScroll((err, values) => {
                     if (!err) {
@@ -278,7 +278,7 @@
                     checkIn: moment(this.form.getFieldValue('date')[0]).format('YYYY-MM-DD'),
                     checkOut: moment(this.form.getFieldValue('date')[1]).format('YYYY-MM-DD'),
                 }
-                console.log(data)
+
                 //总价变动可能会导致可用优惠列表变化
                 await this.getOrderMatchCoupons(data)
             },
@@ -288,7 +288,7 @@
                 this.finalPrice --;
                 this.finalPrice ++;
                 var i;
-                console.log(this.orderMatchCouponList.length)
+
                 for(i = 0; i < this.orderMatchCouponList.length; i ++){
                     if (this.orderMatchCouponList[i].discount != 0) {
                         this.finalPrice *= this.orderMatchCouponList[i].discount;

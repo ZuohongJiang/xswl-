@@ -234,7 +234,7 @@
                                                     class="mx-auto hotel-card"
                                             >
                                                 <v-img
-                                                        v-bind:src="require('../../assets/house.jpg')"
+                                                        v-bind:src="getHotelPicUrl(hotel.id)"
                                                         height="300px"
                                                         @click="jumpToDetails(hotel.id)"
                                                 ></v-img>
@@ -478,6 +478,10 @@
             jumpToDetails(id) {
                 this.$router.push({name: 'hotelDetail', params: {hotelId: id}})
             },
+            // 获取酒店对应的图片
+            getHotelPicUrl(id){
+                return require("../../assets/hotel/" + id + ".jpg")
+            }
         }
     }
 </script>

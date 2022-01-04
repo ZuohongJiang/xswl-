@@ -9,7 +9,7 @@ const couponBuff = {
 }
 
 export function hotelTargetMoneyAPI(data) {
-    console.log(data)
+
     return axios({
         url: `${api.couponPre}${couponBuff.couponAft[data["type"]-2]}`,
         method: 'POST',

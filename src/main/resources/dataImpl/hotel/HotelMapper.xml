@@ -11,7 +11,8 @@
         select id id, hotelName hotelName, address address, bizRegion bizRegion, hotelStar hotelStar, rate rate, commentsCount commentsCount from Hotel order by commentsCount desc
     </select>
     <select id="selectById" resultMap="Hotel">
-        select id id, hotelName hotelName, address address, bizRegion bizRegion, hotelStar hotelStar, rate rate, commentsCount commentsCount from Hotel where id=#{id}
+        <!--select id id, hotelName hotelName, address address, bizRegion bizRegion, hotelStar hotelStar, rate rate, commentsCount commentsCount from Hotel where id=#{id} -->
+        select * from Hotel where id=#{id}
     </select>
 
     <update id="updateHotelInfo" parameterType="com.example.hotel.po.Hotel">
@@ -49,6 +50,7 @@
         <result column="manager_id" property="managerId"></result>
         <result column="commentsCount" property="commentsCount"></result>
         <result column="rate" property="rate"></result>
+        <result column="lowestPrice" property="lowestPrice"></result>
 
     </resultMap>
 

@@ -30,10 +30,7 @@
     import RoomModal from '../../hotelManager/components/roomModal'
 
     const columns = [
-        {
-            title: 'id',
-            dataIndex: 'id',
-        },
+
         {
             title: '房型',
             dataIndex: 'roomType',
@@ -45,10 +42,7 @@
             dataIndex: 'price',
             scopedSlots: {customRender: 'price'}
         },
-        {
-            title: '余量',
-            dataIndex: 'curNum',
-        },
+      
         {
             title: '操作',
             key: 'action',
@@ -103,6 +97,7 @@
                 })
             },
             showDetail(record) {
+
                 if (!record.detail) {
                     message.error('暂无更多详情')
                 } else {

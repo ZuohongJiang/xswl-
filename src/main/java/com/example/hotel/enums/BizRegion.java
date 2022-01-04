@@ -6,7 +6,9 @@ public enum BizRegion {
     FuZiMiao("夫子庙"),
     AoTiZhongXin("奥体中心"),
     JiangNingWanDa("江宁万达"),
-    XueZeLu("学则路");
+    XueZeLu("学则路"),
+    XianLin("仙林大学城"),
+    LuKouAirport("禄口机场");
 
     private String value;
 
