@@ -39,9 +39,10 @@
            </p>
            <p>
                <span class="ltar s12 itemListTitle">订单状态：</span>
-               <em class="itemList s12">
+               <em v-bind:class= "orderState" class="itemList s12 color">
                    <b>{{orderDetail.orderState}}</b>
                    </em>
+          
            </p>
            <p>
                <span class="ltar s12 itemListTitle">预定时间：</span>
@@ -77,7 +78,7 @@
            <p>
                <span class="ltar s12 itemListTitle">早餐信息：
                </span>
-               <em class="itemList"><b></b></em>
+               <em class="itemList"><b>不含餐饮</b></em>
            </p>
            <p>
                <span class="ltar s12 itemListTitle">
@@ -91,12 +92,11 @@
                <span class="ltar s12 itemListTitle">入离日期：
                </span> 
                <em class="itemList">
-                   <b>入住 <span>
-                       {{orderDetail.checkInDate}}
-                       </span>
-                       离店
-                       {{orderDetail.checkOutDate}}
-                       <span></span> 
+                   <b>入住:
+                       <span class="resetColor">{{orderDetail.checkInDate}};</span>
+                       <span class="resetColor">离店:</span>
+                       <span class="resetColor">{{orderDetail.checkOutDate}}</span>
+                       
                    </b>
                </em>
            </p>
@@ -104,7 +104,7 @@
                <span class="ltar s12 itemListTitle">订单总价：
                </span>
                    <em class="itemList redColor s14"><b>
-                       {{orderDetail.price}}
+                       {{orderDetail.price}} CNY
                        </b>
                    </em>
            </p>
@@ -127,12 +127,12 @@
                <span class="ltar s12 itemListTitle">
                手机号码：
                </span>
+               <em class="itemList s12">
+                    <b>{{orderDetail.phoneNumber}}
+                    </b>
+               </em>
            </p>
-           <em class="itemList s12">
-               <b>
-               {{orderDetail.phoneNumber}}
-               </b>
-           </em>
+    
            <p>
                <span class="ltar s12 itemListTitle">
                邮箱：
@@ -140,18 +140,14 @@
            </p>
            <em>
            </em>
-           <p>
-               <span class="ltar s12 itemListTitle">
-               其他要求：
-               </span>
-           </p>
+
            
        </div>
        
    </div>
 </section>
 
-<aside class="right_page rfloat">
+<!-- <aside class="right_page rfloat">
     <div class="content">
         <div class="asideTitle">
             <h2 class="s16">
@@ -161,7 +157,7 @@
             </div>
         </div>
     </div>
-</aside>
+</aside> -->
 </section>
 </template>
 
@@ -186,8 +182,23 @@ b{
 .rfloat{
     float:right;
 }
+.reserved{
+    color: #1890ff;
+}
+.executed{
+    color: #52c41a;
+}
+.commented{
+    color: grey;
+}
+.annuled{
+    color: #f5222d;
+}
 .ltar{
     text-align: right;
+}
+.cont_mid p .resetColor{
+    color:#333
 }
 .cont_top {
     height: 37px;
@@ -197,7 +208,7 @@ b{
 }
 .left_page{
     padding: 17px 33px 0 33px;
-    width: 590px;
+    width: 890px;
     height: auto;
     background-color: #fff;
     border-width: 1px;
@@ -205,6 +216,7 @@ b{
     border-color: #e4dfdc;
 }
 .right_page{
+    background: #ada9a5;
     padding: 15px;
     width: 300px;
 }
@@ -295,7 +307,30 @@ export default {
           [
               'orderDetail'
           ]
-      )
+      ),
+      orderState: function(){
+          if (this.orderDetail.orderState==="已预订"){
+              return {
+                  reserved: true
+              }
+          }
+          else if(this.orderDetail.orderState==="已执行"){
+              return {
+                  executed: true
+              }
+          }
+          else if(this.orderDetail.orderState==="已撤销"){
+              return{
+                  annuled: true
+              }
+          }
+          else {
+              return{
+                  commented: true
+              }
+          }
+          
+      }
   },
   methods:{
       ...mapMutations([

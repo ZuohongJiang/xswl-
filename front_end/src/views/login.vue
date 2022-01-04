@@ -205,7 +205,7 @@
                     email: this.registerEmail,
                     password: this.registerPassword
                 }
-                console.log(loginData)
+
                 this.register(data).then((res) => {
                     this.customActiveKey = 'tab1'
                     this.reset()

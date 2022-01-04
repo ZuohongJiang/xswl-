@@ -654,7 +654,7 @@ export default {
 //       this.getOrderDetail;
 //   },
     mounted(){
-        console.log(this.$route.params.data)
+
         const temp = this.$route.params.data;
         this.checkInDate = temp.checkInDate;
         this.checkOutDate = temp.checkOutDate;

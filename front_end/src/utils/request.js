@@ -11,7 +11,7 @@ const service = axios.create({
   baseURL: process.env.NODE_ENV === 'production' ? '': 'http://localhost:8080',
   withCredentials: true
 })
-console.log(process.env.NODE_ENV)
+
  const err = (error) => { 
   if (error.response) {
     const data = error.response.data
@@ -51,7 +51,7 @@ service.interceptors.request.use((config) => {
 service.interceptors.response.use((response) => {
   switch (response.status) {
     case 200:
-      console.log(response)
+
       if(response.data.success && response.data.success){
         return response.data.content
       }
