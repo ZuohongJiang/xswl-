@@ -7,7 +7,10 @@
     </a-breadcrumb-item>
     <a-breadcrumb-item href="">
       <a-icon type="user" />
-      <span>我的订单</span>
+      <span @click="backToOrderList">个人中心</span>
+    </a-breadcrumb-item>
+    <a-breadcrumb-item>
+        我的订单
     </a-breadcrumb-item>
     <a-breadcrumb-item>
       订单详情
@@ -370,6 +373,9 @@ export default {
         var d2 = new Date(date2);
         var days = (d2.getTime() - d1.getTime()) / (1000 * 3600 * 24);
         return days;
+      },
+      backToOrderList(){
+          window.history.back();
       }
   },
   watch:{

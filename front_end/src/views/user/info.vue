@@ -91,7 +91,7 @@
                           </a-row>
                         </a-tab-pane>
                         <a-tab-pane tab="我的订单" key="2">
-                              <div>
+                              <div class="chooseTab">
                                 <div >
                                 <a-radio-group
                                     default-value="全部"
@@ -129,7 +129,7 @@
                         <a-tag color="grey" v-if="text=='已评价'">{{ text }}</a-tag>
                     </span>
                     <span slot="action" slot-scope="record">
-                        <v-btn color="primary" small @click="showDetail(record.id)">查看详情
+                        <v-btn color="default" small @click="showDetail(record.id)">查看详情
                             
                         </v-btn>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
@@ -174,6 +174,11 @@
         <OrderDetailModal></OrderDetailModal>
     </div>
 </template>
+<style scoped>
+.chooseTab{
+    padding-bottom: 10px;
+}
+</style>
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import OrderDetailModal from './components/orderDetailModal'
@@ -186,11 +191,11 @@
             title: '酒店名',
             dataIndex: 'hotelName',
         },
-        {
-            title: '房型',
-            dataIndex: 'roomType',
-            scopedSlots: {customRender: 'roomType'}
-        },
+        // {
+        //     title: '房型',
+        //     dataIndex: 'roomType',
+        //     scopedSlots: {customRender: 'roomType'}
+        // },
         {
             title: '房价',
             dataIndex: 'price',

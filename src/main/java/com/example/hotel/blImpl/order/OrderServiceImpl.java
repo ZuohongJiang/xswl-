@@ -60,8 +60,6 @@ public class OrderServiceImpl implements OrderService {
             orderVO.setCreateDate(curdate);
             orderVO.setOrderState("已预订");
             User user = accountService.getUserInfo(orderVO.getUserId());
-            orderVO.setClientName(user.getUserName());
-            orderVO.setPhoneNumber(user.getPhoneNumber());
             Order order = new Order();
             BeanUtils.copyProperties(orderVO, order);   //vo->po 订单类型转化
             orderMapper.addOrder(order);

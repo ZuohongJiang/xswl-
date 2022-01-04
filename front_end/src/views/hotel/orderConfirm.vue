@@ -27,6 +27,14 @@
                         </span>
                         </h1>
                         <div id="orderEleInfo" class="cont_mid Lpt20 Lpl20 Lposr">
+                            <p class="hotelName Lfwb Lfz12">
+                                <span v-html="'酒店名: &nbsp'"> </span>
+                                <span class="hotelInfo" style="color:#ae1a63; font-size:20px" >{{hotelName}} </span>
+                            </p>
+                            <p class="roomType Lfwb Lfz12">
+                                <span v-html="'房型: &nbsp'"></span>
+                                <span class="hotelInfo" style="color:#ae1a63; font-size:15px">{{roomType}}</span>
+                            </p>
                             <p class="Lfz12 timeInput Lfwb">
                                 <span>入住时间：</span>
                                 <span class="checkInTime Lposr">{{checkInDate}}</span>
@@ -114,53 +122,18 @@
                                 </p>
                                 <p class="Ltal allCount "><em class="changeStyle orderCountOther"> <b>  </b><span class="changeStyle"></span></em><i class="blankWidth Ldib"></i></p>
                                 <!-- <a href="javascript:;" class="Lfz16 Ltac Ldb Lmt5 Lmb10 submitOrderBtn"> 提交订单</a> -->
-                                <v-btn @click="handleSubmit()">提交订单</v-btn>
+                                <span class="mybtn">
+                                    <v-btn @click="cancelOrder()">取消预订</v-btn>
+                                </span>
+                                <span class="mybtn">
+                                    <v-btn @click="handleSubmit()" color="primary">提交订单</v-btn>
+                                </span>
                             </div>
                         </div>
                     </div>
                 
                 </section>
-                <aside class="right_wp Lflr">
-                    <div class="cont">
-        
-                    <div id="hotelInfo" class="Ldb hotelHref">
-
-                        <div class="asideImg"><img src="https://img.huazhu.com/cos/ppms/39cd1463-fe52-4b86-95d4-6270e78d3847/2021-12-26-22-40-32-673.JPG" style="width: 310px; height: 200px;"></div>
-
-                        <div class="asideTitle">
-                            <h2 class="Lfz14 HotelName">{{hotelName}}</h2>
-                            <div class="hotelTypeWrap">
-                                <span class="hotelType">
-
-                                    
-
-                                <em class="hotelStars"></em><em class="hotelStars"></em><em class="hotelStars"></em><em class="hotelStars"></em></span>
-                                <span class="infoShow">四星级</span>
-                            </div>
-                            <p class="Lfz12 HotelAddress">闵行区淮虹路151弄7号T13</p>
-                        </div>
-
-                    </div>
-                    <div id="roomInfoModel" class="asideTitle paddingTop15">
-                        <h2 class="Lfz16 RoomTypeName paddingBtm4">雅致大床房</h2>
-                        
-                        <p class="Lfz12 roomDescription">房间描述：<span>智能客房拥有智能音箱语音指令完成所有客房设备控制需求；房间配备大屏液晶电视支持手机投屏，流畅的宽带及无线网络、恒压热带雨林花洒、智能马桶、舒适金可儿零压床垫、全套精油洗护用品。</span></p>
-                        
-                    </div>
-
-                    <div id="hotleInfoModel" class="asideTitle paddingTop15 clearBorder">
-                        <h2 class="Lfz16 paddingBtm4">酒店公告</h2>
-                        <div class="cont_item hotelNotices">
-                            <ol></ol>
-                        </div>
-                        <p class="Lfz12 saleAndCancelPolicy ">取消政策：<span>2022-01-04 17:00前支付，18:00前可免费取消；17:00后支付，支付后1小时内也可免费取消；支付后房间将为您保留整晚。</span></p>
-                        <p class="Lfz12 GuaranteePolicy  Ldn">担保政策：<span>支付后入住日18:00前可免费取消，18:00后未办理入住，酒店视情况有权取消订单，支付后房间整晚保留。</span></p>
-                        <p class="Lfz12 hotelTelphone">酒店电话：<span>021-58819118</span></p>
-                        <p class="Lfz12 notice_all">客服电话：4008-121-121</p>
-                    </div>
-
-                    </div>
-                </aside>
+     
                     
             </section>
         </div>
@@ -201,6 +174,9 @@ input, button {
 .nav{
     padding-top: 50px;
 }
+.mybtn{
+    padding-right: 10px;
+}
 .Porder_main .m_wp .left_wp, .PNotLoginOrder_main .m_wp .left_wp, .IntOrder_main .m_wp .left_wp {
     display: inline;
 }
@@ -215,7 +191,7 @@ input, button {
 }
 .Porder_main .left_wp, .PNotLoginOrder_main .left_wp, .IntOrder_main .left_wp {
     padding: 17px 33px 0 33px;
-    width: 590px;
+    width: 880px;
     height: auto;
     background-color: #fff;
     border-width: 1px;
@@ -236,7 +212,7 @@ input, button {
     font-weight: normal;
     margin-left: 25px;
 }
-.Porder_main .m_wp .left_wp .cont_mid .timeInput, .PNotLoginOrder_main .m_wp .left_wp .cont_mid .timeInput, .IntOrder_main .m_wp .left_wp .cont_mid .timeInput {
+.IntOrder_main .m_wp .left_wp .cont_mid .timeInput {
     vertical-align: middle;
     color: #333;
     line-height: 28px;
@@ -254,9 +230,7 @@ input, button {
     text-align: center;
     font-size: 14px;
 }
-.IntOrder_main .m_wp .left_wp .cont_mid p .middlefs {
-    color: gray;
-}
+
 .IntOrder_main .m_wp .left_wp .cont_mid p .roomCounts {
     font-size: 14px;
     font-weight: bold;
@@ -673,6 +647,10 @@ export default {
         var days = (d2.getTime() - d1.getTime()) / (1000 * 3600 * 24);
         return days;
       },
+      cancelOrder(){
+          window.history.back();
+        //   this.$router.push({name:"orderSuccess", params:{data: data}});
+      },
       handleSubmit(){
           var cName = document.getElementById("name").value
           var pNum = document.getElementById("phoneNum").value;
@@ -697,7 +675,7 @@ export default {
                email: ema
           }
           console.log(data);
-        //   this.addOrder(data);
+          this.addOrder(data);
           this.$router.push({name:"orderSuccess", params:{data: data}});
     
       }
@@ -722,6 +700,7 @@ export default {
         this.totalPrice = temp.totalPrice;
         this.discount = this.totalPrice - this.price;
         this.days = this.getDays(this.checkInDate, this.checkOutDate);
+        this.roomType = temp.roomType;
     }
 }
 </script>

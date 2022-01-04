@@ -1,27 +1,9 @@
-<template>
++<template>
  <div class="os">
   <a-result 
     status="success"
     title="预订成功！"
   >
-        <v-card
-                                                    width="300px"
-                                                    class="mx-auto hotel-card"
-                                            >
-                                                <v-img
-                                                        v-bind:src="getHotelPicUrl(hotelId)"
-                                                        height="300px"
-                                            
-                                                ></v-img>
-                                                <v-card-title class="font-weight-black text--secondary">
-                                                    {{hotelName}}
-                                                </v-card-title>
-                                                <v-card-subtitle class="mb-n3">
-                                                    入住时间：{{checkInDate}} 下午14：00后 
-                                                </v-card-subtitle>
-                                                
-  
-                                            </v-card>
 <!-- 
     <template #extra>
       <a-button key="console" >
@@ -32,12 +14,32 @@
       </a-button>
     </template> -->
   </a-result>
+  <v-card
+                                                    width="300px"
+                                                    class="mx-auto hotel-card"
+                                            >
+                                           
+                                                <v-img
+                                                        v-bind:src="getHotelPicUrl(hotelId)"
+                                                        height="300px"
+                                                ></v-img>
+                                   
+                                                <v-card-title class="font-weight-black text--secondary">
+                                                    {{hotelName}}
+                                                </v-card-title>
+                                                <v-card-subtitle class="mb-n3">
+                                                    入住时间：{{checkInDate}} 下午14：00后 
+                                                </v-card-subtitle>
+                                                
+  
+                                            </v-card>
  </div>
 </template>
 <style>
 .os{
-    /* background-image: "@/src/assets/witewall_3.png"; */
-    background: "front_end\src\assets\witewall_3.png"
+    background: "front_end/src/assets/witewall_3.png";
+    height: auto;
+    /* background-color: rgba(0, 0, 0, 0.4); */
 }
 </style>
 <script>
