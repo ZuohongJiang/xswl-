@@ -417,8 +417,9 @@
             //处理筛选选项改变的方法
             changeBizRegion() {
                 const reg = {
-                    "无": "Noth", "西单": "XiDan", "新街口": "XinJieKou",
-                    "夫子庙": "FuZiMiao", "奥体中心": "AoTiZhongXin", "江宁万达": "JiangNingWanDa", "学则路": "XueZeLu"
+                    "无": "Noth",  "新街口": "XinJieKou",
+                    "夫子庙": "FuZiMiao", "奥体中心": "AoTiZhongXin", "江宁万达": "JiangNingWanDa", "学则路": "XueZeLu",
+                    "仙林大学城": "XianLin", "禄口机场": "LuKouAirport", "老门东": "LaoMenDong"
                 }
                 this.filterOp["bizRegion"] = reg[this.bizRegion]
                 this.changeList()
@@ -550,9 +551,7 @@
     .hotel-card:hover {
         transform: scale(1.03);
     }
-.smaller{
-    font-size: 12px;
-}
+
 </style>
 <style scoped lang="less">
     .hotelList {
