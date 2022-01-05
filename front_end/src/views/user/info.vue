@@ -5,73 +5,90 @@
             <template v-slot="{ hover }">
                 <v-sheet
                         :elevation="hover?10:6"
-                        rounded>
+                        rounded
+                          >
                     <a-tabs style="padding: 30px 30px;">
                         <a-tab-pane tab="我的信息" key="1">
-                            <a-form :form="form" style="margin-top: 30px">
+                          <a-row>
+                            <a-col :span="12" :offset="2">
+                              <a-form :form="form" class="mt-5">
 
-                                <a-form-item label="用户名" :label-col="{ span: 3 }"
-                                             :wrapper-col="{ span: 8, offset: 1  }">
-                                    <a-input
-                                            placeholder="请填写用户名"
-                                            v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }],initialValue: userInfo.userName}]"
-                                            v-if="modify"
-                                    />
-                                    <span v-else>{{ userInfo.userName }}</span>
-                                </a-form-item>
-                                <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                                    <span>{{ userInfo.email }}</span>
-                                </a-form-item>
+                                  <a-form-item label="用户名" :label-col="{ span: 3 }"
+                                               :wrapper-col="{ span: 8, offset: 1  }">
+                                      <a-input
+                                              placeholder="请填写用户名"
+                                              v-decorator="['userName', { rules: [{ required: true, message: '请输入用户名' }],initialValue: userInfo.userName}]"
+                                              v-if="modify"
+                                      />
+                                      <span v-else>{{ userInfo.userName }}</span>
+                                  </a-form-item>
+                                  <a-form-item label="邮箱" :label-col="{ span: 3 }" :wrapper-col="{ span: 6, offset: 1 }">
+                                      <span>{{ userInfo.email }}</span>
+                                  </a-form-item>
 
-                                <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
-                                    <a-input
-                                            placeholder="请填写手机号"
-                                            v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }],initialValue:userInfo.phoneNumber}]"
-                                            v-if="modify"
-                                    />
-                                    <span v-else>{{ userInfo.phoneNumber}}</span>
-                                </a-form-item>
+                                  <a-form-item label="手机号" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }">
+                                      <a-input
+                                              placeholder="请填写手机号"
+                                              v-decorator="['phoneNumber', { rules: [{ required: true, message: '请输入手机号' }],initialValue:userInfo.phoneNumber}]"
+                                              v-if="modify"
+                                      />
+                                      <span v-else>{{ userInfo.phoneNumber}}</span>
+                                  </a-form-item>
 
-                                <a-form-item
-                                    label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 6, offset: 1 }"
-                                >
-                                    <span>{{ userInfo.credit }}&nbsp;</span>
-                                    <a-tooltip placement="rightTop" trigger="hover">
-                                      <template slot="title">
-                                      <span>撤销订单会扣除相应信用分，信用分低于60则不能预定酒店</span>
-                                      </template>
-                                      <a-icon type="question-circle" />
-                                    </a-tooltip>
-                                </a-form-item>
+                                  <a-form-item
+                                      label="信用值" :label-col="{ span: 3 }" :wrapper-col="{ span: 6, offset: 1 }"
+                                  >
+                                      <span>{{ userInfo.credit }}&nbsp;</span>
+                                      <a-tooltip placement="rightTop" trigger="hover">
+                                        <template slot="title">
+                                        <span>撤销订单会扣除相应信用分，信用分低于60则不能预定酒店</span>
+                                        </template>
+                                        <a-icon type="question-circle" />
+                                      </a-tooltip>
+                                  </a-form-item>
 
-                                <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }"
-                                             v-if="modify_password">
-                                    <a-input
-                                            placeholder="请输入旧密码"
-                                            v-decorator="['oldPassword',{rules:[{required:true,message:'请输入'}]}]"
-                                    />
-                                    <a-input
-                                            placeholder="请输入新密码"
-                                            v-decorator="['password', { rules: [{ required: true, message: '请输入' }] }]"
-                                    />
-                                </a-form-item>
-                                <a-form-item :wrapper-col="{ span: 12, offset: 5 }" v-if="modify||modify_password">
-                                    <v-btn color="primary" @click="saveModify">
-                                        保存
-                                    </v-btn>
-                                    <v-btn style="margin-left: 30px" @click="cancelModify">
-                                        取消
-                                    </v-btn>
-                                </a-form-item>
-                                <a-form-item :wrapper-col="{ span: 8, offset: 4 }" v-else>
-                                    <v-btn color="primary" @click="modifyInfo">
-                                        修改信息
-                                    </v-btn>
-                                    <v-btn style="margin-left: 5%" color="error" @click="modifyPassword">
-                                        修改密码
-                                    </v-btn>
-                                </a-form-item>
-                            </a-form>
+                                  <a-form-item label="密码" :label-col="{ span: 3 }" :wrapper-col="{ span: 8, offset: 1 }"
+                                               v-if="modify_password">
+                                      <a-input
+                                              placeholder="请输入旧密码"
+                                              v-decorator="['oldPassword',{rules:[{required:true,message:'请输入'}]}]"
+                                      />
+                                      <a-input
+                                              placeholder="请输入新密码"
+                                              v-decorator="['password', { rules: [{ required: true, message: '请输入' }] }]"
+                                      />
+                                  </a-form-item>
+                                  <a-form-item :wrapper-col="{ span: 8, offset: 1 }" v-if="modify||modify_password">
+                                      <v-btn color="primary" @click="saveModify">
+                                          保存
+                                      </v-btn>
+                                      <v-btn style="margin-left: 30px" @click="cancelModify">
+                                          取消
+                                      </v-btn>
+                                  </a-form-item>
+                                  <a-form-item :wrapper-col="{ span: 8, offset: 1 }" v-else>
+                                      <v-btn color="primary" @click="modifyInfo">
+                                          修改信息
+                                      </v-btn>
+                                      <v-btn style="margin-left: 5%" color="error" @click="modifyPassword">
+                                          修改密码
+                                      </v-btn>
+                                  </a-form-item>
+                              </a-form>
+                            </a-col>
+                            <a-col :offset="16" class="mt-5">
+                              <a-row>
+                                <a-col>
+                                  <v-avatar outlined color="grey" size="128">
+                                    <v-img v-bind:src="require('../../assets/avatar.jpg')"></v-img>
+                                  </v-avatar>
+                                </a-col>
+                                <a-col class="ml-9 mt-2">
+                                  <a href="" class="green--text">修改头像></a>
+                                </a-col>
+                              </a-row>
+                            </a-col>
+                          </a-row>
                         </a-tab-pane>
                         <a-tab-pane tab="我的订单" key="2">
                               <div class="chooseTab">
@@ -81,24 +98,14 @@
                                     button-style="solid"
                                     @change = "onChangeRadioDisplay"
                                 >
-                                    <a-radio-button value="全部" class="radioStyle">
-                                    全部
-                                    </a-radio-button>
-                                    <a-radio-button value="已预订">
-                                    已预订
-                                    </a-radio-button>
-                                    <a-radio-button value="已评价">
-                                    已评价
-                                    </a-radio-button>
-                                    <a-radio-button value="已执行">
-                                    已执行
-                                    </a-radio-button>
-                                    <a-radio-button value="已撤销">
-                                    已撤销
+                                    <a-radio-button v-for="(val, index) in orderState"
+                                                    :key="index"
+                                                    :value="val">
+                                        {{getOrderCount(val)}}
                                     </a-radio-button>
                                 </a-radio-group>
                                 </div>
-  </div>
+                            </div>
 
 
                             <a-table
@@ -225,7 +232,8 @@
                 columns,
                 data: [],
                 form: this.$form.createForm(this, {name: 'coordinated'}),
-                orderList: []
+                orderList: [],
+                orderState:["全部", "已预订", "已评价", "已执行", "已撤销"]
             }
         },
         components: {
@@ -261,6 +269,10 @@
                 'cancelOrder',
                 'addComment'
             ]),
+            getOrderCount(val) {
+              if(val === "全部") return "全部" + "(" + this.userOrderList.length + ")";
+              else return val + "(" + this.userOrderList.filter(item => item.orderState === val).length + ")";
+            },
             saveModify() {
                 this.form.validateFields((err, values) => {
                     if (!err) {
