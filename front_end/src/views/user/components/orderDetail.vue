@@ -153,8 +153,14 @@
     
            <p>
                <span class="ltar s12 itemListTitle">
-               邮箱：
+                
+               邮箱： 
                </span>
+               <em class="itemList s12">
+                   <b>
+                       1273641590@qq.com
+                   </b>
+               </em>
            </p>
            <em>
            </em>

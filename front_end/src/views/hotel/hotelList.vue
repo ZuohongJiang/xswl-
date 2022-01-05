@@ -126,7 +126,7 @@
                                     <v-select
                                             v-model="bizRegion"
                                             @change="changeBizRegion"
-                                            :items="['无','西单','新街口','夫子庙','奥体中心','江宁万达','学则路']"
+                                            :items="['无','新街口','夫子庙','奥体中心','江宁万达','学则路', '仙林大学城', '禄口机场', '老门东']"
                                             label="选择商圈"
                                             solo
                                             class="mt-3 mb-n3"
@@ -273,7 +273,7 @@
                                                         @click="jumpToDetails(hotel.id)"
                                                 ></v-img>
                                                 <v-row align="center" dense class="mb-n7">
-                                                  <v-card-title class="font-weight-black text--secondary">
+                                                  <v-card-title class="font-weight-black text--secondary smaller">
                                                     {{hotel.name}}
                                                   </v-card-title>
                                                   <v-rating
@@ -550,6 +550,9 @@
     .hotel-card:hover {
         transform: scale(1.03);
     }
+.smaller{
+    font-size: 12px;
+}
 </style>
 <style scoped lang="less">
     .hotelList {
