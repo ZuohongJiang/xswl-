@@ -57,6 +57,7 @@
                                     </label>
                                     <span class="guestCheckInName">
                                         <input id="name" placeholder="姓名" type="text" class="reWidth reMarginRight firstName">
+                                        <em class="check" v-show="checkName" v-html="'&nbsp &nbsp姓名不能为空！'"></em>
                                     </span>   
                                     <!-- <span class="guestCheckInLastName">
                                         <input id="firstName" placeholder="名First name" type="text" class="reWidth lastName">
@@ -69,6 +70,7 @@
                                     </label>
                                     <span class="guestCheckInTel">
                                         <input id="phoneNum" maxlength="11" type="text" class="reWidth">
+                                        <em class="check" v-show="checkPhone">手机号码不能为空！</em>
                                     </span>
                                 </p>
                                 <p class="roomNum Lfwb Lfz12 repadl">
@@ -188,6 +190,10 @@ input, button {
 
 .IntOrder_main .m_wp .left_wp {
     border-color: #e4dfdc;
+}
+.check {
+    padding-left: 2px;
+    color: red;
 }
 .Porder_main .left_wp, .PNotLoginOrder_main .left_wp, .IntOrder_main .left_wp {
     padding: 17px 33px 0 33px;
@@ -628,6 +634,8 @@ export default {
           name: "",
           totalPrice: 0,
           discount: 0,
+          checkName: false,
+          checkPhone: false
       }
   },
   computed:{
@@ -655,7 +663,15 @@ export default {
           var cName = document.getElementById("name").value
           var pNum = document.getElementById("phoneNum").value;
           var ema = document.getElementById("email").value;
-          
+          if (cName.length === 0) {
+              this.checkName = true;
+          }
+          if (pNum.length === 0){
+              this.checkPhone = true;
+          }
+          if (pNum.length === 0 || cName.length === 0){
+              return;
+          }
           const temp = this.$route.params.data;
           const data = {
                hotelId: temp.hotelId,
