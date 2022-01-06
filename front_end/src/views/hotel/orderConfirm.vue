@@ -687,7 +687,7 @@ export default {
                createDate: '',
                price: temp.price,
                clientName: cName,
-               phoneNum: pNum,
+               phoneNumber: pNum,
                email: ema
           }
           console.log(data);
