@@ -224,7 +224,8 @@
         },
         methods: {
             ...mapMutations([
-                'set_orderModalVisible'
+                'set_orderModalVisible',
+                'set_orderMatchCouponList'
             ]),
             ...mapActions([
                 'addOrder',
@@ -336,10 +337,15 @@
         watch: {
             
             //防止退出预订窗口重新进入另一个房间的预订窗口后，总价不更新
-            orderModalVisible(val) {
+            async orderModalVisible(val) {
                 if (val)
-                    if (this.totalPrice)
+                    this.set_orderMatchCouponList([])
+                    if (this.form.getFieldValue('roomNum'))
+                        await this.changeRoomNum(this.form.getFieldValue('roomNum'))
+/*                    if (this.totalPrice)
                         this.totalPrice = Number(this.form.getFieldValue('roomNum')) * Number(this.currentOrderRoom.price) * moment(this.form.getFieldValue('date')[1]).diff(moment(this.form.getFieldValue('date')[0]), 'day')
+                    if (this.orderMatchCouponList && !this.totalPrice)
+                        this.set_orderMatchCouponList([])*/
             }
         }
     }

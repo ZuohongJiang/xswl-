@@ -117,7 +117,6 @@
                 })
             },
             showDetail(record) {
-                console.log(record)
                 if (!record.detail) {
                     message.error('暂无更多详情')
                 } else {

@@ -252,6 +252,7 @@
                                             :value="hover&&myOrderedHotelList.indexOf(hotel.id)!=-1"
                                             color="orange"
                                             style="width: 100%;"
+                                            offset-y="-3"
                                             content="我预定过">
                                         <v-badge
                                                 :value="myOrderedHotelList.indexOf(hotel.id)!=-1"

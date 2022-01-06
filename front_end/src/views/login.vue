@@ -3,7 +3,7 @@
         <div class="top">
             <div class="header">
                 <div>
-                    <span class="title">NJU酒店管理系统</span>
+                    <span class="title">金陵驿酒店预订系统</span>
                 </div>
             </div>
             <div class="desc">

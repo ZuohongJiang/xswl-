@@ -129,7 +129,7 @@
                         <a-tag color="grey" v-if="text=='已评价'">{{ text }}</a-tag>
                     </span>
                     <span slot="action" slot-scope="record">
-                        <v-btn color="default" small @click="showDetail(record.id)">查看详情
+                        <v-btn color="info" small @click="showDetail(record.id)">查看详情
                             
                         </v-btn>
                         <a-divider type="vertical" v-if="record.orderState == '已预订'"></a-divider>
@@ -197,7 +197,7 @@
         //     scopedSlots: {customRender: 'roomType'}
         // },
         {
-            title: '房价',
+            title: '金额',
             dataIndex: 'price',
         },
         {
